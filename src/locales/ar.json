@@ -1,0 +1,44 @@
+{
+  "layout": {
+    "home": "الصفحه الرئيسيه",
+    "all_products": "كل المنتجات",
+    "hot_deals": "عروض حصريه",
+    "contact_us": "تواصل معنا"
+  },
+  "home": {
+    "home_page": "الصفحه الرئيسيه"
+  },
+  "meta": {
+    "home": "الرئيسية",
+    "all_products": "كل المنتجات",
+    "hot_deals": "عروض حصريه",
+    "contact_us": "تواصل معنا",
+    "page_not_found": "الصفحه غير موجوده",
+    "shopping_cart": "عربة التسوق",
+    "checkout": "اتمام الشراء",
+    "order_summary": "ملخص الطلب"
+  },
+  "countries_menu": {
+    "egypt": "مصر",
+    "ksa": "السعوديه"
+  },
+  "cart": {
+    "your_cart_is_currently_empty": "عربة التسوق فارغة حالياً",
+    "continue_shopping": "تابع التسوق",
+    "total": "المجموع"
+  },
+  "btn": {
+    "checkout_now": "اتمام الشراء الآن",
+    "view_cart": "عرض العربة"
+  },
+  "order_summary": {
+    "order_summary": "ملخص الطلب",
+    "order_number": "رقم الطلب",
+    "price": "السعر",
+    "orignal_price": "السعر الأصلي",
+    "subtotal": "المجموع الفرعي",
+    "savings": "التوفير",
+    "total": "الإجمالي",
+    "quantity": "الكميه:"
+  }
+}

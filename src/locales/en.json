@@ -1,0 +1,44 @@
+{
+  "layout": {
+    "home": "Home",
+    "all_products": "All Products",
+    "hot_deals": "Hot deals",
+    "contact_us": "Contact Us"
+  },
+  "home": {
+    "home_page": "Home Page"
+  },
+  "meta": {
+    "home": "Home",
+    "all_products": "All Products",
+    "hot_deals": "Hot deals",
+    "contact_us": "Contact Us",
+    "page_not_found": "Page not found",
+    "shopping_cart": "Shopping cart",
+    "checkout": "Checkout",
+    "order_summary": "Order summary"
+  },
+  "countries_menu": {
+    "egypt": "Egypt",
+    "ksa": "Ksa"
+  },
+  "cart": {
+    "your_cart_is_currently_empty": "Your cart is currently empty",
+    "continue_shopping": "Continue shopping",
+    "total": "Total"
+  },
+  "btn": {
+    "checkout_now": "Checkout now",
+    "view_cart": "View cart"
+  },
+  "order_summary": {
+    "order_summary": "Order summary",
+    "order_number": "Order number",
+    "price": "Price",
+    "orignal_price": "Orignal price",
+    "subtotal": "Subtotal",
+    "savings": "Savings",
+    "total": "Total",
+    "quantity": "Quantity:"
+  }
+}
