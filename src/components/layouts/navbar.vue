@@ -44,6 +44,11 @@
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.contact_us') }}
                                 </router-link>
+                                <router-link to="https://e-ccommerce-freelance-admin.vercel.app/register-new-market"
+                                    class="px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
+                                    active-class="!bg-gray-900 !text-white" exact>
+                                    {{ $t('layout.market_with_us') }}
+                                </router-link>
                             </div>
                         </div>
                     </div>
