@@ -11,9 +11,9 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: home,
-      meta: {
-        title: "meta.home",
-      },
+      // meta: {
+      //   title: "meta.home",
+      // },
     },
     {
       path: "/products",
@@ -85,7 +85,10 @@ const router = createRouter({
 router.afterEach((to) => {
   const titleKey = to.meta.title;
   // Translate the title using your i18n instance and set document.title.
-  document.title = i18n.global.t(titleKey);
+  document.title = i18n.global.te(titleKey)
+    ? i18n.global.t(titleKey)
+    : "e-commerce";
+  // document.title = i18n.global.t(titleKey) || 'e-ccommerce';
 });
 
 router.beforeEach((to, from, next) => {
