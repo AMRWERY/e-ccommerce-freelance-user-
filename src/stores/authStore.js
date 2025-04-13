@@ -19,11 +19,7 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async init() {
       await setPersistence(auth, browserLocalPersistence);
-      const user = auth.currentUser;
-      if (user) {
-        await this.fetchUserData(user.uid);
-        // this.user = user;
-      }
+      // const user = auth.currentUser;
     },
 
     async loginWithGoogle() {
@@ -61,7 +57,6 @@ export const useAuthStore = defineStore("auth", {
         };
         localStorage.setItem("user", JSON.stringify(sessionUserData));
         this.role = userData.role || "user";
-        await this.fetchUserData(user.uid);
         setTimeout(() => {
           this.isOverlayVisible = false;
         }, 3000);

@@ -2,13 +2,13 @@ export const useCartStore = defineStore("cart", {
   state: () => ({
     cart: [],
     isLoading: false,
-    // storedUser: JSON.parse(localStorage.getItem("user")),
+    storedUser: JSON.parse(localStorage.getItem("user")),
   }),
 
   actions: {
     fetchCart() {
       this.isLoading = true;
-      // const uid = this.storedUser?.uid;
+      const uid = this.storedUser?.uid;
       try {
         const savedCart = localStorage.getItem("cart");
         this.cart = savedCart ? JSON.parse(savedCart) : [];
@@ -31,7 +31,7 @@ export const useCartStore = defineStore("cart", {
         discount,
         quantity = 1
       } = cartItem;
-      // const uid = this.storedUser?.uid;
+      const uid = this.storedUser?.uid;
       const existingProduct = this.cart.find(
         (item) =>
           item.productId === cartItem.productId
@@ -49,14 +49,14 @@ export const useCartStore = defineStore("cart", {
           imageUrl1,
           discount,
           quantity,
-          // uid,
+          uid,
         });
       }
-      // this.persistCart(uid);
+      this.persistCart(uid);
     },
 
     updateQuantityInCart(productId, newQuantity) {
-      // const uid = this.storedUser?.uid;
+      const uid = this.storedUser?.uid;
       const product = this.cart.find((item) => item.productId === productId);
       if (product) {
         product.quantity = newQuantity;
@@ -65,13 +65,13 @@ export const useCartStore = defineStore("cart", {
     },
 
     removeFromCart(docId) {
-      // const uid = this.storedUser?.uid;
+      const uid = this.storedUser?.uid;
       this.cart = this.cart.filter((item) => item.docId !== docId);
-      // this.persistCart(uid);
+      this.persistCart(uid);
     },
 
     clearCart() {
-      // const uid = this.storedUser?.uid;
+      const uid = this.storedUser?.uid;
       this.cart = [];
       localStorage.removeItem("cart");
     },

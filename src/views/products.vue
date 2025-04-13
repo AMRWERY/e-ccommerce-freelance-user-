@@ -75,15 +75,15 @@ const { currencyLocale } = useCurrencyLocale();
 
 const handleAddToCart = async (product) => {
     if (!product) return;
-    //   const authStore = useAuthStore();
-    //   if (!authStore.isAuthenticated) {
-    //     triggerToast({
-    //       message: t('toast.please_log_in_first_to_add_to_cart'),
-    //       type: 'warning',
-    //       icon: 'material-symbols:warning-outline-rounded'
-    //     });
-    //     return;
-    //   }
+    const authStore = useAuthStore();
+    if (!authStore.isAuthenticated) {
+        triggerToast({
+            message: t('toast.please_log_in_first_to_add_to_cart'),
+            type: 'warning',
+            icon: 'material-symbols:warning-outline-rounded'
+        });
+        return;
+    }
     try {
         loading.value[product.id] = true;
         await new Promise((resolve) => setTimeout(resolve, 2000));
