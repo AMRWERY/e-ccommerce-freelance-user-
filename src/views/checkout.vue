@@ -1,11 +1,11 @@
 <template>
     <div>
-        <section class="py-8 bg-white md:py-16">
+        <section class="py-4 bg-white md:py-8">
             <form action="" class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                 <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
                     <div class="flex-1 min-w-0 space-y-8">
                         <div class="space-y-4">
-                            <h2 class="text-xl font-semibold text-gray-900">Delivery Details</h2>
+                            <h2 class="text-xl font-semibold text-gray-900">{{ $t('checkout.delivery_details') }}</h2>
                             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
                                     <label for="your_name" class="block mb-2 text-sm font-medium text-gray-900">Your
@@ -144,7 +144,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            <h3 class="text-xl font-semibold text-gray-900">Payment</h3>
+                            <h3 class="text-xl font-semibold text-gray-900">{{ $t('checkout.payment') }}</h3>
                             <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                                 <!-- don't delete it 😁😂 -->
                                 <!-- <div class="p-4 border border-gray-200 rounded-lg bg-gray-50 ps-4">
@@ -157,19 +157,11 @@
                                         </div>
                                         <div class="text-sm ms-4">
                                             <label for="credit-card" class="font-medium leading-none text-gray-900">
-                                                Credit Card
+                                                {{ $t('checkout.credit_card') }}
                                             </label>
-                                            <p id="credit-card-text" class="mt-1 text-xs font-normal text-gray-500">Pay
-                                                with
-                                                your credit card</p>
+                                            <p id="credit-card-text" class="mt-1 text-xs font-normal text-gray-500">{{
+                                                $t('checkout.pay_with_your_credit_card') }}</p>
                                         </div>
-                                    </div>
-                                    <div class="flex items-center gap-2 mt-4">
-                                        <button type="button"
-                                            class="text-sm font-medium text-gray-500 hover:text-gray-900">Delete</button>
-                                        <div class="w-px h-3 bg-gray-200 shrink-0"></div>
-                                        <button type="button"
-                                            class="text-sm font-medium text-gray-500 hover:text-gray-900">Edit</button>
                                     </div>
                                 </div> -->
 
@@ -182,11 +174,12 @@
                                         </div>
                                         <div class="text-sm ms-4">
                                             <label for="pay-on-delivery"
-                                                class="font-medium leading-none text-gray-900">Payment on
-                                                delivery</label>
-                                            <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal text-gray-500">
+                                                class="font-medium leading-none text-gray-900">{{
+                                                    $t('checkout.payment_on_delivery') }}</label>
+                                            <!-- don't delete it 😁😂 -->
+                                            <!-- <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal text-gray-500">
                                                 +$15
-                                                payment processing fee</p>
+                                                {{ $t('checkout.payment_processing_fee') }}</p> -->
                                         </div>
                                     </div>
                                 </div>
@@ -198,27 +191,12 @@
                         <div class="flow-root">
                             <div class="-my-3 divide-y divide-gray-200">
                                 <dl class="flex items-center justify-between gap-4 py-3">
-                                    <dt class="text-base font-normal text-gray-500">Subtotal</dt>
+                                    <dt class="text-base font-normal text-gray-500">{{ $t('checkout.subtotal') }}</dt>
                                     <dd class="text-base font-medium text-gray-900">$8,094.00</dd>
                                 </dl>
 
                                 <dl class="flex items-center justify-between gap-4 py-3">
-                                    <dt class="text-base font-normal text-gray-500">Savings</dt>
-                                    <dd class="text-base font-medium text-green-500">0</dd>
-                                </dl>
-
-                                <dl class="flex items-center justify-between gap-4 py-3">
-                                    <dt class="text-base font-normal text-gray-500">Store Pickup</dt>
-                                    <dd class="text-base font-medium text-gray-900">$99</dd>
-                                </dl>
-
-                                <dl class="flex items-center justify-between gap-4 py-3">
-                                    <dt class="text-base font-normal text-gray-500">Tax</dt>
-                                    <dd class="text-base font-medium text-gray-900">$199</dd>
-                                </dl>
-
-                                <dl class="flex items-center justify-between gap-4 py-3">
-                                    <dt class="text-base font-bold text-gray-900">Total</dt>
+                                    <dt class="text-base font-bold text-gray-900">{{ $t('checkout.total') }}</dt>
                                     <dd class="text-base font-bold text-gray-900">$8,392.00</dd>
                                 </dl>
                             </div>
@@ -226,8 +204,8 @@
 
                         <div class="space-y-3">
                             <button type="submit"
-                                class="flex w-full justify-center px-5 py-2.5 text-sm font-semibold text-center text-white transition duration-100 bg-indigo-500 rounded-lg outline-none ring-indigo-300 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">Place
-                                order</button>
+                                class="flex w-full justify-center px-5 py-2.5 text-sm font-semibold text-center text-white transition duration-100 bg-indigo-500 rounded-lg outline-none ring-indigo-300 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">{{
+                                    $t('btn.place_order') }}</button>
                         </div>
                     </div>
                 </div>
