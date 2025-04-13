@@ -1,53 +1,42 @@
 <template>
     <div>
-        <div class="py-6 bg-white sm:py-8 lg:py-12">
-            <div class="px-4 mx-auto max-w-screen-2xl md:px-8">
-                <!-- text - start -->
-                <div class="mb-10 md:mb-16">
-                    <h2 class="mb-4 text-2xl font-bold text-center text-gray-800 md:mb-6 lg:text-3xl">Collections</h2>
+        <div class="p-4 mx-auto font-sans lg:max-w-6xl md:max-w-4xl">
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6">
+                <div v-for="product in productStore.products" :key="product"
+                    class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
+                    <div class="w-full h-64 overflow-hidden">
+                        <img :src="product.imageUrl1" alt="product-img"
+                            class="object-cover object-center w-full h-full transition-transform duration-300 hover:scale-105" />
+                    </div>
 
-                    <p class="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">This is a section of some
-                        simple filler text, also known as placeholder text. It shares some characteristics of a real
-                        written text but is random or otherwise generated.</p>
-                </div>
-                <!-- text - end -->
-
-                <div class="grid gap-6 sm:grid-cols-2">
-                    <!-- product - start -->
-                    <router-link to=""
-                        class="relative flex items-end p-4 overflow-hidden bg-gray-100 rounded-lg shadow-lg group h-80">
-                        <img src="https://images.unsplash.com/photo-1620243318482-fdd2affd7a38?auto=format&q=75&fit=crop&w=750"
-                            loading="lazy" alt="Photo by Fakurian Design"
-                            class="absolute inset-0 object-cover object-center w-full h-full transition duration-200 group-hover:scale-110" />
-
-                        <div
-                            class="absolute inset-0 opacity-50 pointer-events-none bg-gradient-to-t from-gray-800 via-transparent to-transparent">
+                    <div class="flex flex-col flex-1 p-4">
+                        <div class="flex-1">
+                            <h5 class="text-sm font-bold text-gray-800 truncate sm:text-base">{{ $i18n.locale ===
+                                'ar' ? product.titleAr :
+                                product.title }}</h5>
+                            <div class="flex flex-wrap items-center gap-2 mt-2">
+                                <p class="text-sm font-bold text-gray-800 sm:text-base">
+                                    {{ $n(parseFloat(product.discountedPrice), 'currency', currencyLocale || {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    }) }}
+                                </p>
+                                <p class="text-sm text-gray-500 line-through sm:text-base" v-if="product.originalPrice">
+                                    {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale || {
+                                        style: 'currency', currency:
+                                            'USD'
+                                    }) }}
+                                </p>
+                                <div v-if="product.discount"
+                                    class="flex items-center justify-center w-10 h-8 p-1 bg-green-200 rounded-full cursor-pointer ms-auto">
+                                    <p class="font-medium">%{{ product.discount }}</p>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="relative flex flex-col">
-                            <span class="text-gray-300">Home</span>
-                            <span class="text-lg font-semibold text-white lg:text-xl">Decoration</span>
-                        </div>
-                    </router-link>
-                    <!-- product - end -->
-
-                    <!-- product - start -->
-                    <router-link to=""
-                        class="relative flex items-end p-4 overflow-hidden bg-gray-100 rounded-lg shadow-lg group h-80">
-                        <img src="https://images.unsplash.com/photo-1620241608701-94ef138c7ec9?auto=format&q=75&fit=crop&w=750"
-                            loading="lazy" alt="Photo by Fakurian Design"
-                            class="absolute inset-0 object-cover object-center w-full h-full transition duration-200 group-hover:scale-110" />
-
-                        <div
-                            class="absolute inset-0 opacity-50 pointer-events-none bg-gradient-to-t from-gray-800 via-transparent to-transparent">
-                        </div>
-
-                        <div class="relative flex flex-col">
-                            <span class="text-gray-300">Modern</span>
-                            <span class="text-lg font-semibold text-white lg:text-xl">Furniture</span>
-                        </div>
-                    </router-link>
-                    <!-- product - end -->
+                        <button type="button"
+                            class="w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700">Add
+                            to cart</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,5 +44,12 @@
 </template>
 
 <script setup>
+const productStore = useProductsStore()
 
+onMounted(() => {
+    productStore.fetchAllProducts()
+})
+
+//currency composable
+const { currencyLocale } = useCurrencyLocale();
 </script>

@@ -58,7 +58,13 @@ export default defineConfig({
           type: true,
         },
       ],
-      dirs: ["./hooks", "./composables", "./composables/**", "src/stores"],
+      dirs: [
+        "./hooks",
+        "src/composables",
+        "src/composables",
+        "src/stores",
+        "src/stores/**",
+      ],
     }),
   ],
   resolve: {
