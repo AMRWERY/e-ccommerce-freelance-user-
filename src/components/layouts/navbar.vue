@@ -1,5 +1,8 @@
 <template>
     <div>
+        <!-- Overlay Component -->
+        <overlay :visible="authStore.isOverlayVisible" />
+
         <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
             <div class="px-2 mx-auto max-w-8xl sm:px-6 lg:px-10">
                 <div class="relative flex items-center justify-between h-16">
@@ -61,17 +64,8 @@
 
                         <!-- login with google button (ksa only) -->
                         <div v-if="selected.id === 2" class="hidden md:flex">
-                            <button
-                                class="h-12 px-6 transition duration-300 border-2 border-gray-300 rounded-full group hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
-                                <div class="relative flex items-center justify-center space-s-4">
-                                    <iconify-icon icon="devicon:google" width="20" height="20"
-                                        class="start-0"></iconify-icon>
-                                    <span
-                                        class="block text-sm font-semibold tracking-wide text-white transition duration-300 w-max group-hover:text-blue-400 sm:text-base">
-                                        Login with Google
-                                    </span>
-                                </div>
-                            </button>
+                            <!-- googleLoginBtn component -->
+                            <google-login-btn />
                         </div>
 
                         <!-- cart -->
@@ -243,18 +237,10 @@
                         </DisclosureButton>
 
                         <div class="flex justify-between pt-2 border-t border-gray-700">
-                            <!-- login with google button (ksa only) -->
-                            <button v-if="selected.id === 2"
-                                class="h-12 px-6 transition duration-300 border-2 border-gray-300 rounded-full group hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
-                                <div class="relative flex items-center justify-center space-s-2">
-                                    <iconify-icon icon="devicon:google" width="20" height="20"
-                                        class="start-0"></iconify-icon>
-                                    <span
-                                        class="block font-semibold tracking-wide text-white transition duration-300 w-max group-hover:text-blue-400 sm:text-base">
-                                        Login with Google
-                                    </span>
-                                </div>
-                            </button>
+                            <div v-if="selected.id === 2">
+                                <!-- googleLoginBtn component -->
+                                <google-login-btn />
+                            </div>
 
                             <!-- Locale Toggle -->
                             <DisclosureButton as="button" @click="localeStore.isRTL ? setLocale('en') : setLocale('ar')"
@@ -272,6 +258,7 @@
 <script setup>
 const { locale, t } = useI18n();
 const localeStore = useLocaleStore();
+const authStore = useAuthStore()
 
 onMounted(() => {
     locale.value = localeStore.locale;
@@ -291,12 +278,12 @@ const countries = computed(() => [
     {
         id: 1,
         name: t('countries_menu.egypt'),
-        avatar: 'https://justfields.com/storage/projects/7M5rV059/egypt-flag.jpg',
+        avatar: '/egypt-flag.svg',
     },
     {
         id: 2,
         name: t('countries_menu.ksa'),
-        avatar: 'https://justfields.com/storage/projects/7M5rV059/ksa-flag.jpg',
+        avatar: '/ksa-flag.svg',
     },
 ]);
 

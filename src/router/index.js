@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import i18n from "@/plugins/i18n";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import home from "../views/home.vue";
 
 const router = createRouter({
@@ -89,11 +87,6 @@ router.afterEach((to) => {
     ? i18n.global.t(titleKey)
     : "e-commerce";
   // document.title = i18n.global.t(titleKey) || 'e-ccommerce';
-});
-
-router.beforeEach((to, from, next) => {
-  AOS.init(); // Initialize AOS
-  next();
 });
 
 export default router;

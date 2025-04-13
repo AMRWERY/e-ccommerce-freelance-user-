@@ -30,7 +30,9 @@
   },
   "btn": {
     "checkout_now": "Checkout now",
-    "view_cart": "View cart"
+    "view_cart": "View cart",
+    "add_to_cart": "Add to cart",
+    "login_with_google": "Login with Google"
   },
   "order_summary": {
     "order_summary": "Order summary",
@@ -41,5 +43,10 @@
     "savings": "Savings",
     "total": "Total",
     "quantity": "Quantity:"
+  },
+  "toast": {
+    "please_log_in_first_to_add_to_cart": "Please log in first to add to cart",
+    "product_added_to_cart": "Product added to cart",
+    "failed_to_add_to_cart": "Failed to add to cart"
   }
 }

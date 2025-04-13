@@ -34,17 +34,37 @@
                             </div>
                         </div>
                         <button type="button"
-                            class="w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700">Add
-                            to cart</button>
+                            class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700"
+                            @click="handleAddToCart(product)">
+                            <div class="flex items-center justify-center" v-if="!loading[product.id]">
+                                <iconify-icon icon="material-symbols:add-shopping-cart" width="24" height="24"
+                                    class="-ms-2 me-2"></iconify-icon>
+                                <span>{{ $t('btn.add_to_cart') }}</span>
+                            </div>
+                            <iconify-icon icon="svg-spinners:90-ring" width="24" height="24" v-else></iconify-icon>
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+const { t } = useI18n()
 const productStore = useProductsStore()
+const cartStore = useCartStore();
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
+const loading = ref({});
 
 onMounted(() => {
     productStore.fetchAllProducts()
@@ -52,4 +72,39 @@ onMounted(() => {
 
 //currency composable
 const { currencyLocale } = useCurrencyLocale();
+
+const handleAddToCart = async (product) => {
+    if (!product) return;
+    //   const authStore = useAuthStore();
+    //   if (!authStore.isAuthenticated) {
+    //     triggerToast({
+    //       message: t('toast.please_log_in_first_to_add_to_cart'),
+    //       type: 'warning',
+    //       icon: 'material-symbols:warning-outline-rounded'
+    //     });
+    //     return;
+    //   }
+    try {
+        loading.value[product.id] = true;
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await cartStore.addToCart({
+            ...product,
+            quantity: 1
+        });
+        triggerToast({
+            message: t('toast.product_added_to_cart'),
+            type: 'success',
+            icon: 'clarity:shopping-cart-line'
+        });
+    } catch (error) {
+        triggerToast({
+            message: t('toast.failed_to_add_to_cart'),
+            type: 'error',
+            icon: 'material-symbols:error-outline-rounded'
+        });
+    } finally {
+        loading.value[product.id] = false;
+    }
+};
+
 </script>

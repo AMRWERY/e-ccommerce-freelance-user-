@@ -30,7 +30,9 @@
   },
   "btn": {
     "checkout_now": "اتمام الشراء الآن",
-    "view_cart": "عرض العربة"
+    "view_cart": "عرض العربة",
+    "add_to_cart": "أضف إلى السلة",
+    "login_with_google": "تسجيل الدخول باستخدام جوجل"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
@@ -41,5 +43,10 @@
     "savings": "التوفير",
     "total": "الإجمالي",
     "quantity": "الكميه:"
+  },
+  "toast": {
+    "please_log_in_first_to_add_to_cart": "يرجى تسجيل الدخول أولاً لإضافة المنتج إلى السله",
+    "product_added_to_cart": "تمت إضافة المنتج إلى السله",
+    "failed_to_add_to_cart": "فشل في الإضافة إلى السله"
   }
 }
