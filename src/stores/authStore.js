@@ -19,7 +19,35 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async init() {
       await setPersistence(auth, browserLocalPersistence);
-      // const user = auth.currentUser;
+      const user = auth.currentUser;
+      if (user) {
+        await this.fetchUserData(user.uid);
+        // this.user = user;
+      }
+    },
+
+    async fetchUserData(uid) {
+      try {
+        const userDocRef = doc(db, "users", uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          if (userData.birthDate?.toDate) {
+            const date = userData.birthDate.toDate();
+            userData.birthDate = `${date.getFullYear()}-${String(
+              date.getMonth() + 1
+            ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+          }
+          this.user = { ...userData };
+          this.role = userData.role || "user";
+          // console.log('user data:', userData)
+        } else {
+          throw new Error("User data not found");
+        }
+      } catch (err) {
+        this.error = err.message;
+        throw err;
+      }
     },
 
     async loginWithGoogle() {
@@ -57,6 +85,7 @@ export const useAuthStore = defineStore("auth", {
         };
         localStorage.setItem("user", JSON.stringify(sessionUserData));
         this.role = userData.role || "user";
+        await this.fetchUserData(user.uid);
         setTimeout(() => {
           this.isOverlayVisible = false;
         }, 3000);

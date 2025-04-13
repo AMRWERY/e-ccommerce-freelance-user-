@@ -26,13 +26,22 @@
   "cart": {
     "your_cart_is_currently_empty": "عربة التسوق فارغة حالياً",
     "continue_shopping": "تابع التسوق",
-    "total": "المجموع"
+    "total": "المجموع",
+    "your_cart": "سلة التسوق الخاصة بك",
+    "category": "فئة:",
+    "discount": "تخفيض:",
+    "available": "متوفر",
+    "subtotal": "المجموع الفرعي",
+    "shipping": "شحن",
+    "including_vat": "شامله ضريبة القيمة المضافة"
   },
   "btn": {
     "checkout_now": "اتمام الشراء الآن",
     "view_cart": "عرض العربة",
     "add_to_cart": "أضف إلى السلة",
-    "login_with_google": "تسجيل الدخول باستخدام جوجل"
+    "login_with_google": "تسجيل الدخول باستخدام جوجل",
+    "delete": "حذف",
+    "checkout": "اتمام الشراء"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
@@ -47,6 +56,8 @@
   "toast": {
     "please_log_in_first_to_add_to_cart": "يرجى تسجيل الدخول أولاً لإضافة المنتج إلى السله",
     "product_added_to_cart": "تمت إضافة المنتج إلى السله",
-    "failed_to_add_to_cart": "فشل في الإضافة إلى السله"
+    "failed_to_add_to_cart": "فشل في الإضافة إلى السله",
+    "product_deleted_successfully": "تم حذف المنتج بنجاح",
+    "failed_to_delete_product": "فشل في حذف المنتج"
   }
 }

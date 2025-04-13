@@ -26,13 +26,22 @@
   "cart": {
     "your_cart_is_currently_empty": "Your cart is currently empty",
     "continue_shopping": "Continue shopping",
-    "total": "Total"
+    "total": "Total",
+    "your_cart": "Your Cart",
+    "category": "Category:",
+    "discount": "Discount:",
+    "available": "Available",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "including_vat": "including VAT"
   },
   "btn": {
     "checkout_now": "Checkout now",
     "view_cart": "View cart",
     "add_to_cart": "Add to cart",
-    "login_with_google": "Login with Google"
+    "login_with_google": "Login with Google",
+    "delete": "Delete",
+    "checkout": "Checkout"
   },
   "order_summary": {
     "order_summary": "Order summary",
@@ -47,6 +56,8 @@
   "toast": {
     "please_log_in_first_to_add_to_cart": "Please log in first to add to cart",
     "product_added_to_cart": "Product added to cart",
-    "failed_to_add_to_cart": "Failed to add to cart"
+    "failed_to_add_to_cart": "Failed to add to cart",
+    "product_deleted_successfully": "Product deleted successfully",
+    "failed_to_delete_product": "Failed to delete product"
   }
 }
