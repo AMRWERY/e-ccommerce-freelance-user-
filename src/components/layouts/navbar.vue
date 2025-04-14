@@ -292,14 +292,28 @@ const countries = computed(() => [
 ]);
 
 const selected = computed({
-    get() {
-        return countries.value.find(c => c.code === route.params.market) || countries.value[0];
-    },
-    set(newValue) {
-        router.push({
-            ...route,
-            params: { ...route.params, market: newValue.code }
-        });
-    }
+  get() {
+    // Convert route param to number for comparison
+    const marketId = Number(route.params.market);
+    return countries.value.find(c => c.id === marketId) || countries.value[0];
+  },
+  set(newValue) {
+    router.push({
+      ...route,
+      params: { ...route.params, market: newValue.id } // Use ID in URL
+    });
+    localStorage.setItem('selectedMarket', newValue.id.toString());
+  }
 });
+// const selected = computed({
+//     get() {
+//         return countries.value.find(c => c.code === route.params.market) || countries.value[0];
+//     },
+//     set(newValue) {
+//         router.push({
+//             ...route,
+//             params: { ...route.params, market: newValue.code }
+//         });
+//     }
+// });
 </script>

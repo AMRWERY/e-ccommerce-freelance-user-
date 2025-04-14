@@ -99,7 +99,8 @@ router.afterEach((to) => {
 
 // Add this before router export
 router.beforeEach((to, from, next) => {
-  const validMarkets = ["egy", "ksa"];
+  // const validMarkets = ["egy", "ksa"];
+  const validMarkets = ['1', '2'];
   const marketParam = to.params.market;
   // Check if market is valid
   if (marketParam && validMarkets.includes(marketParam)) {
@@ -107,7 +108,8 @@ router.beforeEach((to, from, next) => {
     return next();
   }
   // Handle invalid/missing market
-  const defaultMarket = localStorage.getItem("selectedMarket") || "egy";
+  const defaultMarket = '1';
+  // const defaultMarket = localStorage.getItem("selectedMarket") || "egy";
   if (to.name && to.name !== "home") {
     // Preserve original route with correct market
     next({
