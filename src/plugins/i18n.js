@@ -44,10 +44,26 @@ const datetimeFormats = {
       hour12: true,
     },
   },
+  "ar-SA": {
+    short: {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    },
+    long: {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      weekday: "short",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    },
+  },
 };
 
 const numberFormats = {
-  "en-US": {
+  en: {
     currency: {
       style: "currency",
       currency: "EGP",
@@ -63,7 +79,7 @@ const numberFormats = {
       useGrouping: false,
     },
   },
-  "ar-EG": {
+  ar: {
     currency: {
       style: "currency",
       currency: "EGP",

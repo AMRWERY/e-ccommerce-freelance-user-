@@ -279,13 +279,13 @@ computed(() => {
 const countries = computed(() => [
     {
         id: 1,
-        code: 'egy',
+        code: 'eg',
         name: t('countries_menu.egypt'),
         avatar: '/egypt-flag.svg',
     },
     {
         id: 2,
-        code: 'ksa',
+        code: 'sa',
         name: t('countries_menu.ksa'),
         avatar: '/ksa-flag.svg',
     },

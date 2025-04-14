@@ -98,29 +98,44 @@ router.afterEach((to) => {
 });
 
 // Add this before router export
-router.beforeEach((to, from, next) => {
-  // const validMarkets = ["egy", "ksa"];
-  const validMarkets = ['1', '2'];
+router.beforeEach(async (to, from, next) => {
+  const validMarkets = ["1", "2"]; // Egypt (1) and KSA (2)
   const marketParam = to.params.market;
-  // Check if market is valid
+  // Validate market parameter
   if (marketParam && validMarkets.includes(marketParam)) {
+    // Update currency format when market changes
+    const currency = marketParam === "2" ? "SAR" : "EGP";
+    i18n.global.mergeNumberFormat("en", {
+      currency: {
+        style: "currency",
+        currency,
+        currencyDisplay: "symbol",
+      },
+    });
+    // Update number formats using the imported i18n instance
+    i18n.global.mergeLocaleMessage("en", {
+      numberFormats: {
+        currency: {
+          style: "currency",
+          currency,
+          currencyDisplay: "symbol",
+        },
+      },
+    });
     localStorage.setItem("selectedMarket", marketParam);
     return next();
   }
   // Handle invalid/missing market
-  const defaultMarket = '1';
-  // const defaultMarket = localStorage.getItem("selectedMarket") || "egy";
-  if (to.name && to.name !== "home") {
-    // Preserve original route with correct market
-    next({
-      ...to,
-      params: { ...to.params, market: defaultMarket },
-    });
+  const defaultMarket = localStorage.getItem("selectedMarket") || "1";
+  const redirectPath =
+    to.name && to.name !== "home"
+      ? { ...to, params: { ...to.params, market: defaultMarket } }
+      : { name: "home", params: { market: defaultMarket } };
+  if (from.params.market !== defaultMarket) {
+    await router.replace(redirectPath);
+    window.location.reload();
   } else {
-    next({
-      name: "home",
-      params: { market: defaultMarket },
-    });
+    next(redirectPath);
   }
 });
 

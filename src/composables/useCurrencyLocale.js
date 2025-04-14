@@ -1,8 +1,21 @@
 export function useCurrencyLocale() {
   const { locale } = useI18n();
+  const route = useRoute();
 
   const currencyLocale = computed(() => {
-    return locale.value === "en" ? "en-US" : "ar-EG";
+    const marketId = Number(route.params.market) || 1;
+    const countryCode = marketId === 2 ? "SA" : "EG";
+    const currency = marketId === 2 ? "SAR" : "EGP";
+
+    return {
+      locale: `${locale.value}-${countryCode}`,
+      currency,
+      currencyConfig: {
+        style: "currency",
+        currency,
+        currencyDisplay: "symbol",
+      },
+    };
   });
 
   return { currencyLocale };
