@@ -30,19 +30,19 @@
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.home') }}
                                 </router-link>
-                                <router-link to="/products"
+                                <router-link :to="{ name: 'products', params: { market: selected } }"
                                     class="px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.all_products') }}
                                 </router-link>
-                                <router-link to="/hot-deals"
+                                <router-link :to="{ name: 'hot-deals', params: { market: selected } }"
                                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.hot_deals') }}
                                     <iconify-icon icon="material-symbols:local-fire-department" width="24" height="24"
                                         class="text-red-500 ms-1"></iconify-icon>
                                 </router-link>
-                                <router-link to="/contact-us"
+                                <router-link :to="{ name: 'contact-us', params: { market: selected } }"
                                     class="px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.contact_us') }}
@@ -155,7 +155,7 @@
                     </DisclosureButton>
 
                     <DisclosureButton as="div" class="w-full" @click="close">
-                        <router-link to="/products" exact
+                        <router-link :to="{ name: 'products', params: { market: selected } }" exact
                             class="block w-full px-3 py-2 text-base font-medium text-gray-100 rounded-md hover:bg-gray-700 hover:text-white"
                             active-class="text-white bg-gray-900">
                             {{ $t('layout.all_products') }}
@@ -163,7 +163,7 @@
                     </DisclosureButton>
 
                     <DisclosureButton as="div" class="w-full" @click="close">
-                        <router-link to="/hot-deals" exact
+                        <router-link :to="{ name: 'hot-deals', params: { market: selected } }" exact
                             class="flex items-center w-full px-3 py-2 text-base font-medium text-gray-100 rounded-md hover:bg-gray-700 hover:text-white"
                             active-class="text-white bg-gray-900">
                             {{ $t('layout.hot_deals') }}
@@ -174,7 +174,7 @@
                     </DisclosureButton>
 
                     <DisclosureButton as="div" class="w-full" @click="close">
-                        <router-link to="/contact-us" exact
+                        <router-link :to="{ name: 'contact-us', params: { market: selected } }" exact
                             class="block w-full px-3 py-2 text-base font-medium text-gray-100 rounded-md hover:bg-gray-700 hover:text-white"
                             active-class="text-white bg-gray-900">
                             {{ $t('layout.contact_us') }}
@@ -259,6 +259,8 @@
 const { locale, t } = useI18n();
 const localeStore = useLocaleStore();
 const authStore = useAuthStore()
+const router = useRouter();
+const route = useRoute();
 
 onMounted(() => {
     locale.value = localeStore.locale;
@@ -277,11 +279,13 @@ computed(() => {
 const countries = computed(() => [
     {
         id: 1,
+        code: 'egy',
         name: t('countries_menu.egypt'),
         avatar: '/egypt-flag.svg',
     },
     {
         id: 2,
+        code: 'ksa',
         name: t('countries_menu.ksa'),
         avatar: '/ksa-flag.svg',
     },
@@ -289,12 +293,13 @@ const countries = computed(() => [
 
 const selected = computed({
     get() {
-        const savedId = parseInt(localStorage.getItem('selectedCountryId'));
-        return countries.value.find(c => c.id === savedId) || countries.value[0];
+        return countries.value.find(c => c.code === route.params.market) || countries.value[0];
     },
-    set(value) {
-        localStorage.setItem('selectedCountryId', value.id.toString());
-        setTimeout(() => window.location.reload(), 1000);
+    set(newValue) {
+        router.push({
+            ...route,
+            params: { ...route.params, market: newValue.code }
+        });
     }
 });
 </script>

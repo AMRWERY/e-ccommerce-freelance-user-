@@ -61,10 +61,13 @@
 
 <script setup>
 const { t } = useI18n()
+// const route = useRoute();
 const productStore = useProductsStore()
 const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref({});
+
+// const currentMarket = computed(() => route.params.market);
 
 onMounted(() => {
     productStore.fetchAllProducts()
@@ -106,5 +109,4 @@ const handleAddToCart = async (product) => {
         loading.value[product.id] = false;
     }
 };
-
 </script>
