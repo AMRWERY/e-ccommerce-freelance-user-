@@ -292,28 +292,21 @@ const countries = computed(() => [
 ]);
 
 const selected = computed({
-  get() {
-    // Convert route param to number for comparison
-    const marketId = Number(route.params.market);
-    return countries.value.find(c => c.id === marketId) || countries.value[0];
-  },
-  set(newValue) {
-    router.push({
-      ...route,
-      params: { ...route.params, market: newValue.id } // Use ID in URL
-    });
-    localStorage.setItem('selectedMarket', newValue.id.toString());
-  }
-});
-// const selected = computed({
-//     get() {
-//         return countries.value.find(c => c.code === route.params.market) || countries.value[0];
-//     },
-//     set(newValue) {
-//         router.push({
-//             ...route,
-//             params: { ...route.params, market: newValue.code }
-//         });
-//     }
-// });
+    get() {
+        const marketId = Number(route.params.market);
+        return countries.value.find(c => c.id === marketId) || countries.value[0];
+    },
+    set(newValue) {
+        authStore.isOverlayVisible = true;
+        localStorage.setItem('selectedMarket', newValue.id.toString());
+        router.push({
+            ...route,
+            params: { ...route.params, market: newValue.id }
+        }).then(() => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+    }
+})
 </script>
