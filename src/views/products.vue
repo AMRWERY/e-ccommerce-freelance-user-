@@ -16,10 +16,12 @@
                                 product.title }}</h5>
                             <div class="flex flex-wrap items-center gap-2 mt-2">
                                 <p class="text-sm font-bold text-gray-800 sm:text-base">
-                                    {{ $n(parseFloat(product.discountedPrice), 'currency', currencyLocale.currencyConfig) }}
+                                    {{ $n(parseFloat(product.discountedPrice), 'currency',
+                                    currencyLocale.currencyConfig) }}
                                 </p>
                                 <p class="text-sm text-gray-500 line-through sm:text-base" v-if="product.originalPrice">
-                                    {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale.currencyConfig) }}
+                                    {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale.currencyConfig)
+                                    }}
                                 </p>
                                 <div v-if="product.discount"
                                     class="flex items-center justify-center w-10 h-8 p-1 bg-green-200 rounded-full cursor-pointer ms-auto">
