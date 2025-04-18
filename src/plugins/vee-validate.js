@@ -9,13 +9,14 @@ export default {
     defineRule("required", required);
     defineRule("min", min);
     defineRule("alpha_spaces", alpha_spaces);
+    defineRule("length", length);
     defineRule("email", (value) => {
       if (!value || !value.length) {
         return true;
       }
-      if (!/^[A-Z0-9._%+-]+@ship\.com$/i.test(value)) {
-        return "Email must be a valid 'ship.com' address";
-      }
+      // if (!/^[A-Z0-9._%+-]+@ship\.com$/i.test(value)) {
+      //   return "Email must be a valid 'ship.com' address";
+      // }
       return true;
     });
     defineRule("minLength", (value, [limit]) => {

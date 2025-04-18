@@ -39,6 +39,7 @@ export default defineConfig({
             "alpha_spaces",
             "minLength",
             "confirmed",
+            "length",
           ],
           // For @vee-validate/i18n
           "@vee-validate/i18n": ["localize", "setLocale"],

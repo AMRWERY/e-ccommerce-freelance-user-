@@ -56,7 +56,9 @@
     "login_with_google": "تسجيل الدخول باستخدام جوجل",
     "delete": "حذف",
     "checkout": "اتمام الشراء",
-    "place_order": "اتمام الطلب"
+    "place_order": "اتمام الطلب",
+    "please_wait": "انتظر من فضلك",
+    "view_order_summary": "عرض ملخص الطلب"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
@@ -73,7 +75,9 @@
     "product_added_to_cart": "تمت إضافة المنتج إلى السله",
     "failed_to_add_to_cart": "فشل في الإضافة إلى السله",
     "product_deleted_successfully": "تم حذف المنتج بنجاح",
-    "failed_to_delete_product": "فشل في حذف المنتج"
+    "failed_to_delete_product": "فشل في حذف المنتج",
+    "payment_successful": "تم الدفع بنجاح",
+    "checkout_error": "خطأ في الطلب"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",
@@ -83,6 +87,8 @@
     "credit_card": "بطاقة إئتمان",
     "pay_with_your_credit_card": "ادفع ببطاقتك الائتمانية",
     "total": "المجموع",
-    "subtotal": "المجموع الفرعي"
+    "shipping": "شحن",
+    "subtotal": "المجموع الفرعي",
+    "savings": "التوفير"
   }
 }

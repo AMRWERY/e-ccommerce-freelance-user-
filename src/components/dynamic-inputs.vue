@@ -90,7 +90,11 @@ const props = defineProps({
     prefixIcon: {
         type: String,
         default: null
-    }
+    },
+    readonly: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const emit = defineEmits(['update:modelValue']);
