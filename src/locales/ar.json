@@ -68,7 +68,8 @@
     "subtotal": "المجموع الفرعي",
     "savings": "التوفير",
     "total": "الإجمالي",
-    "quantity": "الكميه:"
+    "quantity": "الكميه:",
+    "no_order_data": "لا توجد طلبات حالياً"
   },
   "toast": {
     "please_log_in_first_to_add_to_cart": "يرجى تسجيل الدخول أولاً لإضافة المنتج إلى السله",
