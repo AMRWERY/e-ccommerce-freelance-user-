@@ -33,7 +33,9 @@
     "available": "متوفر",
     "subtotal": "المجموع الفرعي",
     "shipping": "شحن",
-    "including_vat": "شامله ضريبة القيمة المضافة"
+    "including_vat": "شامله ضريبة القيمة المضافة",
+    "qty": "كمية:",
+    "order_summary": "ملخص الطلب"
   },
   "btn": {
     "checkout_now": "اتمام الشراء الآن",

@@ -69,21 +69,7 @@
                         </div>
 
                         <!-- cart -->
-                        <router-link to="/shopping-cart" class="flex items-center space-s-1">
-                            <div class="relative">
-                                <span
-                                    class="absolute top-0 inline-flex items-center justify-center w-5 h-5 -mt-2 text-xs text-white bg-red-600 rounded-full -me-3 end-2">
-                                    0
-                                </span>
-                                <button type="button"
-                                    class="relative mt-1.5 text-gray-100 bg-gray-800 rounded-full hover:text-white">
-                                    <span class="absolute -inset-1.5" />
-                                    <span class="sr-only">View cart</span>
-                                    <iconify-icon icon="material-symbols:shopping-cart-outline-sharp" width="25"
-                                        height="25" aria-hidden="true"></iconify-icon>
-                                </button>
-                            </div>
-                        </router-link>
+                        <cart-icon />
 
                         <div class="hidden md:flex">
                             <!-- toggle locales -->
@@ -257,10 +243,10 @@
 
 <script setup>
 const { locale, t } = useI18n();
-const localeStore = useLocaleStore();
-const authStore = useAuthStore()
 const router = useRouter();
 const route = useRoute();
+const localeStore = useLocaleStore();
+const authStore = useAuthStore()
 
 onMounted(() => {
     locale.value = localeStore.locale;

@@ -17,7 +17,7 @@
                             <div class="flex flex-wrap items-center gap-2 mt-2">
                                 <p class="text-sm font-bold text-gray-800 sm:text-base">
                                     {{ $n(parseFloat(product.discountedPrice), 'currency',
-                                    currencyLocale.currencyConfig) }}
+                                        currencyLocale.currencyConfig) }}
                                 </p>
                                 <p class="text-sm text-gray-500 line-through sm:text-base" v-if="product.originalPrice">
                                     {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale.currencyConfig)
@@ -57,13 +57,14 @@
 
 <script setup>
 const { t } = useI18n()
-// const route = useRoute();
+const route = useRoute();
 const productStore = useProductsStore()
 const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref({});
 
 // const currentMarket = computed(() => route.params.market);
+const currentMarket = computed(() => Number(route.params.market));
 
 onMounted(() => {
     productStore.fetchAllProducts()
@@ -75,7 +76,7 @@ const { currencyLocale } = useCurrencyLocale();
 const handleAddToCart = async (product) => {
     if (!product) return;
     const authStore = useAuthStore();
-    if (!authStore.isAuthenticated) {
+    if (currentMarket.value === 2 && !authStore.isAuthenticated) {
         triggerToast({
             message: t('toast.please_log_in_first_to_add_to_cart'),
             type: 'warning',

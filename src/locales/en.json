@@ -33,7 +33,9 @@
     "available": "Available",
     "subtotal": "Subtotal",
     "shipping": "Shipping",
-    "including_vat": "including VAT"
+    "including_vat": "including VAT",
+    "qty": "Quantity:",
+    "order_summary": "Order summary"
   },
   "btn": {
     "checkout_now": "Checkout now",
