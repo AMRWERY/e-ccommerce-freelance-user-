@@ -7,7 +7,7 @@
         <p class="mb-4 text-lg text-gray-900">
           {{ $t('cart.your_cart_is_currently_empty') }}
         </p>
-        <router-link to="/products" class="text-blue-600 hover:underline">
+        <router-link to="products" class="text-blue-600 hover:underline">
           {{ $t('cart.continue_shopping') }}
         </router-link>
       </div>
@@ -95,7 +95,7 @@
             </li>
           </ul>
 
-          <router-link to="/checkout" role="button"
+          <router-link to="checkout" role="button"
             class="mt-4 text-sm px-4 py-2.5 tracking-wide w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md block text-center">{{
               $t('btn.checkout') }}</router-link>
         </div>
@@ -113,9 +113,9 @@
 </template>
 
 <script setup>
+const { t } = useI18n()
 const cartStore = useCartStore();
 const removingItem = ref(null);
-const { t } = useI18n()
 const loading = ref(false)
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 

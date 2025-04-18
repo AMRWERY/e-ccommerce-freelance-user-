@@ -9,6 +9,18 @@
   "home": {
     "home_page": "الصفحه الرئيسيه"
   },
+  "form": {
+    "full_name": "الاسم الكامل",
+    "enter_your_full_name": "أدخل اسمك الكامل",
+    "email": "البريد إلكتروني",
+    "enter_your_email": "أدخل بريدك الإلكتروني",
+    "country": "دولة",
+    "governorate": "محافظة",
+    "phone_number": "رقم التليفون",
+    "full_address": "العنوان الكامل",
+    "enter_your_full_address_here": "أدخل عنوانك الكامل هنا",
+    "your_full_address": "عنوانك الكامل"
+  },
   "meta": {
     "home": "الرئيسية",
     "all_products": "كل المنتجات",

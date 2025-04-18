@@ -15,16 +15,26 @@
                         <iconify-icon :icon="prefixIcon" width="24" height="24"></iconify-icon>
                     </span>
                     <!-- input -->
-                    <Field :type="showPassword ? 'text' : type" :name="name" :placeholder="placeholder" :id="id"
-                        v-model="internalValue" :rules="rules" :class="[
-                            'w-full px-3 py-2 transition duration-300 bg-transparent border rounded-md shadow-sm pe-16 placeholder:text-slate-400 text-slate-700 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow ps-9',
-                            errors[name] ? 'border-red-600' : 'border-slate-200'
-                        ]" />
+                    <template v-if="type === 'textarea'">
+                        <Field as="textarea" :name="name" :placeholder="placeholder" :id="id" :readonly="readonly"
+                            v-model="internalValue" :rules="rules"
+                            class="w-full px-3 py-2 transition duration-300 bg-transparent border rounded-md shadow-sm placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow"
+                            rows="4" />
+                    </template>
+
+                    <template v-else>
+                        <Field :type="showPassword ? 'text' : type" :name="name" :placeholder="placeholder" :id="id"
+                            :readonly="readonly" v-model="internalValue" :rules="rules" :class="[
+                                'w-full px-3 py-2 transition duration-300 bg-transparent border rounded-md shadow-sm pe-16 placeholder:text-slate-400 text-slate-700 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow',
+                                errors[name] ? 'border-red-600' : 'border-slate-200'
+                            ]" />
+                    </template>
 
                     <!-- Eye icon -->
                     <span v-if="type === 'password'" @click="togglePassword"
                         class="absolute inset-y-0 flex items-center text-gray-400 cursor-pointer end-3 hover:text-gray-600">
-                        <iconify-icon :icon="showPassword ? 'mdi:eye-off-outline' : 'mdi:eye-outline'" width="24" height="24"></iconify-icon>
+                        <iconify-icon :icon="showPassword ? 'mdi:eye-off-outline' : 'mdi:eye-outline'" width="24"
+                            height="24"></iconify-icon>
                     </span>
                 </div>
 

@@ -9,6 +9,18 @@
   "home": {
     "home_page": "Home Page"
   },
+  "form": {
+    "full_name": "Full name",
+    "enter_your_full_name": "Enter your full name",
+    "email": "Email",
+    "enter_your_email": "Enter your email",
+    "country": "Country",
+    "governorate": "Governorate",
+    "phone_number": "Phone number",
+    "full_address": "Full address",
+    "enter_your_full_address_here": "Enter your full address here",
+    "your_full_address": "Your full address"
+  },
   "meta": {
     "home": "Home",
     "all_products": "All Products",
