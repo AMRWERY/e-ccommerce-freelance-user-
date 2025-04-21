@@ -2,7 +2,7 @@
     <div>
         <div class="p-4 mx-auto font-sans lg:max-w-6xl md:max-w-4xl">
             <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6">
-                <div v-for="product in productStore.products" :key="product"
+                <div v-for="product in filteredProducts" :key="product"
                     class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
                     <div class="w-full h-64 overflow-hidden">
                         <img :src="product.imageUrl1" alt="product-img"
@@ -14,7 +14,7 @@
                             <h5 class="text-sm font-bold text-gray-800 truncate sm:text-base">{{ $i18n.locale ===
                                 'ar' ? product.titleAr :
                                 product.title }}</h5>
-                            <div class="flex flex-wrap items-center gap-2 mt-2">
+                            <div class="flex items-center justify-between mt-2">
                                 <p class="text-sm font-bold text-gray-800 sm:text-base">
                                     {{ $n(parseFloat(product.discountedPrice), 'currency',
                                         currencyLocale.currencyConfig) }}
@@ -63,8 +63,24 @@ const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref({});
 
-// const currentMarket = computed(() => route.params.market);
 const currentMarket = computed(() => Number(route.params.market));
+
+const filteredProducts = computed(() => {
+    return productStore.products.filter(product => {
+        const market = currentMarket.value;
+        // Include products marked as "All" or matching the current market
+        if (product.targetMarket === "All" || product.targetMarketAr === "الكل") {
+            return true;
+        }
+        if (market === 1) {
+            return product.targetMarket === "Egypt" || product.targetMarketAr === "مصر";
+        }
+        if (market === 2) {
+            return product.targetMarket === "Saudi Arabia" || product.targetMarketAr === "المملكة العربية السعودية";
+        }
+        return false;
+    });
+});
 
 onMounted(() => {
     productStore.fetchAllProducts()

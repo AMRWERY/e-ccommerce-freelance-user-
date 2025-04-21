@@ -11,19 +11,17 @@
       <navbar />
 
       <main>
-        <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <router-view v-slot="{ Component }">
-            <transition name="fade">
-              <component :is="Component" />
-            </transition>
-          </router-view>
+        <router-view v-slot="{ Component }">
+          <transition name="fade">
+            <component :is="Component" />
+          </transition>
+        </router-view>
 
-          <!-- whatsapp-componenet component -->
-          <whatsapp-componenet />
+        <!-- whatsapp-componenet component -->
+        <whatsapp-componenet />
 
-          <!-- scroll-to-top component -->
-          <scroll-to-top />
-        </div>
+        <!-- scroll-to-top component -->
+        <scroll-to-top />
       </main>
 
       <!-- footer component -->

@@ -7,7 +7,10 @@
     "market_with_us": "Market with us"
   },
   "home": {
-    "home_page": "Home Page"
+    "home_page": "Home Page",
+    "elevate_your_kitchen_essentials": "Elevate Your Kitchen Essentials",
+    "shop_our_curated_collection_of_compact_blenders_kettles_toasters_and_more_designed_for_performance_and_style": "Shop our curated collection of compact blenders, kettles, toasters and more—designed for performance and style.",
+    "shop_by_brand": "Shop by Brand"
   },
   "form": {
     "full_name": "Full name",
@@ -58,7 +61,8 @@
     "checkout": "Checkout",
     "place_order": "Place order",
     "please_wait": "Please wait",
-    "view_order_summary": "View order summary"
+    "view_order_summary": "View order summary",
+    "see_more_products": "See more Products"
   },
   "order_summary": {
     "order_summary": "Order summary",

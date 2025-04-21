@@ -23,6 +23,7 @@ export const useProductsStore = defineStore("products", {
           ...doc.data(),
         }));
         this.products = [...regularProducts, ...merchantProducts];
+        console.log('all products:', this.products)
       } catch (error) {
         console.error("Error fetching products:", error);
         throw error;

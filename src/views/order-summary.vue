@@ -61,7 +61,7 @@
                         <dt class="text-sm font-medium text-gray-500">{{ $t('order_summary.savings') }}</dt>
                     </div>
                     <div class="col-span-4 text-end">
-                        <dd class="text-sm font-medium text-green-500">%{{ averageDiscount }}</dd>
+                        <dd class="text-sm font-medium text-green-500">{{ formatPercentage(averageDiscount) }}</dd>
                     </div>
                 </div>
 
@@ -89,6 +89,7 @@ import html2pdf from 'html2pdf.js'
 
 const localeStore = useLocaleStore()
 const { t, locale } = useI18n()
+const { currencyLocale } = useCurrencyLocale();
 const loading = ref(true)
 const orderData = ref(null)
 
@@ -140,9 +141,21 @@ onMounted(() => {
 });
 
 const formatCurrency = (value) => {
-    return new Intl.NumberFormat(locale.value === 'ar' ? 'ar-EG' : 'en-US', {
-        style: 'currency',
-        currency: locale.value === 'ar' ? 'EGP' : 'SAR'
+    if (!value) return new Intl.NumberFormat(currencyLocale.value.locale, {
+        ...currencyLocale.value.currencyConfig
+    }).format(0);
+
+    return new Intl.NumberFormat(currencyLocale.value.locale, {
+        ...currencyLocale.value.currencyConfig
+    }).format(value);
+};
+
+const formatPercentage = (value) => {
+    return new Intl.NumberFormat(currencyLocale.value.locale, {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+        numberingSystem: locale.value === 'ar' ? 'arab' : 'latn'
     }).format(value);
 };
 
