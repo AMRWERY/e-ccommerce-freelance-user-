@@ -129,13 +129,13 @@
                             <div class="-my-3 divide-y divide-gray-200">
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.subtotal') }}</dt>
-                                    <dd class="text-base font-medium text-gray-900">{{ $n(parseFloat(subTotalAmount) ||
+                                    <dd class="text-base font-medium text-gray-900">{{ formatCurrency(parseFloat(subTotalAmount) ||
                                         0,
                                         'currency', currencyLocale) }}</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.savings') }}</dt>
-                                    <dd class="text-base font-medium text-gray-900">%{{ averageDiscount }}</dd>
+                                    <dd class="text-base font-medium text-gray-900">{{ formatPercentage(averageDiscount) }}%</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.shipping') }}</dt>
@@ -143,7 +143,7 @@
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-bold text-gray-900">{{ $t('checkout.total') }}</dt>
-                                    <dd class="text-base font-bold text-gray-900">{{ $n(parseFloat(totalAmount) || 0,
+                                    <dd class="text-base font-bold text-gray-900">{{ formatCurrency(parseFloat(totalAmount) || 0,
                                         'currency', currencyLocale) }}</dd>
                                 </dl>
                             </div>
@@ -181,6 +181,7 @@
 
 <script setup>
 import dataBase from '@/assets/governorates.json'
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
 
 const { t } = useI18n()
 const route = useRoute()
@@ -190,6 +191,7 @@ const countriesData = ref(dataBase);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref(false);
 const orderCompleted = ref(false);
+const { formatCurrency, formatPercentage } = useFormatCurrency();
 
 const selectedCountryData = computed(() => {
     const marketId = Number(route.params.market)

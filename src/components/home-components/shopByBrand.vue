@@ -29,10 +29,10 @@
                                 product.title }}</h3>
                             <div class="flex items-center justify-center gap-3">
                                 <p class="text-lg font-semibold text-gray-900">
-                                    {{ formatPrice(product.discountedPrice) }}
+                                    {{ formatCurrency(product.discountedPrice) }}
                                 </p>
                                 <p class="text-xs text-gray-500 line-through">
-                                    {{ formatPrice(product.originalPrice) }}
+                                    {{ formatCurrency(product.originalPrice) }}
                                 </p>
                             </div>
                         </div>
@@ -52,22 +52,14 @@
 </template>
 
 <script setup>
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
+
 const router = useRouter();
 const route = useRoute();
 const productsStore = useProductsStore()
-const { currencyLocale } = useCurrencyLocale();
+const { formatCurrency } = useFormatCurrency();
 
 const currentMarket = computed(() => Number(route.params.market) || 1);
-
-const formatPrice = (value) => {
-    if (!value) return new Intl.NumberFormat(currencyLocale.value.locale, {
-        ...currencyLocale.value.currencyConfig
-    }).format(0);
-
-    return new Intl.NumberFormat(currencyLocale.value.locale, {
-        ...currencyLocale.value.currencyConfig
-    }).format(parseFloat(value));
-};
 
 const filteredProducts = computed(() => {
     return productsStore.products.filter(product => {

@@ -22,12 +22,10 @@
                                 product.title }}</h5>
                             <div class="flex items-center justify-between mt-2">
                                 <p class="text-sm font-bold text-gray-800 sm:text-base">
-                                    {{ $n(parseFloat(product.discountedPrice), 'currency',
-                                        currencyLocale.currencyConfig) }}
+                                    {{ formatCurrency(parseFloat(product.discountedPrice)) }}
                                 </p>
                                 <p class="text-sm text-gray-500 line-through sm:text-base" v-if="product.originalPrice">
-                                    {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale.currencyConfig)
-                                    }}
+                                    {{ formatCurrency(parseFloat(product.originalPrice)) }}
                                 </p>
                                 <div v-if="product.discount"
                                     class="flex items-center justify-center w-10 h-8 p-1 bg-green-200 rounded-full cursor-pointer ms-auto">
@@ -62,11 +60,14 @@
 </template>
 
 <script setup>
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
+
 const { t } = useI18n()
 const route = useRoute();
 const productStore = useProductsStore()
 const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
+const { formatCurrency } = useFormatCurrency();
 const loading = ref({});
 
 const currentMarket = computed(() => Number(route.params.market));

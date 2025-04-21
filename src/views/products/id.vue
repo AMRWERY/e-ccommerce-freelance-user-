@@ -47,8 +47,8 @@
                     </div>
 
                     <div class="flex items-center space-s-4">
-                        <span class="text-3xl font-bold text-gray-800">{{ formatPrice(product.discountedPrice) }}</span>
-                        <span class="text-lg text-gray-400 line-through">{{ formatPrice(product.originalPrice) }}</span>
+                        <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice) }}</span>
+                        <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice) }}</span>
                         <span v-if="product.discount" class="font-medium text-green-600">{{ $t('product.save') }} {{
                             product.discount }}%</span>
                     </div>
@@ -105,13 +105,15 @@
 </template>
 
 <script setup>
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
+
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const productStore = useProductsStore();
 const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
-const { currencyLocale } = useCurrencyLocale();
+const { formatCurrency } = useFormatCurrency();
 
 const loading = ref(false);
 const quantity = ref(1);
@@ -119,16 +121,6 @@ const product = ref(null);
 const selectedImage = ref(null);
 
 const currentMarket = computed(() => Number(route.params.market));
-
-const formatPrice = (value) => {
-    if (!value) return new Intl.NumberFormat(currencyLocale.value.locale, {
-        ...currencyLocale.value.currencyConfig
-    }).format(0);
-
-    return new Intl.NumberFormat(currencyLocale.value.locale, {
-        ...currencyLocale.value.currencyConfig
-    }).format(parseFloat(value));
-};
 
 const incrementQuantity = () => {
     quantity.value++;

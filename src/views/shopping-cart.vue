@@ -60,8 +60,7 @@
 
                   <div class="flex items-center">
                     <h4 class="text-lg font-bold text-gray-800">{{
-                      $n(parseFloat(item.discountedPrice),
-                        'currency', currencyLocale) }}</h4>
+                      formatCurrency(parseFloat(item.discountedPrice), currencyLocale) }}</h4>
                     <button @click.stop="removeItem(item.docId)"
                       class="text-gray-500 transition duration-100 select-none hover:text-gray-600 active:text-gray-700">
                       <iconify-icon icon="svg-spinners:90-ring" width="24" height="24"
@@ -83,15 +82,13 @@
           <h3 class="text-lg font-bold text-gray-800">{{ $t('cart.order_summary') }}</h3>
           <ul class="mt-4 text-sm text-gray-800 divide-y">
             <li class="flex flex-wrap gap-4 py-3">{{ $t('cart.subtotal') }} <span class="font-bold ms-auto">{{
-              $n(parseFloat(totalDsicoutedPrice),
-                'currency', currencyLocale) }}</span></li>
+              formatCurrency(parseFloat(totalDsicoutedPrice), currencyLocale) }}</span></li>
             <!-- don't delete it 😁😂 -->
             <li class="flex flex-wrap gap-4 py-3">{{ $t('cart.shipping') }} <span class="font-bold ms-auto">egp
                 4.00</span>
             </li>
             <li class="flex flex-wrap gap-4 py-3 font-bold">{{ $t('cart.total') }} <span class="ms-auto">{{
-              $n(parseFloat(totalAmount),
-                'currency', currencyLocale) }}</span>
+              formatCurrency(parseFloat(totalAmount), currencyLocale) }}</span>
             </li>
           </ul>
 
@@ -113,11 +110,14 @@
 </template>
 
 <script setup>
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
+
 const { t } = useI18n()
 const cartStore = useCartStore();
 const removingItem = ref(null);
 const loading = ref(false)
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
+const { formatCurrency } = useFormatCurrency();
 
 const removeItem = async (docId) => {
   if (!docId) return;

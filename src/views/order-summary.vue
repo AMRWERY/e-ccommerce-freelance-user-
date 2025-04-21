@@ -86,10 +86,11 @@
 
 <script setup>
 import html2pdf from 'html2pdf.js'
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
 
 const localeStore = useLocaleStore()
 const { t, locale } = useI18n()
-const { currencyLocale } = useCurrencyLocale();
+const { formatCurrency, formatPercentage } = useFormatCurrency();
 const loading = ref(true)
 const orderData = ref(null)
 
@@ -139,25 +140,6 @@ onMounted(() => {
         loading.value = false;
     }, 1000);
 });
-
-const formatCurrency = (value) => {
-    if (!value) return new Intl.NumberFormat(currencyLocale.value.locale, {
-        ...currencyLocale.value.currencyConfig
-    }).format(0);
-
-    return new Intl.NumberFormat(currencyLocale.value.locale, {
-        ...currencyLocale.value.currencyConfig
-    }).format(value);
-};
-
-const formatPercentage = (value) => {
-    return new Intl.NumberFormat(currencyLocale.value.locale, {
-        style: 'decimal',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-        numberingSystem: locale.value === 'ar' ? 'arab' : 'latn'
-    }).format(value);
-};
 
 const preloadImages = () => {
     return Promise.all(
