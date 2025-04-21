@@ -29,14 +29,14 @@ const router = createRouter({
             title: "meta.hot_deals",
           },
         },
-        {
-          path: "contact-us",
-          name: "contact-us",
-          component: () => import("../views/contact-us.vue"),
-          meta: {
-            title: "meta.contact_us",
-          },
-        },
+        // {
+        //   path: "contact-us",
+        //   name: "contact-us",
+        //   component: () => import("../views/contact-us.vue"),
+        //   meta: {
+        //     title: "meta.contact_us",
+        //   },
+        // },
         {
           path: "shopping-cart",
           name: "shopping-cart",

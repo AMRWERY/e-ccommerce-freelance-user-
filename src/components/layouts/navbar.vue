@@ -42,11 +42,11 @@
                                     <iconify-icon icon="material-symbols:local-fire-department" width="24" height="24"
                                         class="text-red-500 ms-1"></iconify-icon>
                                 </router-link>
-                                <router-link :to="{ name: 'contact-us', params: { market: selected } }"
+                                <!-- <router-link :to="{ name: 'contact-us', params: { market: selected } }"
                                     class="px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.contact_us') }}
-                                </router-link>
+                                </router-link> -->
                                 <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-merchant"
                                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" target="_blank" rel="noopener noreferrer">
@@ -159,13 +159,13 @@
                         </router-link>
                     </DisclosureButton>
 
-                    <DisclosureButton as="div" class="w-full" @click="close">
+                    <!-- <DisclosureButton as="div" class="w-full" @click="close">
                         <router-link :to="{ name: 'contact-us', params: { market: selected } }" exact
                             class="block w-full px-3 py-2 text-base font-medium text-gray-100 rounded-md hover:bg-gray-700 hover:text-white"
                             active-class="text-white bg-gray-900">
                             {{ $t('layout.contact_us') }}
                         </router-link>
-                    </DisclosureButton>
+                    </DisclosureButton> -->
                     <DisclosureButton as="div" class="w-full" @click="close">
                         <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-market"
                             class="block w-full px-3 py-2 text-base font-medium text-gray-100 rounded-md hover:bg-gray-700 hover:text-white"

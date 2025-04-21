@@ -27,7 +27,7 @@
       </main>
 
       <!-- footer component -->
-      <Footer />
+      <!-- <Footer /> -->
     </div>
   </div>
 </template>
