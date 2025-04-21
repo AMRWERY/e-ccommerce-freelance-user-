@@ -63,16 +63,19 @@
                     </div>
 
                     <div class="space-y-4">
-                        <div class="flex items-center space-s-4">
-                            <label for="quantity" class="text-gray-600">{{ $t('product.quantity') }}:</label>
-                            <div class="flex items-center border rounded-lg">
-                                <button @click="decrementQuantity"
-                                    class="px-4 py-2 text-gray-600 hover:bg-gray-100">-</button>
-                                <input id="quantity" type="number" v-model="quantity" min="1"
-                                    class="w-12 text-center border-none focus:ring-0">
-                                <button @click="incrementQuantity"
-                                    class="px-4 py-2 text-gray-600 hover:bg-gray-100">+</button>
-                            </div>
+                        <div class="flex items-center gap-3">
+                            <p class="text-gray-600">{{ $t('product.quantity') }}:</p>
+                            <button type="button" @click="decrementQuantity"
+                                class="flex items-center justify-center w-5 h-5 bg-blue-600 rounded-full outline-none">
+                                <iconify-icon icon="material-symbols:remove" width="20" height="20"
+                                    class="text-white"></iconify-icon>
+                            </button>
+                            <span class="font-bold text-sm leading-[16px]">{{ quantity }}</span>
+                            <button type="button" @click="incrementQuantity"
+                                class="flex items-center justify-center w-5 h-5 bg-blue-600 rounded-full outline-none">
+                                <iconify-icon icon="material-symbols:add" width="20" height="20"
+                                    class="text-white"></iconify-icon>
+                            </button>
                         </div>
 
                         <!-- Add to Cart Button -->
