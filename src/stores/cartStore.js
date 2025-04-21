@@ -8,10 +8,25 @@ export const useCartStore = defineStore("cart", {
   actions: {
     fetchCart() {
       this.isLoading = true;
-      const uid = this.storedUser?.uid;
       try {
         const savedCart = localStorage.getItem("cart");
-        this.cart = savedCart ? JSON.parse(savedCart) : [];
+        if (savedCart) {
+          // Parse and deduplicate cart items based on productId
+          const parsedCart = JSON.parse(savedCart);
+          const uniqueCart = [];
+          const seenProductIds = new Set();
+          
+          parsedCart.forEach(item => {
+            if (!seenProductIds.has(item.productId)) {
+              seenProductIds.add(item.productId);
+              uniqueCart.push(item);
+            }
+          });
+          
+          this.cart = uniqueCart;
+        } else {
+          this.cart = [];
+        }
       } catch (error) {
         console.error("Error loading cart from localStorage:", error);
         this.cart = [];
@@ -31,14 +46,17 @@ export const useCartStore = defineStore("cart", {
         discount,
         quantity = 1
       } = cartItem;
-      const uid = this.storedUser?.uid;
-      const existingProduct = this.cart.find(
-        (item) =>
-          item.productId === cartItem.productId
+
+      // Check for existing product and update quantity
+      const existingProductIndex = this.cart.findIndex(
+        (item) => item.productId === id
       );
-      if (existingProduct) {
-        existingProduct.quantity += quantity;
+
+      if (existingProductIndex !== -1) {
+        // Update existing item quantity
+        this.cart[existingProductIndex].quantity += quantity;
       } else {
+        // Add new item
         this.cart.push({
           docId: Date.now().toString(),
           productId: id,
@@ -49,34 +67,33 @@ export const useCartStore = defineStore("cart", {
           imageUrl1,
           discount,
           quantity,
-          uid,
+          uid: this.storedUser?.uid,
         });
       }
-      this.persistCart(uid);
+
+      // Persist cart immediately
+      this.persistCart();
     },
 
     updateQuantityInCart(productId, newQuantity) {
-      const uid = this.storedUser?.uid;
-      const product = this.cart.find((item) => item.productId === productId);
-      if (product) {
-        product.quantity = newQuantity;
-        // this.persistCart(uid);
+      const productIndex = this.cart.findIndex((item) => item.productId === productId);
+      if (productIndex !== -1) {
+        this.cart[productIndex].quantity = newQuantity;
+        this.persistCart();
       }
     },
 
     removeFromCart(docId) {
-      const uid = this.storedUser?.uid;
       this.cart = this.cart.filter((item) => item.docId !== docId);
-      this.persistCart(uid);
+      this.persistCart();
     },
 
     clearCart() {
-      const uid = this.storedUser?.uid;
       this.cart = [];
       localStorage.removeItem("cart");
     },
 
-    persistCart(cartKey) {
+    persistCart() {
       try {
         localStorage.setItem("cart", JSON.stringify(this.cart));
       } catch (error) {

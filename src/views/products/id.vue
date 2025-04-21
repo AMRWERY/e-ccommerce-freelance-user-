@@ -1,11 +1,7 @@
 <template>
     <div>
         <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div v-if="loading" class="flex items-center justify-center min-h-[60vh]">
-                <iconify-icon icon="svg-spinners:90-ring" width="40" height="40"></iconify-icon>
-            </div>
-
-            <div v-else-if="product" class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div v-if="product" class="grid grid-cols-1 gap-8 lg:grid-cols-2">
                 <!-- Product Image Section -->
                 <div class="space-y-6">
                     <div class="relative w-full overflow-hidden bg-gray-100 rounded-lg h-96">
@@ -34,7 +30,6 @@
 
                 <!-- Product Details Section -->
                 <div class="space-y-8">
-                    <!-- Product Title -->
                     <div>
                         <h1 class="text-4xl font-bold text-gray-800">
                             {{ $i18n.locale === 'ar' ? product.titleAr : product.title }}
@@ -43,12 +38,14 @@
                             <p class="text-sm text-gray-600">{{ $t('cart.category') }} {{ $i18n.locale === 'ar' ?
                                 product.categoryAr : product.category }}</p>
 
-                            <p class="text-sm text-gray-600">{{ $t('product.availability') }}: {{ $t('cart.available')
-                                }}</p>
+                            <p class="flex items-center gap-1 text-sm text-gray-500">
+                                <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
+                                    class="text-green-500"></iconify-icon>
+                                {{ $t('product.available') }}
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Pricing -->
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatPrice(product.discountedPrice) }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatPrice(product.originalPrice) }}</span>
@@ -56,7 +53,6 @@
                             product.discount }}%</span>
                     </div>
 
-                    <!-- Description -->
                     <div>
                         <h2 class="text-lg font-semibold text-gray-800">{{ $t('product.description') }}</h2>
                         <div class="p-3 bg-gray-50 hover:bg-gray-100">
@@ -66,7 +62,6 @@
                         </div>
                     </div>
 
-                    <!-- Actions -->
                     <div class="space-y-4">
                         <div class="flex items-center space-s-4">
                             <label for="quantity" class="text-gray-600">{{ $t('product.quantity') }}:</label>
@@ -95,7 +90,7 @@
             </div>
         </div>
 
-        <!-- Toast -->
+        <!-- dynamic-toast component  -->
         <div
             class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
             <div class="pointer-events-auto">
