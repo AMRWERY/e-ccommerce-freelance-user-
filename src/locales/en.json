@@ -84,6 +84,12 @@
     "payment_successful": "Payment successful",
     "checkout_error": "Checkout error"
   },
+  "product": {
+    "save": "Save",
+    "description": "Description",
+    "quantity": "Quantity:",
+    "availability": "Availability:"
+  },
   "checkout": {
     "delivery_details": "Delivery Details",
     "payment": "Payment",

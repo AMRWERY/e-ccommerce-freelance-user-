@@ -16,9 +16,18 @@ const router = createRouter({
         {
           path: "products",
           name: "products",
-          component: () => import("../views/products.vue"),
+          component: () => import("../views/products/index.vue"),
           meta: {
             title: "meta.all_products",
+          },
+        },
+        {
+          path: "product/:id",
+          name: "product-details",
+          component: () => import("../views/products/id.vue"),
+          props: true,
+          meta: {
+            title: "meta.product_details",
           },
         },
         {
@@ -69,7 +78,7 @@ const router = createRouter({
       path: "/",
       redirect: () => ({
         name: "home",
-        params: { market: localStorage.getItem("selectedMarket") || "egy" },
+        params: { market: localStorage.getItem("selectedMarket") || "1" },
       }),
     },
 
@@ -101,6 +110,12 @@ router.afterEach((to) => {
 router.beforeEach(async (to, from, next) => {
   const validMarkets = ["1", "2"]; // Egypt (1) and KSA (2)
   const marketParam = to.params.market;
+
+  // Skip market validation for error page
+  if (to.name === 'error-404') {
+    return next();
+  }
+
   // Validate market parameter
   if (marketParam && validMarkets.includes(marketParam)) {
     // Update currency format when market changes
@@ -125,18 +140,13 @@ router.beforeEach(async (to, from, next) => {
     localStorage.setItem("selectedMarket", marketParam);
     return next();
   }
+
   // Handle invalid/missing market
   const defaultMarket = localStorage.getItem("selectedMarket") || "1";
-  const redirectPath =
-    to.name && to.name !== "home"
-      ? { ...to, params: { ...to.params, market: defaultMarket } }
-      : { name: "home", params: { market: defaultMarket } };
-  if (from.params.market !== defaultMarket) {
-    await router.replace(redirectPath);
-    window.location.reload();
-  } else {
-    next(redirectPath);
-  }
+  const redirectPath = {
+    path: to.fullPath.replace(/^\/[^/]*/, `/${defaultMarket}`),
+  };
+  next(redirectPath);
 });
 
 export default router;

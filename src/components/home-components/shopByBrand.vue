@@ -9,7 +9,13 @@
             </div>
 
             <div class="grid grid-cols-2 gap-4 mt-6 md:grid-cols-3 lg:grid-cols-4 sm:gap-6">
-                <div v-for="product in limitedProducts" :key="product.id"
+                <router-link :to="{
+                    name: 'product-details',
+                    params: {
+                        market: currentMarket,
+                        id: product.id
+                    }
+                }" v-for="product in limitedProducts" :key="product.id"
                     class="relative overflow-hidden bg-gray-100 rounded-lg cursor-pointer group hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
                     <div class="w-full h-[200px] sm:h-[300px] overflow-hidden mx-auto">
                         <img :src="product.imageUrl1" :alt="product.title"
@@ -31,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </router-link>
             </div>
 
             <!-- See More Button -->

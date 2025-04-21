@@ -2,7 +2,13 @@
     <div>
         <div class="p-4 mx-auto font-sans lg:max-w-6xl md:max-w-4xl">
             <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6">
-                <div v-for="product in filteredProducts" :key="product"
+                <router-link :to="{
+                    name: 'product-details',
+                    params: {
+                        market: currentMarket,
+                        id: product.id
+                    }
+                }" v-for="product in filteredProducts" :key="product"
                     class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
                     <div class="w-full h-64 overflow-hidden">
                         <img :src="product.imageUrl1" alt="product-img"
@@ -40,7 +46,7 @@
                             <iconify-icon icon="svg-spinners:90-ring" width="24" height="24" v-else></iconify-icon>
                         </button>
                     </div>
-                </div>
+                </router-link>
             </div>
         </div>
 

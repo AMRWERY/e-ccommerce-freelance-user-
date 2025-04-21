@@ -84,6 +84,12 @@
     "payment_successful": "تم الدفع بنجاح",
     "checkout_error": "خطأ في الطلب"
   },
+  "product": {
+    "save": "توفير",
+    "description": "الوصف",
+    "quantity": "كمية:",
+    "availability": "التوفر:"
+  },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",
     "payment": "المدفوعات",
