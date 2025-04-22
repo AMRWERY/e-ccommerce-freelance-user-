@@ -15,23 +15,27 @@
 
                 <div class="grid gap-4 px-6 sm:grid-cols-2 lg:grid-cols-3">
                     <!-- product - start -->
-                    <div v-for="product in paginatedHotDeals" :key="product.id">
-                        <router-link :to="'/product/' + product.id"
-                            class="relative block overflow-hidden bg-gray-100 rounded-t-lg group h-96">
+                    <router-link v-for="product in paginatedHotDeals" :key="product.id" :to="{
+                        name: 'product-details',
+                        params: {
+                            market: currentMarket,
+                            id: product.id
+                        }
+                    }" class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
+                        <div class="relative block overflow-hidden bg-gray-100 rounded-t-lg group h-96">
                             <img :src="product.imageUrl1" loading="lazy" :alt="product.title"
                                 class="object-cover object-center w-full h-full transition-transform duration-300 hover:scale-105" />
                             <span v-if="product.discount"
                                 class="absolute start-0 top-3 rounded-e-lg bg-red-500 px-3 py-1.5 text-sm font-semibold uppercase tracking-wider text-white">-{{
                                     product.discount }}%</span>
-                        </router-link>
+                        </div>
 
                         <div class="flex items-start justify-between gap-2 p-4 bg-gray-100 rounded-b-lg">
                             <div class="flex flex-col">
-                                <router-link :to="'/product/' + product.id"
-                                    class="font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-lg">{{
-                                        $i18n.locale ===
-                                            'ar' ? product.titleAr :
-                                            product.title }}</router-link>
+                                <h3
+                                    class="font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-lg">
+                                    {{
+                                        $i18n.locale === 'ar' ? product.titleAr : product.title }}</h3>
                                 <span class="text-sm text-gray-500 lg:text-base">{{
                                     $i18n.locale === 'ar' ?
                                         getCategoryTitle(product.categoryId).titleAr :
@@ -46,7 +50,7 @@
                                     formatCurrency(parseFloat(product.originalPrice)) }}</span>
                             </div>
                         </div>
-                    </div>
+                    </router-link>
                 </div>
             </div>
 
@@ -62,6 +66,7 @@
 <script setup>
 const productsStore = useProductsStore()
 const categoriesStore = useCategoriesStore()
+const route = useRoute()
 
 //currency composable
 const { formatCurrency } = useFormatCurrency();
@@ -69,16 +74,32 @@ const { formatCurrency } = useFormatCurrency();
 const currentPage = ref(1)
 const itemsPerPage = 10
 
+const currentMarket = computed(() => Number(route.params.market) || 1)
+
 const hotDeals = computed(() => {
-    const deals = productsStore.products.filter(product => product.isHotDeal === true)
-    console.log('Hot Deals count:', deals.length)
-    return deals
+    return productsStore.products.filter(product => {
+        // First check if it's a hot deal
+        if (!product.isHotDeal) return false
+
+        // Then check market compatibility
+        if (product.targetMarket === "All" || product.targetMarketAr === "الكل") {
+            return true;
+        }
+
+        if (currentMarket.value === 1) {
+            return product.targetMarket === "Egypt" || product.targetMarketAr === "مصر";
+        }
+
+        if (currentMarket.value === 2) {
+            return product.targetMarket === "Saudi Arabia" || product.targetMarketAr === "المملكة العربية السعودية";
+        }
+
+        return false;
+    })
 })
 
 const totalPages = computed(() => {
-    const total = Math.max(1, Math.ceil(hotDeals.value.length / itemsPerPage))
-    console.log('Total pages:', total)
-    return total
+    return Math.max(1, Math.ceil(hotDeals.value.length / itemsPerPage))
 })
 
 const paginatedHotDeals = computed(() => {
