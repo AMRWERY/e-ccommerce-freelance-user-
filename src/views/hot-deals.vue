@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="py-6 bg-white sm:py-8 lg:py-12">
-            <div class="max-w-6xl py-6 mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center mb-10 md:mb-16">
                     <iconify-icon icon="material-symbols:local-fire-department" width="35" height="35"
                         class="text-red-500 ms-1">
@@ -13,7 +13,7 @@
                     </iconify-icon>
                 </div>
 
-                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-4 px-6 sm:grid-cols-2 lg:grid-cols-3">
                     <!-- product - start -->
                     <div v-for="product in paginatedHotDeals" :key="product.id">
                         <router-link :to="'/product/' + product.id"
