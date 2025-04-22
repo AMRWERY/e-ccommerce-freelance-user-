@@ -15,14 +15,12 @@ export const useCartStore = defineStore("cart", {
           const parsedCart = JSON.parse(savedCart);
           const uniqueCart = [];
           const seenProductIds = new Set();
-          
-          parsedCart.forEach(item => {
+          parsedCart.forEach((item) => {
             if (!seenProductIds.has(item.productId)) {
               seenProductIds.add(item.productId);
               uniqueCart.push(item);
             }
           });
-          
           this.cart = uniqueCart;
         } else {
           this.cart = [];
@@ -44,19 +42,21 @@ export const useCartStore = defineStore("cart", {
         originalPrice,
         imageUrl1,
         discount,
-        quantity = 1
+        shippingCost,
+        categoryId,
+        quantity = 1,
       } = cartItem;
-
+      // Get category data from the categories store
+      const categoriesStore = useCategoriesStore();
+      const category = categoriesStore.getCategoryById(categoryId);
       // Check for existing product and update quantity
       const existingProductIndex = this.cart.findIndex(
         (item) => item.productId === id
       );
-
       if (existingProductIndex !== -1) {
         // Update existing item quantity
         this.cart[existingProductIndex].quantity += quantity;
       } else {
-        // Add new item
         this.cart.push({
           docId: Date.now().toString(),
           productId: id,
@@ -66,17 +66,20 @@ export const useCartStore = defineStore("cart", {
           originalPrice,
           imageUrl1,
           discount,
+          shippingCost: parseFloat(shippingCost || 0),
+          categoryId,
           quantity,
           uid: this.storedUser?.uid,
         });
       }
-
       // Persist cart immediately
       this.persistCart();
     },
 
     updateQuantityInCart(productId, newQuantity) {
-      const productIndex = this.cart.findIndex((item) => item.productId === productId);
+      const productIndex = this.cart.findIndex(
+        (item) => item.productId === productId
+      );
       if (productIndex !== -1) {
         this.cart[productIndex].quantity = newQuantity;
         this.persistCart();
@@ -108,6 +111,25 @@ export const useCartStore = defineStore("cart", {
   getters: {
     isInCart: (state) => (productId) => {
       return state.cart.some((item) => item.productId === productId);
+    },
+
+    totalShippingCost: (state) => {
+      return state.cart.reduce((total, item) => {
+        return total + parseFloat(item.shippingCost || 0) * item.quantity;
+      }, 0);
+    },
+
+    averageShippingCost: (state) => {
+      const totalItems = state.cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      if (totalItems === 0) return 0;
+      return (
+        state.cart.reduce((total, item) => {
+          return total + parseFloat(item.shippingCost || 0) * item.quantity;
+        }, 0) / totalItems
+      );
     },
   },
 });

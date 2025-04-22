@@ -30,9 +30,23 @@
                   item.title }}</h3>
 
                 <ul class="mt-4 space-y-2 text-sm text-gray-500">
-                  <!-- don't delete it 😁😂 -->
-                  <!-- <li class="block text-gray-500">{{ $t('cart.category') }}: S</li> -->
-                  <li v-if="item.discount" class="mb-12">{{ $t('cart.discount') }} %{{ item.discount }}</li>
+                  <li class="flex items-center gap-1">
+                    <span>{{ $t('cart.category') }}:</span>
+                    <span class="font-medium text-gray-700">
+                      {{ $i18n.locale === 'ar' ? getCategoryTitle(item.categoryId).titleAr :
+                        getCategoryTitle(item.categoryId).title }}
+                    </span>
+                  </li>
+                  <li v-if="item.discount" class="flex items-center gap-1">
+                    <span>{{ $t('cart.discount') }}:</span>
+                    <span class="font-medium text-green-600">%{{ item.discount }}</span>
+                  </li>
+                  <li class="flex items-center gap-1">
+                    <span>{{ $t('cart.shipping') }}:</span>
+                    <span class="font-medium text-gray-700">
+                      {{ formatCurrency(parseFloat(item.shippingCost), currencyLocale) }}
+                    </span>
+                  </li>
                   <div class="flex items-center justify-between">
                     <p>{{ $t('cart.qty') }} <span>{{ item.quantity }}</span></p>
                     <p class="flex items-center gap-1 text-sm text-gray-500">
@@ -86,9 +100,8 @@
           <ul class="mt-4 text-sm text-gray-800 divide-y">
             <li class="flex flex-wrap gap-4 py-3">{{ $t('cart.subtotal') }} <span class="font-bold ms-auto">{{
               formatCurrency(parseFloat(totalDsicoutedPrice), currencyLocale) }}</span></li>
-            <!-- don't delete it 😁😂 -->
-            <li class="flex flex-wrap gap-4 py-3">{{ $t('cart.shipping') }} <span class="font-bold ms-auto">egp
-                4.00</span>
+            <li class="flex flex-wrap gap-4 py-3">{{ $t('cart.shipping') }} <span class="font-bold ms-auto">{{
+              formatCurrency(cartStore.totalShippingCost, currencyLocale) }}</span>
             </li>
             <li class="flex flex-wrap gap-4 py-3 font-bold">{{ $t('cart.total') }} <span class="ms-auto">{{
               formatCurrency(parseFloat(totalAmount), currencyLocale) }}</span>
@@ -115,6 +128,7 @@
 <script setup>
 const { t } = useI18n()
 const cartStore = useCartStore();
+const categoriesStore = useCategoriesStore();
 const removingItem = ref(null);
 const loading = ref(false)
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
@@ -163,9 +177,8 @@ const totalAmount = computed(() => {
     const quantity = item.quantity || 1;
     return total + (discountedPrice * quantity);
   }, 0);
-  const storePickup = 15;
-  const tax = 12;
-  return (itemsTotal + storePickup + tax).toFixed(2);
+  // Add total shipping cost
+  return (itemsTotal + cartStore.totalShippingCost).toFixed(2);
 });
 
 const quantity = ref(1);
@@ -198,4 +211,9 @@ const totalDsicoutedPrice = computed(() => {
 
 //currency composable
 const { currencyLocale } = useCurrencyLocale();
+
+const getCategoryTitle = (categoryId) => {
+  const category = categoriesStore.getCategoryById(categoryId)
+  return category || { title: '', titleAr: '' }
+}
 </script>

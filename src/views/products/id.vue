@@ -152,7 +152,6 @@ const decrementQuantity = () => {
 
 const handleAddToCart = async () => {
     if (!product.value) return;
-
     const authStore = useAuthStore();
     if (currentMarket.value === 2 && !authStore.isAuthenticated) {
         triggerToast({
@@ -165,9 +164,12 @@ const handleAddToCart = async () => {
     try {
         loading.value = true;
         await new Promise((resolve) => setTimeout(resolve, 2000));
+        const category = getCategoryTitle(product.value.categoryId);
         await cartStore.addToCart({
             ...product.value,
-            quantity: quantity.value
+            quantity: quantity.value,
+            categoryTitle: category.title,
+            categoryTitleAr: category.titleAr
         });
         triggerToast({
             message: t('toast.product_added_to_cart'),
@@ -201,10 +203,8 @@ onMounted(async () => {
             productStore.fetchProductDetail(route.params.id),
             categoriesStore.fetchCategories()
         ]);
-
         // Add a minimum loading time for better UX
         await new Promise(resolve => setTimeout(resolve, 3000));
-
         if (productData) {
             // Verify product belongs to current market
             const market = currentMarket.value;
@@ -213,7 +213,6 @@ onMounted(async () => {
                 productData.targetMarketAr === "الكل" ||
                 (market === 1 && (productData.targetMarket === "Egypt" || productData.targetMarketAr === "مصر")) ||
                 (market === 2 && (productData.targetMarket === "Saudi Arabia" || productData.targetMarketAr === "المملكة العربية السعودية"));
-
             if (isValidMarket) {
                 product.value = productData;
             } else {
