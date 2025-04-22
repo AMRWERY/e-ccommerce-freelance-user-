@@ -23,7 +23,8 @@
     "phone_number": "Phone number",
     "full_address": "Full address",
     "enter_your_full_address_here": "Enter your full address here",
-    "your_full_address": "Your full address"
+    "your_full_address": "Your full address",
+    "search_for_product": "Search for product..."
   },
   "meta": {
     "home": "Home",
@@ -89,7 +90,13 @@
     "save": "Save",
     "description": "Description",
     "quantity": "Quantity:",
-    "available": "Available"
+    "available": "Available",
+    "filter_options": "Filter options",
+    "categories": "Categories",
+    "price_range": "Price",
+    "min_price": "From",
+    "max_price": "To",
+    "no_products_found": "No products found"
   },
   "checkout": {
     "delivery_details": "Delivery Details",

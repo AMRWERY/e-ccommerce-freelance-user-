@@ -1,56 +1,84 @@
 <template>
     <div>
-        <div class="p-4 mx-auto font-sans lg:max-w-6xl md:max-w-4xl">
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6">
-                <router-link :to="{
-                    name: 'product-details',
-                    params: {
-                        market: currentMarket,
-                        id: product.id
-                    }
-                }" v-for="product in paginatedProducts" :key="product"
-                    class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
-                    <div class="w-full h-64 overflow-hidden">
-                        <img :src="product.imageUrl1" alt="product-img"
-                            class="object-cover object-center w-full h-full transition-transform duration-300 hover:scale-105" />
-                    </div>
-
-                    <div class="flex flex-col flex-1 p-4">
-                        <div class="flex-1">
-                            <h5 class="text-sm font-bold text-gray-800 truncate sm:text-base">{{ $i18n.locale ===
-                                'ar' ? product.titleAr :
-                                product.title }}</h5>
-                            <div class="flex items-center justify-between mt-2">
-                                <p class="text-sm font-bold text-gray-800 sm:text-base">
-                                    {{ formatCurrency(parseFloat(product.discountedPrice)) }}
-                                </p>
-                                <p class="text-sm text-gray-500 line-through sm:text-base" v-if="product.originalPrice">
-                                    {{ formatCurrency(parseFloat(product.originalPrice)) }}
-                                </p>
-                                <div v-if="product.discount"
-                                    class="flex items-center justify-center w-10 h-8 p-1 bg-green-200 rounded-full cursor-pointer ms-auto">
-                                    <p class="font-medium">%{{ product.discount }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button"
-                            class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700"
-                            @click="handleAddToCart(product)">
-                            <div class="flex items-center justify-center" v-if="!loading[product.id]">
-                                <iconify-icon icon="material-symbols:add-shopping-cart" width="24" height="24"
-                                    class="-ms-2 me-2"></iconify-icon>
-                                <span>{{ $t('btn.add_to_cart') }}</span>
-                            </div>
-                            <iconify-icon icon="svg-spinners:90-ring" width="24" height="24" v-else></iconify-icon>
-                        </button>
-                    </div>
-                </router-link>
+        <div class="p-4 mx-auto font-sans lg:max-w-7xl md:max-w-5xl">
+            <!-- Search bar for mobile -->
+            <div class="mb-6 lg:hidden">
+                <div class="relative">
+                    <input type="text" :placeholder="$t('form.search_for_product')" v-model="filters.search"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <iconify-icon icon="heroicons:magnifying-glass-20-solid"
+                        class="absolute text-gray-400 transform -translate-y-1/2 end-3 top-1/2" width="20"
+                        height="20" />
+                </div>
             </div>
 
-            <div class="flex flex-col items-center justify-center mt-10">
-                <!-- pagination-controls component -->
-                <pagination-controls v-show="totalPages > 0" :current-page="currentPage" :total-pages="totalPages"
-                    @page-change="handlePageChange" />
+            <div class="lg:grid lg:grid-cols-4 lg:gap-x-8">
+                <!-- ProductFilters component -->
+                <ProductFilters v-model:filters="filters" class="col-span-1" />
+
+                <!-- Product grid -->
+                <div class="mt-6 lg:col-span-3 lg:mt-0">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+                        <router-link :to="{
+                            name: 'product-details',
+                            params: {
+                                market: currentMarket,
+                                id: product.id
+                            }
+                        }" v-for="product in paginatedProducts" :key="product"
+                            class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
+                            <div class="w-full h-64 overflow-hidden">
+                                <img :src="product.imageUrl1" alt="product-img"
+                                    class="object-cover object-center w-full h-full transition-transform duration-300 hover:scale-105" />
+                            </div>
+
+                            <div class="flex flex-col flex-1 p-4">
+                                <div class="flex-1">
+                                    <h5 class="text-sm font-bold text-gray-800 truncate sm:text-base">{{ $i18n.locale
+                                        ===
+                                        'ar' ? product.titleAr : product.title }}</h5>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <p class="text-sm font-bold text-gray-800 sm:text-base">
+                                            {{ formatCurrency(parseFloat(product.discountedPrice)) }}
+                                        </p>
+                                        <p class="text-sm text-gray-500 line-through sm:text-base"
+                                            v-if="product.originalPrice">
+                                            {{ formatCurrency(parseFloat(product.originalPrice)) }}
+                                        </p>
+                                        <div v-if="product.discount"
+                                            class="flex items-center justify-center w-10 h-8 p-1 bg-green-200 rounded-full cursor-pointer ms-auto">
+                                            <p class="font-medium">%{{ product.discount }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button"
+                                    class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700"
+                                    @click.prevent="handleAddToCart(product)">
+                                    <div class="flex items-center justify-center" v-if="!loading[product.id]">
+                                        <iconify-icon icon="material-symbols:add-shopping-cart" width="24" height="24"
+                                            class="-ms-2 me-2"></iconify-icon>
+                                        <span>{{ $t('btn.add_to_cart') }}</span>
+                                    </div>
+                                    <iconify-icon icon="svg-spinners:90-ring" width="24" height="24"
+                                        v-else></iconify-icon>
+                                </button>
+                            </div>
+                        </router-link>
+                    </div>
+
+                    <!-- Show message when no products found -->
+                    <div v-if="filteredProducts.length === 0" class="flex flex-col items-center justify-center py-12">
+                        <iconify-icon icon="heroicons:magnifying-glass-20-solid" width="48" height="48"
+                            class="text-gray-400" />
+                        <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $t('product.no_products_found') }}</h3>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center mt-10">
+                        <!-- pagination-controls component -->
+                        <pagination-controls v-show="totalPages > 0" :current-page="currentPage"
+                            :total-pages="totalPages" @page-change="handlePageChange" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -74,33 +102,55 @@ const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast
 const { formatCurrency } = useFormatCurrency();
 const loading = ref({});
 
+// Filters state
+const filters = ref({
+    search: '',
+    categories: [],
+    priceRange: {
+        min: null,
+        max: null
+    }
+})
+
 // Pagination
 const currentPage = ref(1)
 const itemsPerPage = 10
 
 const currentMarket = computed(() => Number(route.params.market));
 
+// Watch filters to reset pagination
+watch(filters, () => {
+    currentPage.value = 1
+}, { deep: true })
+
 const filteredProducts = computed(() => {
     return productStore.products.filter(product => {
+        // Market filter
         const market = currentMarket.value;
-        // Include products marked as "All" or matching the current market
-        if (product.targetMarket === "All" || product.targetMarketAr === "الكل") {
-            return true;
-        }
-        if (market === 1) {
-            return product.targetMarket === "Egypt" || product.targetMarketAr === "مصر";
-        }
-        if (market === 2) {
-            return product.targetMarket === "Saudi Arabia" || product.targetMarketAr === "المملكة العربية السعودية";
-        }
-        return false;
+        const marketMatch = product.targetMarket === "All" || product.targetMarketAr === "الكل" ||
+            (market === 1 && (product.targetMarket === "Egypt" || product.targetMarketAr === "مصر")) ||
+            (market === 2 && (product.targetMarket === "Saudi Arabia" || product.targetMarketAr === "المملكة العربية السعودية"));
+        if (!marketMatch) return false;
+        // Search filter
+        const searchMatch = !filters.value.search ||
+            product.title.toLowerCase().includes(filters.value.search.toLowerCase()) ||
+            product.titleAr.toLowerCase().includes(filters.value.search.toLowerCase());
+        if (!searchMatch) return false;
+        // Category filter
+        const categoryMatch = filters.value.categories.length === 0 ||
+            filters.value.categories.includes(product.categoryId);
+        if (!categoryMatch) return false;
+        // Price range filter
+        const price = parseFloat(product.discountedPrice);
+        const priceMatch = (!filters.value.priceRange.min || price >= filters.value.priceRange.min) &&
+            (!filters.value.priceRange.max || price <= filters.value.priceRange.max);
+
+        return priceMatch;
     });
 });
 
 const totalPages = computed(() => {
-    const total = Math.max(1, Math.ceil(filteredProducts.value.length / itemsPerPage))
-    console.log('Total pages:', total)
-    return total
+    return Math.max(1, Math.ceil(filteredProducts.value.length / itemsPerPage))
 })
 
 const paginatedProducts = computed(() => {
@@ -117,9 +167,6 @@ const handlePageChange = (page) => {
 onMounted(() => {
     productStore.fetchAllProducts()
 })
-
-//currency composable
-const { currencyLocale } = useCurrencyLocale();
 
 const handleAddToCart = async (product) => {
     if (!product) return;

@@ -23,7 +23,8 @@
     "phone_number": "رقم التليفون",
     "full_address": "العنوان الكامل",
     "enter_your_full_address_here": "أدخل عنوانك الكامل هنا",
-    "your_full_address": "عنوانك الكامل"
+    "your_full_address": "عنوانك الكامل",
+    "search_for_product": "ابحث عن المنتج..."
   },
   "meta": {
     "home": "الرئيسية",
@@ -89,7 +90,13 @@
     "save": "توفير",
     "description": "الوصف",
     "quantity": "كمية:",
-    "available": "متوفر"
+    "available": "متوفر",
+    "filter_options": "خيارات التصفية",
+    "categories": "الفئات",
+    "price_range": "السعر",
+    "min_price": "من",
+    "max_price": "الي",
+    "no_products_found": "لم يتم العثور على أي منتجات"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",
