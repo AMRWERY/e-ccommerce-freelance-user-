@@ -84,7 +84,8 @@
     "product_deleted_successfully": "Product deleted successfully",
     "failed_to_delete_product": "Failed to delete product",
     "payment_successful": "Payment successful",
-    "checkout_error": "Checkout error"
+    "checkout_error": "Checkout error",
+    "auth_required": "Auth required"
   },
   "product": {
     "save": "Save",

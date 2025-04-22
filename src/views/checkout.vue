@@ -135,22 +135,24 @@
                                     <dd class="text-base font-medium text-gray-900">{{
                                         formatCurrency(parseFloat(subTotalAmount) ||
                                             0,
-                                        'currency', currencyLocale) }}</dd>
+                                            'currency', currencyLocale) }}</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.savings') }}</dt>
                                     <dd class="text-base font-medium text-gray-900">{{ formatPercentage(averageDiscount)
-                                        }}%</dd>
+                                    }}%</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.shipping') }}</dt>
-                                    <dd class="text-base font-medium text-gray-900">egp 8</dd>
+                                    <dd class="text-base font-medium text-gray-900">{{
+                                        formatCurrency(parseFloat(totalShippingCost) || 0,
+                                        'currency', currencyLocale) }}</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-bold text-gray-900">{{ $t('checkout.total') }}</dt>
                                     <dd class="text-base font-bold text-gray-900">{{
                                         formatCurrency(parseFloat(totalAmount) || 0,
-                                        'currency', currencyLocale) }}</dd>
+                                            'currency', currencyLocale) }}</dd>
                                 </dl>
                             </div>
                         </div>
@@ -197,6 +199,7 @@ const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast
 const loading = ref(false);
 const isLoading = ref(true);
 const orderCompleted = ref(false);
+
 const { formatCurrency, formatPercentage } = useFormatCurrency();
 
 const selectedCountryData = computed(() => {
@@ -217,6 +220,10 @@ const subTotalAmount = computed(() => {
     }, 0).toFixed(2);
 });
 
+const totalShippingCost = computed(() => {
+    return cartStore.totalShippingCost;
+});
+
 const totalDiscount = computed(() => {
     return cartStore.cart.reduce((total, item) => {
         return total + (parseFloat(item.discount) * item.quantity);
@@ -231,9 +238,8 @@ const averageDiscount = computed(() => {
 const totalAmount = computed(() => {
     const subtotal = parseFloat(subTotalAmount.value);
     const savingsAmount = (subtotal * (parseFloat(averageDiscount.value) / 100));
-    const storePickup = 25;
-    const tax = 18;
-    const total = subtotal - savingsAmount + storePickup + tax;
+    // Calculate total with shipping cost
+    const total = subtotal - savingsAmount + totalShippingCost.value;
     return total.toFixed(2);
 });
 
@@ -258,21 +264,18 @@ const submitCheckoutForm = () => {
         loading.value = false;
         return;
     }
-
     const isEgyptMarket = Number(route.params.market) === 1;
     let uid = null;
-
     new Promise(resolve => setTimeout(resolve, 3000))
         .then(() => {
             if (!isEgyptMarket) { // KSA requires login
                 const user = JSON.parse(localStorage.getItem("user"));
-                if (!user?.uid) throw new Error(t('errors.auth_required'));
+                if (!user?.uid) throw new Error(t('toast.auth_required'));
                 uid = user.uid;
             } else { // Egypt can be guest
                 uid = localStorage.getItem('guest_uid') || generateGuestId();
                 localStorage.setItem('guest_uid', uid);
             }
-
             return checkoutStore.saveCheckoutData(cartData, uid, Number(route.params.market));
         })
         .then((orderId) => {

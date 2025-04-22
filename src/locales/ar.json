@@ -84,7 +84,8 @@
     "product_deleted_successfully": "تم حذف المنتج بنجاح",
     "failed_to_delete_product": "فشل في حذف المنتج",
     "payment_successful": "تم الدفع بنجاح",
-    "checkout_error": "خطأ في الطلب"
+    "checkout_error": "خطأ في الطلب",
+    "auth_required": "مطلوب تسجيل الدخول"
   },
   "product": {
     "save": "توفير",
