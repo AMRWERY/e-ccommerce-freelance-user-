@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="p-6 mx-auto max-w-7xl max-lg:max-w-4xl">
+    <!-- CartSkeleton component -->
+    <CartSkeleton v-if="loading" />
+
+    <div v-else class="p-6 mx-auto max-w-7xl max-lg:max-w-4xl">
       <h2 class="text-2xl font-bold text-gray-800">{{ $t('cart.your_cart') }}</h2>
 
       <div v-if="cartStore.cart.length === 0" class="p-6 text-center bg-white border border-gray-200 rounded-lg">
@@ -110,8 +113,6 @@
 </template>
 
 <script setup>
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
-
 const { t } = useI18n()
 const cartStore = useCartStore();
 const removingItem = ref(null);

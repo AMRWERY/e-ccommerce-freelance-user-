@@ -1,6 +1,9 @@
 <template>
     <div>
-        <section class="max-w-full mx-auto mb-10">
+        <!-- ShopByBrandSkeleton component -->
+        <ShopByBrandSkeleton v-if="isLoading" />
+
+        <section v-else class="max-w-full mx-auto mb-10">
             <div class="flex items-center justify-center mt-2 mb-3">
                 <div class="w-1/12 h-1 border-t-2 border-gray-700"></div>
                 <span class="mx-4 mb-2 text-xl font-semibold text-center capitalize sm:text-2xl md:text-4xl">{{
@@ -55,6 +58,7 @@
 const route = useRoute();
 const productsStore = useProductsStore()
 const { formatCurrency } = useFormatCurrency();
+const isLoading = ref(true);
 
 const currentMarket = computed(() => Number(route.params.market) || 1);
 
@@ -79,7 +83,14 @@ const limitedProducts = computed(() => {
     return filteredProducts.value.slice(0, 8);
 });
 
-onMounted(() => {
-    productsStore.fetchAllProducts()
+onMounted(async () => {
+    isLoading.value = true;
+    try {
+        await productsStore.fetchAllProducts();
+        // Add a minimum loading time for better UX
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    } finally {
+        isLoading.value = false;
+    }
 })
 </script>

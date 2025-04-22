@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="py-6 bg-white sm:py-8 lg:py-12">
+        <!-- HotDealsSkeleton component -->
+        <HotDealsSkeleton v-if="isLoading" />
+
+        <div v-else class="py-6 bg-white sm:py-8 lg:py-12">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center mb-10 md:mb-16">
                     <iconify-icon icon="material-symbols:local-fire-department" width="35" height="35"
@@ -67,6 +70,7 @@
 const productsStore = useProductsStore()
 const categoriesStore = useCategoriesStore()
 const route = useRoute()
+const isLoading = ref(true);
 
 //currency composable
 const { formatCurrency } = useFormatCurrency();
@@ -118,8 +122,16 @@ const getCategoryTitle = (categoryId) => {
     return category || { title: '', titleAr: '' }
 }
 
-onMounted(() => {
-    productsStore.fetchAllProducts()
-    categoriesStore.fetchCategories()
-})
+onMounted(async () => {
+    isLoading.value = true;
+    try {
+        await Promise.all([
+            productsStore.fetchAllProducts(),
+            categoriesStore.fetchCategories()
+        ]);
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    } finally {
+        isLoading.value = false;
+    }
+});
 </script>

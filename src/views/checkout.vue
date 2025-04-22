@@ -1,6 +1,9 @@
 <template>
     <div>
-        <section class="py-4 bg-white md:py-8">
+        <!-- CheckoutSkeleton component -->
+        <CheckoutSkeleton v-if="isLoading" />
+
+        <section v-else class="py-4 bg-white md:py-8">
             <form action="" class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                 <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
                     <div class="flex-1 min-w-0 space-y-8">
@@ -129,13 +132,15 @@
                             <div class="-my-3 divide-y divide-gray-200">
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.subtotal') }}</dt>
-                                    <dd class="text-base font-medium text-gray-900">{{ formatCurrency(parseFloat(subTotalAmount) ||
-                                        0,
+                                    <dd class="text-base font-medium text-gray-900">{{
+                                        formatCurrency(parseFloat(subTotalAmount) ||
+                                            0,
                                         'currency', currencyLocale) }}</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.savings') }}</dt>
-                                    <dd class="text-base font-medium text-gray-900">{{ formatPercentage(averageDiscount) }}%</dd>
+                                    <dd class="text-base font-medium text-gray-900">{{ formatPercentage(averageDiscount)
+                                        }}%</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.shipping') }}</dt>
@@ -143,7 +148,8 @@
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-bold text-gray-900">{{ $t('checkout.total') }}</dt>
-                                    <dd class="text-base font-bold text-gray-900">{{ formatCurrency(parseFloat(totalAmount) || 0,
+                                    <dd class="text-base font-bold text-gray-900">{{
+                                        formatCurrency(parseFloat(totalAmount) || 0,
                                         'currency', currencyLocale) }}</dd>
                                 </dl>
                             </div>
@@ -181,7 +187,6 @@
 
 <script setup>
 import dataBase from '@/assets/governorates.json'
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
 
 const { t } = useI18n()
 const route = useRoute()
@@ -190,6 +195,7 @@ const checkoutStore = useCheckoutStore();
 const countriesData = ref(dataBase);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref(false);
+const isLoading = ref(true);
 const orderCompleted = ref(false);
 const { formatCurrency, formatPercentage } = useFormatCurrency();
 
@@ -231,8 +237,14 @@ const totalAmount = computed(() => {
     return total.toFixed(2);
 });
 
-onMounted(() => {
-    cartStore.fetchCart();
+onMounted(async () => {
+    isLoading.value = true;
+    try {
+        await cartStore.fetchCart();
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    } finally {
+        isLoading.value = false;
+    }
 });
 
 const generateGuestId = () => {

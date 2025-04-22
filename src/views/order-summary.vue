@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="max-w-4xl p-6 mx-auto my-10 bg-white rounded-lg shadow-lg" id="e-ccommerce">
+        <!-- OrderSummarySkeleton component -->
+        <OrderSummarySkeleton v-if="loading" />
+
+        <div v-else class="max-w-4xl p-6 mx-auto my-10 bg-white rounded-lg shadow-lg" id="e-ccommerce">
             <!-- Order Number -->
             <div class="flex items-center justify-between mb-12" v-if="orderItems.length > 0">
                 <div>
@@ -61,7 +64,7 @@
                         <dt class="text-sm font-medium text-gray-500">{{ $t('order_summary.savings') }}</dt>
                     </div>
                     <div class="col-span-4 text-end">
-                        <dd class="text-sm font-medium text-green-500">{{ formatPercentage(averageDiscount) }}</dd>
+                        <dd class="text-sm font-medium text-green-500">%{{ formatPercentage(averageDiscount) }}</dd>
                     </div>
                 </div>
 
@@ -86,7 +89,6 @@
 
 <script setup>
 import html2pdf from 'html2pdf.js'
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
 
 const localeStore = useLocaleStore()
 const { t, locale } = useI18n()

@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="p-4 mx-auto font-sans lg:max-w-7xl md:max-w-5xl">
+        <!-- ProductSkeleton component -->
+        <ProductSkeleton v-if="isLoading" />
+
+        <div v-else class="p-4 mx-auto font-sans lg:max-w-7xl md:max-w-5xl">
             <!-- Search bar for mobile -->
             <div class="mb-6 lg:hidden">
                 <div class="relative">
@@ -101,6 +104,7 @@ const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const { formatCurrency } = useFormatCurrency();
 const loading = ref({});
+const isLoading = ref(true);
 
 // Filters state
 const filters = ref({
@@ -164,8 +168,15 @@ const handlePageChange = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-onMounted(() => {
-    productStore.fetchAllProducts()
+onMounted(async () => {
+    isLoading.value = true;
+    try {
+        await productStore.fetchAllProducts();
+        // Simulate loading time for better UX
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    } finally {
+        isLoading.value = false;
+    }
 })
 
 const handleAddToCart = async (product) => {

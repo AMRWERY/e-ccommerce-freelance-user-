@@ -1,7 +1,10 @@
 <template>
     <div>
-        <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div v-if="product" class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <!-- ProductDetailSkeleton component -->
+        <ProductDetailSkeleton v-if="isLoading" />
+
+        <div v-else-if="product" class="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
                 <!-- Product Image Section -->
                 <div class="space-y-6">
                     <div class="relative w-full overflow-hidden bg-gray-100 rounded-lg h-96">
@@ -54,16 +57,16 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                        }}</span>
+                            }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                        }}</span>
+                            }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
                         </span>
                     </div>
 
-                    <div class="p-6 bg-gray-50 rounded-xl hover:bg-gray-100">
+                    <div class="p-3 bg-gray-50 rounded-xl hover:bg-gray-100">
                         <h2 class="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-800">
                             {{ $t('product.description') }}
                         </h2>
@@ -125,6 +128,7 @@ const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast
 const { formatCurrency } = useFormatCurrency();
 
 const loading = ref(false);
+const isLoading = ref(true);
 const quantity = ref(1);
 const product = ref(null);
 const selectedImage = ref(null);
@@ -191,12 +195,15 @@ watch(() => product.value, (newProduct) => {
 }, { immediate: true });
 
 onMounted(async () => {
-    loading.value = true;
+    isLoading.value = true;
     try {
         const [productData] = await Promise.all([
             productStore.fetchProductDetail(route.params.id),
             categoriesStore.fetchCategories()
         ]);
+
+        // Add a minimum loading time for better UX
+        await new Promise(resolve => setTimeout(resolve, 3000));
 
         if (productData) {
             // Verify product belongs to current market
@@ -217,7 +224,7 @@ onMounted(async () => {
     } catch (error) {
         console.error('Error fetching product:', error);
     } finally {
-        loading.value = false;
+        isLoading.value = false;
     }
 });
 </script>
