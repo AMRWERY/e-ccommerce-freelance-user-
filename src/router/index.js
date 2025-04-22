@@ -103,7 +103,7 @@ router.afterEach((to) => {
   const titleKey = to.meta.title;
   document.title = i18n.global.te(titleKey)
     ? i18n.global.t(titleKey)
-    : "e-commerce";
+    : "BRAND SHOP";
 });
 
 // Add this before router export
@@ -112,7 +112,7 @@ router.beforeEach(async (to, from, next) => {
   const marketParam = to.params.market;
 
   // Skip market validation for error page
-  if (to.name === 'error-404') {
+  if (to.name === "error-404") {
     return next();
   }
 
