@@ -129,6 +129,9 @@ watch(filters, () => {
 
 const filteredProducts = computed(() => {
     return productStore.products.filter(product => {
+        // Availability filter
+        if (product.availability === "out_of_stock") return false;
+        
         // Market filter
         const market = currentMarket.value;
         const marketMatch = product.targetMarket === "All" || product.targetMarketAr === "الكل" ||

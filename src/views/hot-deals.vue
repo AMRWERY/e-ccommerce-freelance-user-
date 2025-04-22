@@ -82,8 +82,11 @@ const currentMarket = computed(() => Number(route.params.market) || 1)
 
 const hotDeals = computed(() => {
     return productsStore.products.filter(product => {
-        // First check if it's a hot deal
-        if (!product.isHotDeal) return false
+        // First check if it's out of stock
+        if (product.availability === "out_of_stock") return false;
+
+        // Then check if it's a hot deal
+        if (!product.isHotDeal) return false;
 
         // Then check market compatibility
         if (product.targetMarket === "All" || product.targetMarketAr === "الكل") {
