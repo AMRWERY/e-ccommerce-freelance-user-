@@ -64,7 +64,17 @@
                         <dt class="text-sm font-medium text-gray-500">{{ $t('order_summary.savings') }}</dt>
                     </div>
                     <div class="col-span-4 text-end">
-                        <dd class="text-sm font-medium text-green-500">%{{ formatPercentage(averageDiscount) }}</dd>
+                        <dd class="text-sm font-medium text-green-500">{{ formatPercentage(averageDiscount) }}%</dd>
+                    </div>
+                </div>
+                
+                <!-- Shipping Section -->
+                <div class="grid grid-cols-12 gap-6 pb-6 mb-6 border-b">
+                    <div class="col-span-8">
+                        <dt class="text-sm font-medium text-gray-500">{{ $t('order_summary.shipping') }}</dt>
+                    </div>
+                    <div class="col-span-4 text-end">
+                        <dd class="text-sm font-medium text-blue-500">{{ formatPercentage(totalShippingCost) }}</dd>
                     </div>
                 </div>
 
@@ -91,6 +101,7 @@
 import html2pdf from 'html2pdf.js'
 
 const localeStore = useLocaleStore()
+const cartStore = useCartStore();
 const { t, locale } = useI18n()
 const { formatCurrency, formatPercentage } = useFormatCurrency();
 const loading = ref(true)
@@ -115,6 +126,10 @@ const totalDiscount = computed(() => {
         if (isNaN(discount) || isNaN(quantity)) return total;
         return total + (discount * quantity);
     }, 0);
+});
+
+const totalShippingCost = computed(() => {
+    return cartStore.totalShippingCost;
 });
 
 const averageDiscount = computed(() => {

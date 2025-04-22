@@ -75,7 +75,8 @@
     "savings": "Savings",
     "total": "Total",
     "quantity": "Quantity:",
-    "no_order_data": "No orders right now"
+    "no_order_data": "No orders right now",
+    "shipping": "Shipping"
   },
   "toast": {
     "please_log_in_first_to_add_to_cart": "Please log in first to add to cart",
