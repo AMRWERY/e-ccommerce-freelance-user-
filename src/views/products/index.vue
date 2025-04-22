@@ -8,7 +8,7 @@
                         market: currentMarket,
                         id: product.id
                     }
-                }" v-for="product in filteredProducts" :key="product"
+                }" v-for="product in paginatedProducts" :key="product"
                     class="flex flex-col overflow-hidden bg-white rounded shadow-md cursor-pointer">
                     <div class="w-full h-64 overflow-hidden">
                         <img :src="product.imageUrl1" alt="product-img"
@@ -46,6 +46,12 @@
                     </div>
                 </router-link>
             </div>
+
+            <div class="flex flex-col items-center justify-center mt-10">
+                <!-- pagination-controls component -->
+                <pagination-controls v-show="totalPages > 0" :current-page="currentPage" :total-pages="totalPages"
+                    @page-change="handlePageChange" />
+            </div>
         </div>
 
         <!-- dynamic-toast component  -->
@@ -60,8 +66,6 @@
 </template>
 
 <script setup>
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
-
 const { t } = useI18n()
 const route = useRoute();
 const productStore = useProductsStore()
@@ -69,6 +73,10 @@ const cartStore = useCartStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const { formatCurrency } = useFormatCurrency();
 const loading = ref({});
+
+// Pagination
+const currentPage = ref(1)
+const itemsPerPage = 10
 
 const currentMarket = computed(() => Number(route.params.market));
 
@@ -88,6 +96,23 @@ const filteredProducts = computed(() => {
         return false;
     });
 });
+
+const totalPages = computed(() => {
+    const total = Math.max(1, Math.ceil(filteredProducts.value.length / itemsPerPage))
+    console.log('Total pages:', total)
+    return total
+})
+
+const paginatedProducts = computed(() => {
+    const startIndex = (currentPage.value - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return filteredProducts.value.slice(startIndex, endIndex)
+})
+
+const handlePageChange = (page) => {
+    currentPage.value = page
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 onMounted(() => {
     productStore.fetchAllProducts()
