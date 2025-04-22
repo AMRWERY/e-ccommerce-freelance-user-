@@ -25,21 +25,22 @@
             <div v-if="orderItems.length > 0">
                 <div class="grid grid-cols-12 gap-6 pb-6 mb-6 border-b" v-for="item in orderItems"
                     :key="item.productId">
-                    <div class="col-span-3">
+                    <div class="flex col-span-9">
                         <img :src="item.imageUrl1" crossOrigin="anonymous"
-                            class="object-fill w-auto h-20 rounded-lg shadow-md" />
-                    </div>
-                    <div class="col-span-6">
-                        <p class="text-lg font-semibold text-gray-900">{{ $i18n.locale === 'ar' ? item.titleAr :
-                            item.title }}</p>
-                        <div class="flex items-center space-s-2">
-                            <p class="text-2xl font-semibold text-gray-700">{{ formatCurrency(item.discountedPrice) }}
-                            </p>
+                            class="object-cover w-[100px] h-20 rounded-lg shadow-md" />
+                        <div class="ms-6">
+                            <p class="text-lg font-semibold text-gray-900">{{ $i18n.locale === 'ar' ? item.titleAr :
+                                item.title }}</p>
+                            <div class="flex items-center space-s-2">
+                                <p class="text-2xl font-semibold text-gray-700">{{ formatCurrency(item.discountedPrice)
+                                    }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-span-3 ms-auto">
                         <p class="flex items-center text-lg font-semibold text-gray-900">{{ $t('order_summary.quantity')
-                            }}
+                        }}
                             <span
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-indigo-700 rounded-md bg-indigo-50 ring-1 ring-indigo-700/10 ring-inset ms-1">
                                 {{ item.quantity }}
@@ -67,14 +68,14 @@
                         <dd class="text-sm font-medium text-green-500">{{ formatPercentage(averageDiscount) }}%</dd>
                     </div>
                 </div>
-                
+
                 <!-- Shipping Section -->
                 <div class="grid grid-cols-12 gap-6 pb-6 mb-6 border-b">
                     <div class="col-span-8">
                         <dt class="text-sm font-medium text-gray-500">{{ $t('order_summary.shipping') }}</dt>
                     </div>
                     <div class="col-span-4 text-end">
-                        <dd class="text-sm font-medium text-blue-500">{{ formatPercentage(totalShippingCost) }}</dd>
+                        <dd class="text-sm font-medium text-gray-900">{{ formatCurrency(totalShippingCost) }}</dd>
                     </div>
                 </div>
 
@@ -129,7 +130,9 @@ const totalDiscount = computed(() => {
 });
 
 const totalShippingCost = computed(() => {
-    return cartStore.totalShippingCost;
+    return orderItems.value.reduce((total, item) => {
+        return total + (parseFloat(item.shippingCost || 0) * item.quantity);
+    }, 0);
 });
 
 const averageDiscount = computed(() => {
@@ -141,7 +144,8 @@ const totalAmount = computed(() => {
     const subtotal = parseFloat(subTotalAmount.value);
     const discount = parseFloat(averageDiscount.value) || 0;
     const savingsAmount = (subtotal * (discount / 100));
-    return subtotal - savingsAmount;
+    const shipping = parseFloat(totalShippingCost.value) || 0;
+    return (subtotal - savingsAmount + shipping).toFixed(2);
 });
 
 onMounted(() => {
