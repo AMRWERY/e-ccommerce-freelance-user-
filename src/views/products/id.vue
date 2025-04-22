@@ -28,17 +28,23 @@
                     </div>
                 </div>
 
-                <!-- Product Details Section -->
                 <div class="space-y-8">
                     <div>
                         <h1 class="text-4xl font-bold text-gray-800">
                             {{ $i18n.locale === 'ar' ? product.titleAr : product.title }}
                         </h1>
-                        <div class="flex items-center justify-between gap-5 mt-2">
-                            <p class="text-sm text-gray-600">{{ $t('cart.category') }} {{ $i18n.locale === 'ar' ?
-                                product.categoryAr : product.category }}</p>
+                        <div class="flex items-center justify-between gap-5 mt-4">
+                            <div class="flex items-center gap-2">
+                                <p class="text-sm text-gray-600">
+                                    {{ $t('cart.category') }}:
+                                    <span class="font-medium text-gray-800">
+                                        {{ $i18n.locale === 'ar' ? getCategoryTitle(product.categoryId).titleAr :
+                                            getCategoryTitle(product.categoryId).title }}
+                                    </span>
+                                </p>
+                            </div>
 
-                            <p class="flex items-center gap-1 text-sm text-gray-500">
+                            <p class="flex items-center gap-1 p-2 text-sm text-gray-500 bg-[#f0fdf4] rounded-lg">
                                 <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
                                     class="text-green-500"></iconify-icon>
                                 {{ $t('product.available') }}
@@ -47,19 +53,23 @@
                     </div>
 
                     <div class="flex items-center space-s-4">
-                        <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice) }}</span>
-                        <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice) }}</span>
-                        <span v-if="product.discount" class="font-medium text-green-600">{{ $t('product.save') }} {{
-                            product.discount }}%</span>
+                        <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
+                        }}</span>
+                        <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
+                        }}</span>
+                        <span v-if="product.discount"
+                            class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
+                            {{ $t('product.save') }} {{ product.discount }}%
+                        </span>
                     </div>
 
-                    <div>
-                        <h2 class="text-lg font-semibold text-gray-800">{{ $t('product.description') }}</h2>
-                        <div class="p-3 bg-gray-50 hover:bg-gray-100">
-                            <p class="mt-2 text-gray-600">
-                                {{ $i18n.locale === 'ar' ? product.descriptionAr : product.description }}
-                            </p>
-                        </div>
+                    <div class="p-6 bg-gray-50 rounded-xl hover:bg-gray-100">
+                        <h2 class="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-800">
+                            {{ $t('product.description') }}
+                        </h2>
+                        <p class="overflow-hidden leading-relaxed text-gray-600 break-words whitespace-pre-wrap">
+                            {{ $i18n.locale === 'ar' ? product.descriptionAr : product.description }}
+                        </p>
                     </div>
 
                     <div class="space-y-4">
@@ -105,13 +115,12 @@
 </template>
 
 <script setup>
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
-
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const productStore = useProductsStore();
 const cartStore = useCartStore();
+const categoriesStore = useCategoriesStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const { formatCurrency } = useFormatCurrency();
 
@@ -121,6 +130,11 @@ const product = ref(null);
 const selectedImage = ref(null);
 
 const currentMarket = computed(() => Number(route.params.market));
+
+const getCategoryTitle = (categoryId) => {
+    const category = categoriesStore.getCategoryById(categoryId)
+    return category || { title: '', titleAr: '' }
+}
 
 const incrementQuantity = () => {
     quantity.value++;
@@ -179,7 +193,11 @@ watch(() => product.value, (newProduct) => {
 onMounted(async () => {
     loading.value = true;
     try {
-        const productData = await productStore.fetchProductDetail(route.params.id);
+        const [productData] = await Promise.all([
+            productStore.fetchProductDetail(route.params.id),
+            categoriesStore.fetchCategories()
+        ]);
+
         if (productData) {
             // Verify product belongs to current market
             const market = currentMarket.value;
