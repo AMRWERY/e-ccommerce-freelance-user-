@@ -52,9 +52,6 @@
 </template>
 
 <script setup>
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
-
-const router = useRouter();
 const route = useRoute();
 const productsStore = useProductsStore()
 const { formatCurrency } = useFormatCurrency();
