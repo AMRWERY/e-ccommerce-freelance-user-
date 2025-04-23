@@ -1,48 +1,48 @@
 <template>
     <div>
-        <div class="pt-4 bg-[#1f2937] sm:pt-10 lg:pt-12 text-white">
-            <footer class="px-4 mx-auto max-w-screen-2xl md:px-8">
-                <div class="flex flex-col items-center justify-between gap-4 py-6 border-t border-b md:flex-row">
-                    <!-- nav - start -->
-                    <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2 md:justify-start md:gap-6">
-                        <router-link to=""
-                            class="transition duration-100 hover:text-gray-200 active:text-gray-300">About</router-link>
-                        <router-link to=""
-                            class="transition duration-100 hover:text-gray-200 active:text-gray-300">Investor
-                            Relations</router-link>
-                        <router-link to=""
-                            class="transition duration-100 hover:text-gray-200 active:text-gray-300">Jobs</router-link>
-                        <router-link to=""
-                            class="transition duration-100 hover:text-gray-200 active:text-gray-300">Press</router-link>
-                        <router-link to=""
-                            class="transition duration-100 hover:text-gray-200 active:text-gray-300">Blog</router-link>
-                    </nav>
-                    <!-- nav - end -->
-
-                    <!-- social - start -->
-                    <div class="flex gap-4">
-                        <router-link to="" target="_blank"
-                            class="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600">
-                            <iconify-icon icon="mynaui:brand-instagram" width="24" height="24"></iconify-icon>
-                        </router-link>
-
-                        <router-link to="" target="_blank"
-                            class="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600">
-                            <iconify-icon icon="mynaui:brand-facebook-solid" width="24" height="24"></iconify-icon>
-                        </router-link>
-
-                        <router-link to="" target="_blank"
-                            class="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600">
-                            <iconify-icon icon="ic:twotone-whatsapp" width="24" height="24"></iconify-icon>
-                        </router-link>
+        <footer class="text-gray-300 bg-gray-900">
+            <div class="container px-4 py-12 mx-auto">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <!-- Logo and Website Name -->
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <img src="/brand-logo.jpg" alt="Website-Logo" class="w-16 h-16 rounded-full me-2">
+                            <span class="text-2xl font-bold text-white logo-label">Brand Shop</span>
+                        </div>
+                        <p class="text-sm">{{ $t('footer.your_trusted_partner_for_quality_services') }}</p>
                     </div>
-                    <!-- social - end -->
+
+                    <!-- Contact Info -->
+                    <div class="space-y-2">
+                        <h3 class="mb-4 text-lg font-semibold text-white">{{ $t('footer.contact_us') }}</h3>
+                        <div class="flex items-start">
+                            <iconify-icon icon="heroicons-outline:location-marker" width="20" height="20"
+                                class="flex-shrink-0 me-3"></iconify-icon>
+                            <div>
+                                <p>123 Business Street</p>
+                                <p>New York, NY 10001</p>
+                                <p>United States</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="space-y-2">
+                        <h3 class="mb-4 text-lg font-semibold text-white">{{ $t('footer.get_in_touch') }}</h3>
+                        <div class="flex items-center">
+                            <iconify-icon icon="heroicons-outline:phone" width="20" height="20"
+                                class="flex-shrink-0 me-3"></iconify-icon>
+                            <a href="tel:+1234567890" class="transition-colors hover:text-white">+1 (234) 567-890</a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="py-8 text-sm text-center text-gray-100">© 2025 - Present Flowrift. All rights reserved.
+                <!-- Copyright -->
+                <div class="pt-8 mt-8 text-center border-t border-gray-800">
+                    <p class="text-sm">&copy; 2025 Brand Shop. {{ $t('footer.all_rights_reserved') }}</p>
                 </div>
-            </footer>
-        </div>
+            </div>
+        </footer>
     </div>
 </template>
 

@@ -111,5 +111,11 @@
     "shipping": "Shipping",
     "subtotal": "Subtotal",
     "savings": "Savings"
+  },
+  "footer": {
+    "your_trusted_partner_for_quality_services": "Your trusted partner for quality services",
+    "contact_us": "Contact Us",
+    "get_in_touch": "Get in Touch",
+    "all_rights_reserved": "All rights reserved."
   }
 }
