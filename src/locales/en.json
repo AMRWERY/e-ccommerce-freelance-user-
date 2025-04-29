@@ -87,7 +87,8 @@
     "failed_to_delete_product": "Failed to delete product",
     "payment_successful": "Payment successful",
     "checkout_error": "Checkout error",
-    "auth_required": "Auth required"
+    "auth_required": "Auth required",
+    "failed_to_process_checkout": "Failed to process checkout"
   },
   "product": {
     "save": "Save",

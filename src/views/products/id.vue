@@ -101,6 +101,15 @@
                                 <span>{{ $t('btn.add_to_cart') }}</span>
                             </div>
                         </button>
+                        <button type="button" @click="handleCheckout(product)"
+                            class="w-full py-3 text-lg font-semibold text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400"
+                            :disabled="loadingTwo[product.id]">
+                            <div class="flex items-center justify-center">
+                                <iconify-icon v-if="loadingTwo[product.id]" icon="svg-spinners:90-ring" width="24"
+                                    height="24" class="me-2"></iconify-icon>
+                                <span>{{ $t('btn.checkout') }}</span>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -128,6 +137,7 @@ const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast
 const { formatCurrency } = useFormatCurrency();
 
 const loading = ref(false);
+const loadingTwo = ref({});
 const isLoading = ref(true);
 const quantity = ref(1);
 const product = ref(null);
@@ -226,4 +236,42 @@ onMounted(async () => {
         isLoading.value = false;
     }
 });
+
+const handleCheckout = async (product) => {
+    if (!product) return;
+    const authStore = useAuthStore();
+    if (currentMarket.value === 2 && !authStore.isAuthenticated) {
+        triggerToast({
+            message: t('toast.please_log_in_first_to_add_to_cart'),
+            type: 'warning',
+            icon: 'material-symbols:warning-outline-rounded'
+        });
+        return;
+    }
+    try {
+        loadingTwo.value[product.id] = true;
+        const startTime = Date.now();
+        cartStore.clearCart();
+        await cartStore.addToCart({
+            ...product,
+            quantity: 1
+        });
+        const minDelay = 3000;
+        const elapsed = Date.now() - startTime;
+        const remainingDelay = Math.max(minDelay - elapsed, 0);
+        await new Promise(resolve => setTimeout(resolve, remainingDelay));
+        await router.push({
+            name: 'checkout',
+            params: { market: currentMarket.value }
+        });
+    } catch (error) {
+        triggerToast({
+            message: t('toast.failed_to_process_checkout'),
+            type: 'error',
+            icon: 'material-symbols:error-outline-rounded'
+        });
+    } finally {
+        loadingTwo.value[product.id] = false;
+    }
+};
 </script>
