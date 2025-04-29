@@ -19,8 +19,7 @@
 
                                 <div>
                                     <dynamic-inputs :label="t('form.email')" :placeholder="t('form.enter_your_email')"
-                                        type="email" name="email" :rules="'required|email'" :required="true"
-                                        v-model="checkoutStore.deliveryDetails.email" />
+                                        type="email" name="email" v-model="checkoutStore.deliveryDetails.email" />
                                 </div>
 
                                 <div>
@@ -67,8 +66,23 @@
                                         <span class="flex items-center px-3 py-2 bg-gray-100 border rounded-md">
                                             +{{ selectedCountryData.calling_code }}
                                         </span>
-                                        <input type="tel" placeholder="XXX-XXXXXXX"
+                                        <input type="tel" placeholder="XXX-XXX-XXXX"
                                             v-model="checkoutStore.deliveryDetails.phoneNumber"
+                                            class="w-full px-3 py-2 transition duration-300 border rounded-md focus:outline-none focus:border-slate-400" />
+                                    </div>
+                                </div>
+
+                                <!-- Phone Number Input -->
+                                <div>
+                                    <label class="block mb-1 text-sm font-medium text-gray-700">
+                                        {{ $t('form.whatsapp_number') }}
+                                    </label>
+                                    <div class="flex items-center gap-2">
+                                        <span class="flex items-center px-3 py-2 bg-gray-100 border rounded-md">
+                                            +{{ selectedCountryData.calling_code }}
+                                        </span>
+                                        <input type="tel" placeholder="XXX-XXX-XXXX"
+                                            v-model="checkoutStore.deliveryDetails.whatsappNumber"
                                             class="w-full px-3 py-2 transition duration-300 border rounded-md focus:outline-none focus:border-slate-400" />
                                     </div>
                                 </div>
@@ -146,7 +160,7 @@
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.shipping') }}</dt>
                                     <dd class="text-base font-medium text-gray-900">{{
                                         formatCurrency(parseFloat(totalShippingCost) || 0,
-                                        'currency', currencyLocale) }}</dd>
+                                            'currency', currencyLocale) }}</dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-bold text-gray-900">{{ $t('checkout.total') }}</dt>

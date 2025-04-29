@@ -16,13 +16,14 @@
   "form": {
     "full_name": "الاسم الكامل",
     "enter_your_full_name": "أدخل اسمك الكامل",
-    "email": "البريد إلكتروني",
+    "email": "البريد اللكتروني (اختياري)",
     "enter_your_email": "أدخل بريدك الإلكتروني",
     "country": "دولة",
     "governorate": "محافظة",
     "phone_number": "رقم التليفون",
+    "whatsapp_number": "رقم الواتساب",
     "full_address": "العنوان الكامل",
-    "enter_your_full_address_here": "أدخل عنوانك الكامل هنا",
+    "enter_your_full_address_here": "أدخل عنوانك الكامل هنا (المنطقه/ المركز / اسم الشارع / رقم العقار)",
     "your_full_address": "عنوانك الكامل",
     "search_for_product": "ابحث عن المنتج..."
   },

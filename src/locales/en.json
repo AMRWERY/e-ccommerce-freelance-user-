@@ -16,13 +16,14 @@
   "form": {
     "full_name": "Full name",
     "enter_your_full_name": "Enter your full name",
-    "email": "Email",
+    "email": "Email (optional)",
     "enter_your_email": "Enter your email",
     "country": "Country",
     "governorate": "Governorate",
     "phone_number": "Phone number",
+    "whatsapp_number": "Whatsapp number",
     "full_address": "Full address",
-    "enter_your_full_address_here": "Enter your full address here",
+    "enter_your_full_address_here": "Enter your full address here (region/center/street name/property number)",
     "your_full_address": "Your full address",
     "search_for_product": "Search for product..."
   },

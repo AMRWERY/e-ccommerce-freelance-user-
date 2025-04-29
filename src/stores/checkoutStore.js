@@ -22,6 +22,7 @@ export const useCheckoutStore = defineStore("checkouts", {
       country: "",
       city: "",
       phoneNumber: "",
+      whatsappNumber: "",
       fullAddress: "",
       paymentMethod: "cash-on-delivery",
     },
