@@ -20,8 +20,8 @@
 
                     <div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
                         <div class="flex items-center shrink-0 logo-label">
-                            <router-link to="/"
-                                class="w-auto h-8 text-2xl font-semibold text-white me-3">BRAND SHOP</router-link>
+                            <router-link to="/" class="w-auto h-8 text-2xl font-semibold text-white me-3">BRAND
+                                SHOP</router-link>
                         </div>
                         <div class="hidden sm:ms-6 sm:block">
                             <div class="flex items-center space-s-4">
@@ -47,14 +47,16 @@
                                     active-class="!bg-gray-900 !text-white" exact>
                                     {{ $t('layout.contact_us') }}
                                 </router-link> -->
-                                <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-merchant"
+
+                                <!-- don't delete it -->
+                                <!-- <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-merchant"
                                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" target="_blank" rel="noopener noreferrer">
                                     {{ $t('layout.market_with_us') }}
                                     <iconify-icon icon="material-symbols:new-releases" width="24" height="24"
                                         class="text-red-500 ms-1">
                                     </iconify-icon>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
@@ -167,14 +169,15 @@
                         </router-link>
                     </DisclosureButton> -->
                     <DisclosureButton as="div" class="w-full" @click="close">
-                        <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-market"
+                        <!-- don't delete it -->
+                        <!-- <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-market"
                             class="block w-full px-3 py-2 text-base font-medium text-gray-100 rounded-md hover:bg-gray-700 hover:text-white"
                             target="_blank" rel="noopener noreferrer">
                             {{ $t('layout.market_with_us') }}
                             <iconify-icon icon="material-symbols:new-releases" width="24" height="24"
                                 class="text-red-500 ms-1">
                             </iconify-icon>
-                        </a>
+                        </a> -->
                     </DisclosureButton>
 
                     <div class="pt-2 border-t border-gray-700">
