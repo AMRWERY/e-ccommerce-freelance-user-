@@ -19,25 +19,44 @@
                         id: product.id
                     }
                 }" v-for="product in limitedProducts" :key="product.id"
-                    class="relative overflow-hidden bg-gray-100 rounded-lg cursor-pointer group hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-                    <div class="w-full h-[200px] sm:h-[300px] overflow-hidden mx-auto">
+                    class="relative p-4 transition-all bg-white rounded cursor-pointer hover:-translate-y-1">
+                    <div class="p-2 mb-4 bg-gray-100 rounded">
                         <img :src="product.imageUrl1" :alt="product.title"
-                            class="object-cover object-center w-full h-full" />
+                            class="aspect-[33/35] w-full object-contain" />
                     </div>
-                    <div
-                        class="absolute w-11/12 p-2 mx-auto transition-all duration-300 rounded-lg end-0 start-0 bottom-2 lg:-bottom-80 lg:group-hover:bottom-2 bg-black/60 lg:bg-white lg:p-3">
-                        <div class="text-center">
-                            <h3 class="text-sm font-bold text-white lg:text-base lg:text-gray-800">{{ $i18n.locale ===
+                    <div>
+                        <div class="flex gap-2">
+                            <h5 class="text-base font-bold text-gray-800">{{ $i18n.locale ===
                                 'ar' ? product.titleAr :
-                                product.title }}</h3>
-                            <div class="flex items-center justify-center gap-3">
-                                <p class="text-lg font-semibold text-gray-900">
-                                    {{ formatCurrency(product.discountedPrice) }}
-                                </p>
-                                <p class="text-xs text-gray-500 line-through">
-                                    {{ formatCurrency(product.originalPrice) }}
-                                </p>
-                            </div>
+                                product.title }}</h5>
+                            <h6 class="text-base font-bold text-gray-800 ms-auto">{{
+                                formatCurrency(product.discountedPrice) }}</h6>
+                        </div>
+                        <!-- <div class="flex items-center gap-2 mt-4">
+                            <button type="button"
+                                class="w-full px-2 text-sm font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700">Add
+                                to cart</button>
+                        </div> -->
+                        <div class="mt-4">
+                            <button type="button"
+                                class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700"
+                                @click.prevent="handleAddToCart(product)">
+                                <div class="flex items-center justify-center" v-if="!loading[product.id]">
+                                    <iconify-icon icon="material-symbols:add-shopping-cart" width="24" height="24"
+                                        class="-ms-2 me-2"></iconify-icon>
+                                    <span>{{ $t('btn.add_to_cart') }}</span>
+                                </div>
+                                <iconify-icon icon="svg-spinners:90-ring" width="24" height="24" v-else></iconify-icon>
+                            </button>
+                            <button type="button" @click.prevent="handleCheckout(product)"
+                                class="flex items-center justify-center w-full px-2 mt-2 font-semibold tracking-wide text-white bg-green-600 border-none rounded outline-none ms-auto h-9 hover:bg-green-700">
+                                <div class="flex items-center justify-center" v-if="!loadingTwo[product.id]">
+                                    <iconify-icon icon="material-symbols-light:shopping-basket-sharp" width="24"
+                                        height="24" class="-ms-2 me-2"></iconify-icon>
+                                    <span>{{ $t('btn.checkout') }}</span>
+                                </div>
+                                <iconify-icon icon="svg-spinners:90-ring" width="24" height="24" v-else></iconify-icon>
+                            </button>
                         </div>
                     </div>
                 </router-link>
@@ -51,14 +70,29 @@
                 </router-link>
             </div>
         </section>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 const route = useRoute();
+const router = useRouter();
+const { t } = useI18n()
 const productsStore = useProductsStore()
+const cartStore = useCartStore();
 const { formatCurrency } = useFormatCurrency();
+const loading = ref({});
+const loadingTwo = ref({});
 const isLoading = ref(true);
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 const currentMarket = computed(() => Number(route.params.market) || 1);
 
@@ -96,4 +130,76 @@ onMounted(async () => {
         isLoading.value = false;
     }
 })
+
+const handleAddToCart = async (product) => {
+    if (!product) return;
+    const authStore = useAuthStore();
+    if (currentMarket.value === 2 && !authStore.isAuthenticated) {
+        triggerToast({
+            message: t('toast.please_log_in_first_to_add_to_cart'),
+            type: 'warning',
+            icon: 'material-symbols:warning-outline-rounded'
+        });
+        return;
+    }
+    try {
+        loading.value[product.id] = true;
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await cartStore.addToCart({
+            ...product,
+            quantity: 1
+        });
+        triggerToast({
+            message: t('toast.product_added_to_cart'),
+            type: 'success',
+            icon: 'clarity:shopping-cart-line'
+        });
+    } catch (error) {
+        triggerToast({
+            message: t('toast.failed_to_add_to_cart'),
+            type: 'error',
+            icon: 'material-symbols:error-outline-rounded'
+        });
+    } finally {
+        loading.value[product.id] = false;
+    }
+};
+
+const handleCheckout = async (product) => {
+    if (!product) return;
+    const authStore = useAuthStore();
+    if (currentMarket.value === 2 && !authStore.isAuthenticated) {
+        triggerToast({
+            message: t('toast.please_log_in_first_to_add_to_cart'),
+            type: 'warning',
+            icon: 'material-symbols:warning-outline-rounded'
+        });
+        return;
+    }
+    try {
+        loadingTwo.value[product.id] = true;
+        const startTime = Date.now();
+        cartStore.clearCart();
+        await cartStore.addToCart({
+            ...product,
+            quantity: 1
+        });
+        const minDelay = 3000;
+        const elapsed = Date.now() - startTime;
+        const remainingDelay = Math.max(minDelay - elapsed, 0);
+        await new Promise(resolve => setTimeout(resolve, remainingDelay));
+        await router.push({
+            name: 'checkout',
+            params: { market: currentMarket.value }
+        });
+    } catch (error) {
+        triggerToast({
+            message: t('toast.failed_to_process_checkout'),
+            type: 'error',
+            icon: 'material-symbols:error-outline-rounded'
+        });
+    } finally {
+        loadingTwo.value[product.id] = false;
+    }
+};
 </script>
