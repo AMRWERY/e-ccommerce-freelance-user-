@@ -35,7 +35,10 @@
     "page_not_found": "الصفحه غير موجوده",
     "shopping_cart": "عربة التسوق",
     "checkout": "اتمام الشراء",
-    "order_summary": "ملخص الطلب"
+    "order_summary": "ملخص الطلب",
+    "exchange_and_return_policy": "سياسة الاستبدال و الاسترجاع",
+    "shipping_policy": "سياسة الشحن",
+    "terms_of_use": "شروط الاستخدام"
   },
   "countries_menu": {
     "egypt": "مصر",
@@ -121,6 +124,14 @@
     "all_rights_reserved": "جميع الحقوق محفوظة.",
     "pyramids_gardens": "حدائق الأهرام",
     "gize": "الجيزة",
-    "egypt": "مصر"
+    "egypt": "مصر",
+    "exchange_and_return_policy": "سياسة الاستبدال و الاسترجاع",
+    "shipping_policy": "سياسة الشحن",
+    "terms_of_use": "شروط الاستخدام",
+    "exchange_policy_point_one": "الإستبدال والإسترجاع حق مضمون لكل عملائنا وهو يشمل جميع المنتجات التي نعرضها على متجرنا.",
+    "exchange_policy_point_two": "في حالة وجود اي عيب في المنتج برجاء التواصل معنا من خلال الواتساب.",
+    "exchange_policy_point_three": "يمكن الإرجاع أو الإستبدال إذا كان المنتج بنفس حالته الأصلية عند الشراء ومغلفا بالغلاف الأصلي.",
+    "exchange_policy_point_four": "يتم الموافقة على طلب الاستبدال او الاسترجاع خلال 3 ايام عمل.",
+    "exchange_policy_point_five": "في حالة الموافقة على طلب الاسترجاع والاستبدال المندوب يصل للعميل خلال 3-5 أيام عمل."
   }
 }

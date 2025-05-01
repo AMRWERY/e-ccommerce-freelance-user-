@@ -2,7 +2,7 @@
     <div>
         <footer class="text-gray-300 bg-gray-900">
             <div class="container px-4 py-12 mx-auto">
-                <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
                     <!-- Logo and Website Name -->
                     <div class="space-y-4">
                         <div class="flex items-center">
@@ -38,6 +38,27 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- Links -->
+                    <div class="space-y-2">
+                        <nav class="flex flex-col gap-4">
+                            <div>
+                                <router-link :to="{ name: 'exchange-policy', params: { market: selected } }"
+                                    class="text-white transition duration-100 hover:text-indigo-500 active:text-indigo-600">{{
+                                        $t('footer.exchange_and_return_policy') }}</router-link>
+                            </div>
+                            <div>
+                                <router-link :to="{ name: 'shipping-policy', params: { market: selected } }"
+                                    class="text-white transition duration-100 hover:text-indigo-500 active:text-indigo-600">{{
+                                        $t('footer.shipping_policy') }}</router-link>
+                            </div>
+                            <div>
+                                <router-link :to="{ name: 'terms-of-use', params: { market: selected } }"
+                                    class="text-white transition duration-100 hover:text-indigo-500 active:text-indigo-600">{{
+                                        $t('footer.terms_of_use') }}</router-link>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
 
                 <!-- Copyright -->
@@ -72,5 +93,40 @@
 </template>
 
 <script setup>
+const { t } = useI18n();
+const route = useRoute();
 
+const countries = computed(() => [
+    {
+        id: 1,
+        code: 'eg',
+        name: t('countries_menu.egypt'),
+        avatar: '/egypt-flag.svg',
+    },
+    {
+        id: 2,
+        code: 'sa',
+        name: t('countries_menu.ksa'),
+        avatar: '/ksa-flag.svg',
+    },
+]);
+
+const selected = computed({
+    get() {
+        const marketId = Number(route.params.market);
+        return countries.value.find(c => c.id === marketId) || countries.value[0];
+    },
+    set(newValue) {
+        authStore.isOverlayVisible = true;
+        localStorage.setItem('selectedMarket', newValue.id.toString());
+        router.push({
+            ...route,
+            params: { ...route.params, market: newValue.id }
+        }).then(() => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+    }
+})
 </script>

@@ -70,6 +70,30 @@ const router = createRouter({
             title: "meta.order_summary",
           },
         },
+        {
+          path: "exchange-policy",
+          name: "exchange-policy",
+          component: () => import("../views/exchange-policy.vue"),
+          meta: {
+            title: "meta.exchange_and_return_policy",
+          },
+        },
+        {
+          path: "shipping-policy",
+          name: "shipping-policy",
+          component: () => import("../views/shipping-policy.vue"),
+          meta: {
+            title: "meta.shipping_policy",
+          },
+        },
+        {
+          path: "terms-of-use",
+          name: "terms-of-use",
+          component: () => import("../views/terms-of-use.vue"),
+          meta: {
+            title: "meta.terms_of_use",
+          },
+        },
       ],
     },
 

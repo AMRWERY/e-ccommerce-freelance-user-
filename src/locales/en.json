@@ -35,7 +35,10 @@
     "page_not_found": "Page not found",
     "shopping_cart": "Shopping cart",
     "checkout": "Checkout",
-    "order_summary": "Order summary"
+    "order_summary": "Order summary",
+    "exchange_and_return_policy": "Exchange and Return Policy",
+    "shipping_policy": "Shipping Policy",
+    "terms_of_use": "Terms of Use"
   },
   "countries_menu": {
     "egypt": "Egypt",
@@ -121,6 +124,14 @@
     "all_rights_reserved": "All rights reserved.",
     "pyramids_gardens": "Pyramids Gardens",
     "gize": "Giza",
-    "egypt": "Egypt"
+    "egypt": "Egypt",
+    "exchange_and_return_policy": "Exchange and Return Policy",
+    "shipping_policy": "Shipping Policy",
+    "terms_of_use": "Terms of Use",
+    "exchange_policy_point_one": "Exchange and return are a guaranteed right for all our customers, and this includes all products we offer in our store.",
+    "exchange_policy_point_two": "In case of any defect in the product, please contact us via WhatsApp",
+    "exchange_policy_point_three": "The product can be returned or exchanged if it is in the same condition as when purchased and in its original packaging.",
+    "exchange_policy_point_four": "The exchange or return request will be approved within 3 working days.",
+    "exchange_policy_point_five": "In case the return or exchange request is approved, the representative will reach the customer within 3-5 working days."
   }
 }

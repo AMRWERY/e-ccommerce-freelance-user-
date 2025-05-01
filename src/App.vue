@@ -1,31 +1,33 @@
 <template>
   <div>
-    <!-- Overlay Component -->
-    <overlay :visible="localeStore.isOverlayVisible" />
+    <div class="flex flex-col min-h-screen">
+      <!-- Overlay Component -->
+      <overlay :visible="localeStore.isOverlayVisible" />
 
-    <!-- progress-bar component -->
-    <progress-bar />
+      <!-- progress-bar component -->
+      <progress-bar />
 
-    <div :dir="isRTL ? 'rtl' : 'ltr'" :class="{ 'rtl': isRTL, 'ltr': !isRTL }">
-      <!-- navbar component -->
-      <navbar />
+      <div :dir="isRTL ? 'rtl' : 'ltr'" :class="{ 'rtl': isRTL, 'ltr': !isRTL }">
+        <!-- navbar component -->
+        <navbar />
 
-      <main>
-        <router-view v-slot="{ Component }">
-          <transition name="fade">
-            <component :is="Component" />
-          </transition>
-        </router-view>
+        <main class="flex-1">
+          <router-view v-slot="{ Component }">
+            <transition name="fade">
+              <component :is="Component" />
+            </transition>
+          </router-view>
 
-        <!-- whatsapp-componenet component -->
-        <whatsapp-componenet />
+          <!-- whatsapp-componenet component -->
+          <whatsapp-componenet />
 
-        <!-- scroll-to-top component -->
-        <scroll-to-top />
-      </main>
+          <!-- scroll-to-top component -->
+          <scroll-to-top />
+        </main>
 
-      <!-- footer component -->
-      <Footer />
+        <!-- footer component -->
+      </div>
+      <Footer class="mt-auto" />
     </div>
   </div>
 </template>
