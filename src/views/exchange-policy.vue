@@ -15,8 +15,11 @@
 
                 <div class="relative ps-6 group">
                     <div class="absolute w-2 h-2 bg-blue-500 rounded-full start-0 top-2"></div>
-                    <p class="text-xl font-medium leading-relaxed text-gray-800">
+                    <p class="flex items-center text-xl font-medium leading-relaxed text-gray-800">
                         {{ $t('footer.exchange_policy_point_two') }}
+                        <a href="https://wa.me/201006312544" target="_blank" role="button">
+                            <img src="/whatsapp.svg" alt="whatsapp-icon" class="w-[30px] h-[30px]">
+                        </a>
                     </p>
                     <div class="mt-4 border-b border-gray-100"></div>
                 </div>
