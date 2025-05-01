@@ -20,26 +20,21 @@
                     }
                 }" v-for="product in limitedProducts" :key="product.id"
                     class="relative p-4 transition-all bg-white rounded cursor-pointer hover:-translate-y-1">
-                    <div class="p-2 mb-4 bg-gray-100 rounded">
+                    <div class="mb-4 bg-gray-100 rounded">
                         <img :src="product.imageUrl1" :alt="product.title"
                             class="aspect-[33/35] w-full object-contain" />
                     </div>
                     <div>
                         <div class="flex gap-2">
-                            <h5 class="text-base font-bold text-gray-800">{{ $i18n.locale ===
+                            <h5 class="text-base font-bold text-gray-800 truncate">{{ $i18n.locale ===
                                 'ar' ? product.titleAr :
                                 product.title }}</h5>
-                            <h6 class="text-base font-bold text-gray-800 ms-auto">{{
-                                formatCurrency(product.discountedPrice) }}</h6>
                         </div>
-                        <!-- <div class="flex items-center gap-2 mt-4">
-                            <button type="button"
-                                class="w-full px-2 text-sm font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700">Add
-                                to cart</button>
-                        </div> -->
+                        <h6 class="text-base font-bold text-gray-800 ms-auto">{{
+                            formatCurrency(product.discountedPrice) }}</h6>
                         <div class="mt-4">
                             <button type="button"
-                                class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700"
+                                class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-yellow-500 border-none outline-none rounded-3xl ms-auto h-9 hover:bg-yellow-600"
                                 @click.prevent="handleAddToCart(product)">
                                 <div class="flex items-center justify-center" v-if="!loading[product.id]">
                                     <iconify-icon icon="material-symbols:add-shopping-cart" width="24" height="24"
@@ -49,7 +44,7 @@
                                 <iconify-icon icon="svg-spinners:90-ring" width="24" height="24" v-else></iconify-icon>
                             </button>
                             <button type="button" @click.prevent="handleCheckout(product)"
-                                class="flex items-center justify-center w-full px-2 mt-2 font-semibold tracking-wide text-white bg-green-600 border-none rounded outline-none ms-auto h-9 hover:bg-green-700">
+                                class="flex items-center justify-center w-full px-2 mt-2 font-semibold tracking-wide text-white bg-orange-600 border-none outline-none rounded-3xl ms-auto h-9 hover:bg-orange-700">
                                 <div class="flex items-center justify-center" v-if="!loadingTwo[product.id]">
                                     <iconify-icon icon="material-symbols-light:shopping-basket-sharp" width="24"
                                         height="24" class="-ms-2 me-2"></iconify-icon>

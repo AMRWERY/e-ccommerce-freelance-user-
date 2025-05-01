@@ -94,7 +94,7 @@
 
                         <!-- Add to Cart Button -->
                         <button @click="handleAddToCart"
-                            class="w-full py-3 text-lg font-semibold text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+                            class="w-full py-3 text-lg font-semibold text-white transition-colors bg-yellow-500 rounded-3xl hover:bg-yellow-600 disabled:bg-gray-400"
                             :disabled="loading">
                             <div class="flex items-center justify-center">
                                 <iconify-icon v-if="loading" icon="svg-spinners:90-ring" width="24" height="24"
@@ -103,7 +103,7 @@
                             </div>
                         </button>
                         <button type="button" @click="handleCheckout(product)"
-                            class="w-full py-3 text-lg font-semibold text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400"
+                            class="w-full py-3 text-lg font-semibold text-white transition-colors bg-orange-600 rounded-3xl hover:bg-orange-700 disabled:bg-gray-400"
                             :disabled="loadingTwo[product.id]">
                             <div class="flex items-center justify-center">
                                 <iconify-icon v-if="loadingTwo[product.id]" icon="svg-spinners:90-ring" width="24"

@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                                 <button type="button"
-                                    class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-blue-600 border-none rounded outline-none ms-auto h-9 hover:bg-blue-700"
+                                    class="flex items-center justify-center w-full px-2 mt-4 font-semibold tracking-wide text-white bg-yellow-500 border-none outline-none rounded-3xl ms-auto h-9 hover:bg-yellow-600"
                                     @click.prevent="handleAddToCart(product)">
                                     <div class="flex items-center justify-center" v-if="!loading[product.id]">
                                         <iconify-icon icon="material-symbols:add-shopping-cart" width="24" height="24"
@@ -66,7 +66,7 @@
                                         v-else></iconify-icon>
                                 </button>
                                 <button type="button" @click.prevent="handleCheckout(product)"
-                                    class="flex items-center justify-center w-full px-2 mt-2 font-semibold tracking-wide text-white bg-green-600 border-none rounded outline-none ms-auto h-9 hover:bg-green-700">
+                                    class="flex items-center justify-center w-full px-2 mt-2 font-semibold tracking-wide text-white bg-orange-600 border-none outline-none rounded-3xl ms-auto h-9 hover:bg-orange-700">
                                     <div class="flex items-center justify-center" v-if="!loadingTwo[product.id]">
                                         <iconify-icon icon="material-symbols-light:shopping-basket-sharp" width="24"
                                             height="24" class="-ms-2 me-2"></iconify-icon>
