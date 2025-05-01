@@ -56,6 +56,11 @@
                         </div>
                     </div>
 
+                    <div>
+                        <!-- product-rating component -->
+                        <product-rating />
+                    </div>
+
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
                         }}</span>
@@ -114,6 +119,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- users-ratings component -->
+            <users-ratings />
         </div>
 
         <!-- dynamic-toast component  -->
