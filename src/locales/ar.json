@@ -91,7 +91,10 @@
     "payment_successful": "تم الدفع بنجاح",
     "checkout_error": "خطأ في الطلب",
     "auth_required": "مطلوب تسجيل الدخول",
-    "failed_to_process_checkout": "فشل إتمام عملية الدفع"
+    "failed_to_process_checkout": "فشل إتمام عملية الدفع",
+    "rating_submitted": "تم تقييم المنتج بنجاح",
+    "rating_failed": "فشل تقييم المنتج",
+    "please_log_in_first_to_rate_product": "يرجى تسجيل الدخول أولاً لتقييم المنتج"
   },
   "product": {
     "save": "توفير",
@@ -103,7 +106,8 @@
     "price_range": "السعر",
     "min_price": "من",
     "max_price": "الي",
-    "no_products_found": "لم يتم العثور على أي منتجات"
+    "no_products_found": "لم يتم العثور على أي منتجات",
+    "ratings": "تقييمات"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",

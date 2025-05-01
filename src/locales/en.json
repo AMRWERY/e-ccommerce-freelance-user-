@@ -91,7 +91,10 @@
     "payment_successful": "Payment successful",
     "checkout_error": "Checkout error",
     "auth_required": "Auth required",
-    "failed_to_process_checkout": "Failed to process checkout"
+    "failed_to_process_checkout": "Failed to process checkout",
+    "rating_submitted": "The product has been successfully evaluated.",
+    "rating_failed": "Product evaluation failed",
+    "please_log_in_first_to_rate_product": "Please log in first to rate product"
   },
   "product": {
     "save": "Save",
@@ -103,7 +106,8 @@
     "price_range": "Price",
     "min_price": "From",
     "max_price": "To",
-    "no_products_found": "No products found"
+    "no_products_found": "No products found",
+    "ratings": "Ratings"
   },
   "checkout": {
     "delivery_details": "Delivery Details",

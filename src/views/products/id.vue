@@ -58,7 +58,9 @@
 
                     <div>
                         <!-- product-rating component -->
-                        <product-rating />
+                        <product-rating :product-id="product.id" :average-rating="product.averageRating || 0"
+                            :total-ratings="product.totalRatings || 0" @rating-updated="handleRatingUpdate" />
+                        <!-- <product-rating /> -->
                     </div>
 
                     <div class="flex items-center space-s-4">
@@ -281,6 +283,37 @@ const handleCheckout = async (product) => {
         });
     } finally {
         loadingTwo.value[product.id] = false;
+    }
+};
+
+const handleRatingUpdate = async ({ newRating, productId }) => {
+    try {
+        const authStore = useAuthStore();
+        if (currentMarket.value === 2 && (!authStore.isAuthenticated || !authStore.user)) {
+            triggerToast({
+                message: t('toast.please_log_in_first_to_rate_product'),
+                type: 'warning',
+                icon: 'material-symbols:warning-outline-rounded'
+            });
+            return;
+        }
+        await productStore.submitProductRating(
+            productId,
+            authStore.user?.uid,
+            newRating
+        );
+        product.value = await productStore.fetchProductDetail(productId);
+        triggerToast({
+            message: t('toast.rating_submitted'),
+            type: 'success',
+            icon: 'mdi:check-circle'
+        });
+    } catch (error) {
+        triggerToast({
+            message: t('toast.rating_failed'),
+            type: 'error',
+            icon: 'mdi:alert-circle'
+        });
     }
 };
 </script>
