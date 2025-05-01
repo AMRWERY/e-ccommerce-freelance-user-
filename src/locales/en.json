@@ -132,6 +132,7 @@
     "exchange_policy_point_two": "In case of any defect in the product, please contact us via WhatsApp",
     "exchange_policy_point_three": "The product can be returned or exchanged if it is in the same condition as when purchased and in its original packaging.",
     "exchange_policy_point_four": "The exchange or return request will be approved within 3 working days.",
-    "exchange_policy_point_five": "In case the return or exchange request is approved, the representative will reach the customer within 3-5 working days."
+    "exchange_policy_point_five": "In case the return or exchange request is approved, the representative will reach the customer within 3-5 working days.",
+    "shipping_policy_content": "After confirming your purchase, we send the product to the shipping company, which will then contact you to confirm the pickup date and location. A representative will be dispatched immediately upon confirmation within 1-2 days for Cairo and Giza, and 2-5 days for other governorates."
   }
 }

@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="max-w-3xl py-16 mx-auto sm:py-20">
-            <!-- List Title -->
             <p class="mb-10 text-3xl font-semibold text-center">{{ $t('footer.exchange_and_return_policy') }}</p>
-            <!-- List Container -->
             <div class="space-y-2">
                 <div class="relative ps-6 group">
                     <div class="absolute w-2 h-2 bg-blue-500 rounded-full start-0 top-2"></div>
