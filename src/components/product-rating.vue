@@ -71,7 +71,7 @@ const rateProduct = async (rating) => {
         }
     }
     try {
-        console.log(`Rating ${rating} submitted for product ${props.productId}`);
+        // console.log(`Rating ${rating} submitted for product ${props.productId}`);
         selectedRating.value = rating;
         emit('rating-updated', {
             newRating: rating,
