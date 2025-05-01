@@ -33,7 +33,8 @@
 
                 <div class="space-y-8">
                     <div>
-                        <h1 class="text-4xl font-bold text-gray-800">
+                        <h1
+                            class="overflow-hidden text-4xl font-bold text-gray-800 break-words max-w-prose line-clamp-3">
                             {{ $i18n.locale === 'ar' ? product.titleAr : product.title }}
                         </h1>
                         <div class="flex items-center justify-between gap-5 mt-4">
@@ -57,9 +58,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                            }}</span>
+                        }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                            }}</span>
+                        }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
