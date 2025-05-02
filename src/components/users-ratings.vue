@@ -122,6 +122,7 @@ const isSubmitting = ref(false);
 const currentMarket = computed(() => Number(route.params.market));
 
 const submitReview = async () => {
+    if (!reviewComment.value.trim()) return;
     isSubmitting.value = true;
     const startTime = Date.now();
     try {
