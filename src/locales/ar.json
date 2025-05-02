@@ -71,7 +71,8 @@
     "view_order_summary": "عرض ملخص الطلب",
     "see_more_products": "شاهد المزيد من المنتجات",
     "write_a_review": "اكتب تعليق",
-    "send_review": "أرسل رأيك"
+    "send_review": "أرسل رأيك",
+    "sending": "جاري الإرسال"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
@@ -97,7 +98,10 @@
     "failed_to_process_checkout": "فشل إتمام عملية الدفع",
     "rating_submitted": "تم تقييم المنتج بنجاح",
     "rating_failed": "فشل تقييم المنتج",
-    "please_log_in_first_to_rate_product": "يرجى تسجيل الدخول أولاً لتقييم المنتج"
+    "please_log_in_first_to_rate_product": "يرجى تسجيل الدخول أولاً لتقييم المنتج",
+    "login_to_review": "الرجاء تسجيل الدخول أولاً للتقيم",
+    "review_submitted": "لقد تم إرسال رأيك",
+    "review_submit_failed": "فشل إرسال التقييم"
   },
   "product": {
     "save": "توفير",

@@ -71,7 +71,8 @@
     "view_order_summary": "View order summary",
     "see_more_products": "See more Products",
     "write_a_review": "Write a review",
-    "send_review": "Send your review"
+    "send_review": "Send your review",
+    "sending": "Sending"
   },
   "order_summary": {
     "order_summary": "Order summary",
@@ -97,7 +98,10 @@
     "failed_to_process_checkout": "Failed to process checkout",
     "rating_submitted": "The product has been successfully evaluated.",
     "rating_failed": "Product evaluation failed",
-    "please_log_in_first_to_rate_product": "Please log in first to rate product"
+    "please_log_in_first_to_rate_product": "Please log in first to rate product",
+    "login_to_review": "Please login first to review",
+    "review_submitted": "Your review has been sent",
+    "review_submit_failed": "Review submit failed"
   },
   "product": {
     "save": "Save",
