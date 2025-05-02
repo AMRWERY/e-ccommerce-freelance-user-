@@ -25,7 +25,8 @@
     "full_address": "Full address",
     "enter_your_full_address_here": "Enter your full address here (region/center/street name/property number)",
     "your_full_address": "Your full address",
-    "search_for_product": "Search for product..."
+    "search_for_product": "Search for product...",
+    "write_your_review": "Write your review here..."
   },
   "meta": {
     "home": "Home",
@@ -69,7 +70,8 @@
     "please_wait": "Please wait",
     "view_order_summary": "View order summary",
     "see_more_products": "See more Products",
-    "write_a_review": "Write a review"
+    "write_a_review": "Write a review",
+    "send_review": "Send your review"
   },
   "order_summary": {
     "order_summary": "Order summary",

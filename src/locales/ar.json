@@ -25,7 +25,8 @@
     "full_address": "العنوان الكامل",
     "enter_your_full_address_here": "أدخل عنوانك الكامل هنا (المنطقه/ المركز / اسم الشارع / رقم العقار)",
     "your_full_address": "عنوانك الكامل",
-    "search_for_product": "ابحث عن المنتج..."
+    "search_for_product": "ابحث عن المنتج...",
+    "write_your_review": "اكتب رأيك هنا..."
   },
   "meta": {
     "home": "الرئيسية",
@@ -69,7 +70,8 @@
     "please_wait": "انتظر من فضلك",
     "view_order_summary": "عرض ملخص الطلب",
     "see_more_products": "شاهد المزيد من المنتجات",
-    "write_a_review": "اكتب تعليق"
+    "write_a_review": "اكتب تعليق",
+    "send_review": "أرسل رأيك"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
