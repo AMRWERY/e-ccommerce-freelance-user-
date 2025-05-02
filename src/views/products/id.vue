@@ -123,7 +123,7 @@
             </div>
 
             <!-- users-ratings component -->
-            <users-ratings />
+            <users-ratings v-if="product" :product="product" />
         </div>
 
         <!-- dynamic-toast component  -->

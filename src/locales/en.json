@@ -68,7 +68,8 @@
     "place_order": "Place order",
     "please_wait": "Please wait",
     "view_order_summary": "View order summary",
-    "see_more_products": "See more Products"
+    "see_more_products": "See more Products",
+    "write_a_review": "Write a review"
   },
   "order_summary": {
     "order_summary": "Order summary",
@@ -107,7 +108,10 @@
     "min_price": "From",
     "max_price": "To",
     "no_products_found": "No products found",
-    "ratings": "Ratings"
+    "ratings": "Ratings",
+    "customer_reviews": "Customer Reviews",
+    "no_reviews_yet": "No reviews yet",
+    "anonymous": "Anonymous"
   },
   "checkout": {
     "delivery_details": "Delivery Details",

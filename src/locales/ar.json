@@ -68,7 +68,8 @@
     "place_order": "اتمام الطلب",
     "please_wait": "انتظر من فضلك",
     "view_order_summary": "عرض ملخص الطلب",
-    "see_more_products": "شاهد المزيد من المنتجات"
+    "see_more_products": "شاهد المزيد من المنتجات",
+    "write_a_review": "اكتب تعليق"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
@@ -107,7 +108,10 @@
     "min_price": "من",
     "max_price": "الي",
     "no_products_found": "لم يتم العثور على أي منتجات",
-    "ratings": "تقييمات"
+    "ratings": "تقييمات",
+    "customer_reviews": "آراء العملاء",
+    "no_reviews_yet": "لا توجد آراء للعملاء حتى الآن",
+    "anonymous": "مجهول"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",
