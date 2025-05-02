@@ -42,7 +42,6 @@ export const useCartStore = defineStore("cart", {
         originalPrice,
         imageUrl1,
         discount,
-        shippingCost,
         categoryId,
         quantity = 1,
       } = cartItem;
@@ -66,7 +65,6 @@ export const useCartStore = defineStore("cart", {
           originalPrice,
           imageUrl1,
           discount,
-          shippingCost: parseFloat(shippingCost || 0),
           categoryId,
           quantity,
           uid: this.storedUser?.uid,
@@ -111,25 +109,6 @@ export const useCartStore = defineStore("cart", {
   getters: {
     isInCart: (state) => (productId) => {
       return state.cart.some((item) => item.productId === productId);
-    },
-
-    totalShippingCost: (state) => {
-      return state.cart.reduce((total, item) => {
-        return total + parseFloat(item.shippingCost || 0) * item.quantity;
-      }, 0);
-    },
-
-    averageShippingCost: (state) => {
-      const totalItems = state.cart.reduce(
-        (total, item) => total + item.quantity,
-        0
-      );
-      if (totalItems === 0) return 0;
-      return (
-        state.cart.reduce((total, item) => {
-          return total + parseFloat(item.shippingCost || 0) * item.quantity;
-        }, 0) / totalItems
-      );
     },
   },
 });

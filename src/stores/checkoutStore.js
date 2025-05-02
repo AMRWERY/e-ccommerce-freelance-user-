@@ -25,6 +25,7 @@ export const useCheckoutStore = defineStore("checkouts", {
       whatsappNumber: "",
       fullAddress: "",
       paymentMethod: "cash-on-delivery",
+      shippingCost: 0
     },
     // paymentDetails: {
     //   fullNameOnCard: "",

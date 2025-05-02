@@ -50,9 +50,10 @@
                                     </div>
                                     <select id="city" v-model="checkoutStore.deliveryDetails.city"
                                         class="w-full px-3 py-2 transition duration-300 bg-transparent border rounded-md shadow-sm text-slate-700 border-slate-200 focus:outline-none focus:border-slate-400 ps-9">
-                                        <option v-for="governorate in selectedCountryData.governorates"
-                                            :key="governorate.name" :value="governorate.name">
-                                            {{ $i18n.locale === 'ar' ? governorate.nameAr : governorate.name }}
+                                        <option
+                                            v-for="governorate in shippingStore.getGovernorates(route.params.market === '1' ? 'eg' : 'sa')"
+                                            :key="governorate.title" :value="governorate.title">
+                                            {{ $i18n.locale === 'ar' ? governorate.titleAr : governorate.title }}
                                         </option>
                                     </select>
                                 </div>
@@ -130,10 +131,9 @@
                                             <label for="pay-on-delivery"
                                                 class="font-medium leading-none text-gray-900">{{
                                                     $t('checkout.payment_on_delivery') }}</label>
-                                            <!-- don't delete it 😁😂 -->
-                                            <!-- <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal text-gray-500">
-                                                +$15
-                                                {{ $t('checkout.payment_processing_fee') }}</p> -->
+                                            <p id="pay-on-delivery-text" class="mt-1 font-normal text-gray-500 text-md">
+                                                + {{ formatCurrency(selectedShippingCost, 'currency', currencyLocale) }}
+                                                {{ $t('checkout.payment_processing_fee') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -208,6 +208,7 @@ const { t } = useI18n()
 const route = useRoute()
 const cartStore = useCartStore();
 const checkoutStore = useCheckoutStore();
+const shippingStore = useShippingStore();
 const countriesData = ref(dataBase);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref(false);
@@ -234,10 +235,6 @@ const subTotalAmount = computed(() => {
     }, 0).toFixed(2);
 });
 
-const totalShippingCost = computed(() => {
-    return cartStore.totalShippingCost;
-});
-
 const totalDiscount = computed(() => {
     return cartStore.cart.reduce((total, item) => {
         return total + (parseFloat(item.discount) * item.quantity);
@@ -249,12 +246,17 @@ const averageDiscount = computed(() => {
     return totalItems > 0 ? (totalDiscount.value / totalItems).toFixed(2) : 0;
 });
 
+const totalShippingCost = computed(() => {
+    return selectedShippingCost.value || cartStore.totalShippingCost;
+});
+
 const totalAmount = computed(() => {
-    const subtotal = parseFloat(subTotalAmount.value);
-    const savingsAmount = (subtotal * (parseFloat(averageDiscount.value) / 100));
-    // Calculate total with shipping cost
-    const total = subtotal - savingsAmount + totalShippingCost.value;
-    return total.toFixed(2);
+    const subtotal = cartStore.cart.reduce((total, item) =>
+        total + (parseFloat(item.originalPrice) * item.quantity), 0);
+    const savingsAmount = cartStore.cart.reduce((total, item) =>
+        total + ((parseFloat(item.originalPrice) - parseFloat(item.discountedPrice)) * item.quantity), 0);
+    const shipping = parseFloat(totalShippingCost.value) || 0;
+    return (subtotal - savingsAmount + shipping).toFixed(2);
 });
 
 onMounted(async () => {
@@ -278,25 +280,46 @@ const submitCheckoutForm = () => {
         loading.value = false;
         return;
     }
-    const isEgyptMarket = Number(route.params.market) === 1;
+    const marketId = Number(route.params.market);
+    const isEgyptMarket = marketId === 1;
+    // const isEgyptMarket = Number(route.params.market) === 1;
     let uid = null;
     new Promise(resolve => setTimeout(resolve, 3000))
         .then(() => {
-            if (!isEgyptMarket) { // KSA requires login
+            if (!isEgyptMarket) {
                 const user = JSON.parse(localStorage.getItem("user"));
                 if (!user?.uid) throw new Error(t('toast.auth_required'));
                 uid = user.uid;
-            } else { // Egypt can be guest
+            } else {
                 uid = localStorage.getItem('guest_uid') || generateGuestId();
                 localStorage.setItem('guest_uid', uid);
             }
-            return checkoutStore.saveCheckoutData(cartData, uid, Number(route.params.market));
+            return checkoutStore.saveCheckoutData(cartData, uid, marketId);
+            // return checkoutStore.saveCheckoutData(cartData, uid, Number(route.params.market));
         })
         .then((orderId) => {
-            localStorage.setItem("order-summary", JSON.stringify({
-                ...cartData,
-                orderId
-            }));
+            const currentDate = new Date().toLocaleDateString("en-CA");
+            const generateEstimatedDeliveryDate = () => {
+                const randomDays = Math.floor(Math.random() * 8) + 7;
+                const date = new Date();
+                date.setDate(date.getDate() + randomDays);
+                return date.toLocaleDateString("en-CA");
+            };
+            const order = {
+                orderId,
+                uid: uid || null,
+                market: marketId === 1 ? "egypt" : "ksa",
+                // market: marketId === 1 ? "egypt" : "ksa",
+                deliveryDetails: {
+                    ...checkoutStore.deliveryDetails,
+                    shippingCost: selectedShippingCost.value
+                },
+                cart: cartData,
+                date: currentDate,
+                estimatedDelivery: generateEstimatedDeliveryDate(),
+                statusId: "unltAF0unQNIQShl0FXC",
+            };
+            localStorage.setItem("order-summary", JSON.stringify({ order }));
             cartStore.clearCart();
             orderCompleted.value = true;
         })
@@ -329,4 +352,22 @@ watch(selectedCountryData, (newCountry) => {
 
 //currency composable
 const { currencyLocale } = useCurrencyLocale();
+
+onMounted(async () => {
+    isLoading.value = true;
+    try {
+        await shippingStore.fetchShippingCosts();
+        await cartStore.fetchCart();
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    } finally {
+        isLoading.value = false;
+    }
+});
+
+const selectedShippingCost = computed(() => {
+    return shippingStore.getShippingCostByGovernorate(
+        route.params.market === '1' ? 'eg' : 'sa',
+        checkoutStore.deliveryDetails.city
+    );
+});
 </script>
