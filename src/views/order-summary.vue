@@ -11,7 +11,7 @@
                     <div class="flex items-center space-s-1">
                         <p class="mt-1 text-sm text-gray-500">
                             {{ $t('order_summary.order_number') }}
-                            <span class="font-semibold text-gray-900">{{ orderData?.orderId || '-' }}</span>
+                            <span class="font-semibold text-gray-900">{{ orderData?.order?.orderId || '-' }}</span>
                         </p>
                     </div>
                 </div>
@@ -35,14 +35,14 @@
                                     item.title }}</p>
                             <div class="flex items-center space-s-2">
                                 <p class="text-2xl font-semibold text-gray-700">{{ formatCurrency(item.discountedPrice)
-                                }}
+                                    }}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-span-3 ms-auto">
                         <p class="flex items-center text-lg font-semibold text-gray-900">{{ $t('order_summary.quantity')
-                            }}
+                        }}
                             <span
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-indigo-700 rounded-md bg-indigo-50 ring-1 ring-indigo-700/10 ring-inset ms-1">
                                 {{ item.quantity }}
@@ -104,50 +104,45 @@
 import html2pdf from 'html2pdf.js'
 
 const localeStore = useLocaleStore()
-const cartStore = useCartStore();
-const { t, locale } = useI18n()
 const { formatCurrency, formatPercentage } = useFormatCurrency();
 const loading = ref(true)
 const orderData = ref(null)
 
 const orderItems = computed(() => {
-    if (!orderData.value) return [];
-    // Convert object with numeric keys to array
-    return Object.values(orderData.value).filter(item => item.productId);
+    return orderData.value?.order?.cart || [];
+});
+
+const originalSubTotal = computed(() => {
+    return orderItems.value.reduce((total, item) =>
+        total + (parseFloat(item.originalPrice) * item.quantity), 0);
+});
+
+const discountedSubTotal = computed(() => {
+    return orderItems.value.reduce((total, item) =>
+        total + (parseFloat(item.discountedPrice) * item.quantity), 0);
+});
+
+const savingsAmount = computed(() => {
+    return originalSubTotal.value - discountedSubTotal.value;
+});
+
+const totalShippingCost = computed(() => {
+    return parseFloat(orderData.value?.order?.deliveryDetails?.shippingCost) || 0;
+});
+
+const totalAmount = computed(() => {
+    return (discountedSubTotal.value + totalShippingCost.value).toFixed(2);
+});
+
+const averageDiscount = computed(() => {
+    if (originalSubTotal.value === 0) return 0;
+    return ((savingsAmount.value / originalSubTotal.value) * 100).toFixed(2);
 });
 
 const subTotalAmount = computed(() => {
     return orderItems.value.reduce((total, item) => {
         return total + (parseFloat(item.discountedPrice) * item.quantity);
     }, 0).toFixed(2);
-});
-
-const totalDiscount = computed(() => {
-    return orderItems.value.reduce((total, item) => {
-        const discount = parseFloat(item.discount);
-        const quantity = item.quantity;
-        if (isNaN(discount) || isNaN(quantity)) return total;
-        return total + (discount * quantity);
-    }, 0);
-});
-
-const totalShippingCost = computed(() => {
-    return orderItems.value.reduce((total, item) => {
-        return total + (parseFloat(item.shippingCost || 0) * item.quantity);
-    }, 0);
-});
-
-const averageDiscount = computed(() => {
-    const totalItems = orderItems.value.reduce((total, item) => total + item.quantity, 0);
-    return totalItems > 0 ? (totalDiscount.value / totalItems).toFixed(2) : 0;
-});
-
-const totalAmount = computed(() => {
-    const subtotal = parseFloat(subTotalAmount.value);
-    const discount = parseFloat(averageDiscount.value) || 0;
-    const savingsAmount = (subtotal * (discount / 100));
-    const shipping = parseFloat(totalShippingCost.value) || 0;
-    return (subtotal - savingsAmount + shipping).toFixed(2);
 });
 
 onMounted(() => {
