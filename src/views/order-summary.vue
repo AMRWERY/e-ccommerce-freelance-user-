@@ -29,18 +29,20 @@
                         <img :src="item.imageUrl1" crossOrigin="anonymous"
                             class="object-cover w-[100px] h-20 rounded-lg shadow-md" />
                         <div class="ms-6">
-                            <p class="text-lg font-semibold text-gray-900">{{ $i18n.locale === 'ar' ? item.titleAr :
-                                item.title }}</p>
+                            <p
+                                class="overflow-hidden text-lg font-semibold text-gray-900 break-words line-clamp-3 max-w-prose">
+                                {{ $i18n.locale === 'ar' ? item.titleAr :
+                                    item.title }}</p>
                             <div class="flex items-center space-s-2">
                                 <p class="text-2xl font-semibold text-gray-700">{{ formatCurrency(item.discountedPrice)
-                                    }}
+                                }}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-span-3 ms-auto">
                         <p class="flex items-center text-lg font-semibold text-gray-900">{{ $t('order_summary.quantity')
-                        }}
+                            }}
                             <span
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-indigo-700 rounded-md bg-indigo-50 ring-1 ring-indigo-700/10 ring-inset ms-1">
                                 {{ item.quantity }}
