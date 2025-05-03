@@ -20,9 +20,9 @@
                     }
                 }" v-for="product in limitedProducts" :key="product.id"
                     class="relative p-4 transition-all bg-white rounded cursor-pointer hover:-translate-y-1">
-                    <div class="mb-4 bg-gray-100 rounded">
+                    <div class="h-[265px] mb-4 bg-gray-100 rounded">
                         <img :src="product.imageUrl1" :alt="product.title"
-                            class="aspect-[33/35] w-full object-contain" />
+                            class="object-cover object-center w-full h-full" />
                     </div>
                     <div>
                         <div class="flex gap-2">
