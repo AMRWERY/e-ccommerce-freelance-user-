@@ -28,9 +28,15 @@
                         <div class="relative block overflow-hidden bg-gray-100 rounded-t-lg group h-96">
                             <img :src="product.imageUrl1" loading="lazy" :alt="product.title"
                                 class="object-cover object-center w-full h-full transition-transform duration-300 hover:scale-105" />
-                            <span v-if="product.discount"
-                                class="absolute start-0 top-3 rounded-e-lg bg-red-500 px-3 py-1.5 text-sm font-semibold uppercase tracking-wider text-white">-{{
-                                    product.discount }}%</span>
+                            <div class="space-y-9">
+                                <span v-if="product.discount"
+                                    class="absolute start-0 top-3 rounded-e-lg bg-red-500 px-3 py-1.5 text-sm font-semibold tracking-wider text-white">{{
+                                        product.discount }}%</span>
+                                <span v-if="product.endDate"
+                                    class="absolute start-0 top-3 rounded-e-lg bg-green-500 px-3 py-1.5 text-sm font-semibold tracking-wider text-white">{{
+                                        $t('product.ends_in') }} {{
+                                        formatEndDate(product.endDate) }}</span>
+                            </div>
                         </div>
 
                         <div class="flex items-start justify-between gap-2 p-4 bg-gray-100 rounded-b-lg">
@@ -80,27 +86,30 @@ const itemsPerPage = 10
 
 const currentMarket = computed(() => Number(route.params.market) || 1)
 
+const formatEndDate = (firestoreTimestamp) => {
+    if (!firestoreTimestamp) return '';
+    const date = firestoreTimestamp.toDate();
+    return date.toLocaleDateString('en-GB'); // Formats as DD/MM/YYYY
+};
+
 const hotDeals = computed(() => {
     return productsStore.products.filter(product => {
-        // First check if it's out of stock
         if (product.availability === "out_of_stock") return false;
-
-        // Then check if it's a hot deal
         if (!product.isHotDeal) return false;
-
+        if (product.endDate) {
+            const endDate = product.endDate.toDate();
+            if (endDate < new Date()) return false;
+        }
         // Then check market compatibility
         if (product.targetMarket === "All" || product.targetMarketAr === "الكل") {
             return true;
         }
-
         if (currentMarket.value === 1) {
             return product.targetMarket === "Egypt" || product.targetMarketAr === "مصر";
         }
-
         if (currentMarket.value === 2) {
             return product.targetMarket === "Saudi Arabia" || product.targetMarketAr === "المملكة العربية السعودية";
         }
-
         return false;
     })
 })

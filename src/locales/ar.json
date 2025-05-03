@@ -117,7 +117,8 @@
     "ratings": "تقييمات",
     "customer_reviews": "آراء العملاء",
     "no_reviews_yet": "لا توجد آراء للعملاء حتى الآن",
-    "anonymous": "مجهول"
+    "anonymous": "مجهول",
+    "ends_in": "ينتهي في"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",
