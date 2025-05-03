@@ -28,6 +28,22 @@
                             class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
                             :class="{ 'border-blue-500': selectedImage === product.imageUrl4 }"
                             @click="selectedImage = product.imageUrl4">
+                        <img v-if="product.imageUrl5" :src="product.imageUrl5" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl5 }"
+                            @click="selectedImage = product.imageUrl5">
+                        <img v-if="product.imageUrl6" :src="product.imageUrl6" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl6 }"
+                            @click="selectedImage = product.imageUrl6">
+                        <img v-if="product.imageUrl7" :src="product.imageUrl7" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl7 }"
+                            @click="selectedImage = product.imageUrl7">
+                        <img v-if="product.imageUrl8" :src="product.imageUrl8" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl8 }"
+                            @click="selectedImage = product.imageUrl8">
                     </div>
                 </div>
 
@@ -65,9 +81,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                            }}</span>
+                        }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                            }}</span>
+                        }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
