@@ -209,6 +209,7 @@ const route = useRoute()
 const cartStore = useCartStore();
 const checkoutStore = useCheckoutStore();
 const shippingStore = useShippingStore();
+const productsStore = useProductsStore();
 const countriesData = ref(dataBase);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const loading = ref(false);
@@ -282,7 +283,6 @@ const submitCheckoutForm = () => {
     }
     const marketId = Number(route.params.market);
     const isEgyptMarket = marketId === 1;
-    // const isEgyptMarket = Number(route.params.market) === 1;
     let uid = null;
     new Promise(resolve => setTimeout(resolve, 3000))
         .then(() => {
@@ -295,9 +295,12 @@ const submitCheckoutForm = () => {
                 localStorage.setItem('guest_uid', uid);
             }
             return checkoutStore.saveCheckoutData(cartData, uid, marketId);
-            // return checkoutStore.saveCheckoutData(cartData, uid, Number(route.params.market));
         })
-        .then((orderId) => {
+        .then(async (orderId) => {
+           await Promise.all(
+                cartData.map(item => 
+                    productsStore.updateProductStock(item.productId, item.quantity)
+                ));
             const currentDate = new Date().toLocaleDateString("en-CA");
             const generateEstimatedDeliveryDate = () => {
                 const randomDays = Math.floor(Math.random() * 8) + 7;
@@ -309,7 +312,6 @@ const submitCheckoutForm = () => {
                 orderId,
                 uid: uid || null,
                 market: marketId === 1 ? "egypt" : "ksa",
-                // market: marketId === 1 ? "egypt" : "ksa",
                 deliveryDetails: {
                     ...checkoutStore.deliveryDetails,
                     shippingCost: selectedShippingCost.value

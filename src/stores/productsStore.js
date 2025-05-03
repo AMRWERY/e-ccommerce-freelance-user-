@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   updateDoc,
+  increment,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 
@@ -92,6 +93,33 @@ export const useProductsStore = defineStore("products", {
         return true;
       } catch (error) {
         console.error("Error submitting rating:", error);
+        throw error;
+      }
+    },
+
+    async updateProductStock(productId, quantity) {
+      try {
+        // Try regular products collection first
+        const productRef = doc(db, "products", productId);
+        const productSnap = await getDoc(productRef);
+        if (productSnap.exists()) {
+          await updateDoc(productRef, {
+            numberOfStock: increment(-quantity),
+          });
+          return;
+        }
+        // Try merchants-products collection if not found
+        const merchantRef = doc(db, "merchants-products", productId);
+        const merchantSnap = await getDoc(merchantRef);
+        if (merchantSnap.exists()) {
+          await updateDoc(merchantRef, {
+            numberOfStock: increment(-quantity),
+          });
+          return;
+        }
+        throw new Error("Product not found in any collection");
+      } catch (error) {
+        console.error("Error updating product stock:", error);
         throw error;
       }
     },
