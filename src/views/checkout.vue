@@ -297,8 +297,8 @@ const submitCheckoutForm = () => {
             return checkoutStore.saveCheckoutData(cartData, uid, marketId);
         })
         .then(async (orderId) => {
-           await Promise.all(
-                cartData.map(item => 
+            await Promise.all(
+                cartData.map(item =>
                     productsStore.updateProductStock(item.productId, item.quantity)
                 ));
             const currentDate = new Date().toLocaleDateString("en-CA");
