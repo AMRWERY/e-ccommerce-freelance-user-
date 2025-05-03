@@ -11,7 +11,8 @@
     "elevate_your_kitchen_essentials": "Elevate Your Kitchen Essentials",
     "shop_our_curated_collection_of_compact_blenders_kettles_toasters_and_more_designed_for_performance_and_style": "Shop our curated collection of compact blenders, kettles, toasters and more—designed for performance and style.",
     "shop_by_brand": "Shop by Brand",
-    "hot_deals": "Hot Deals"
+    "hot_deals": "Hot Deals",
+    "best_offers": "Best offers"
   },
   "form": {
     "full_name": "Full name",
@@ -72,7 +73,8 @@
     "see_more_products": "See more Products",
     "write_a_review": "Write a review",
     "send_review": "Send your review",
-    "sending": "Sending"
+    "sending": "Sending",
+    "see_more_offers": "See more offers"
   },
   "order_summary": {
     "order_summary": "Order summary",

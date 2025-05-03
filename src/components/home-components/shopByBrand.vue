@@ -1,5 +1,8 @@
 <template>
     <div>
+        <!-- hot-deals-home component -->
+        <hot-deals-home />
+
         <!-- ShopByBrandSkeleton component -->
         <ShopByBrandSkeleton v-if="isLoading" />
 
@@ -95,7 +98,6 @@ const filteredProducts = computed(() => {
     return productsStore.products.filter(product => {
         // Check availability first
         if (product.availability === "out_of_stock") return false;
-
         const market = currentMarket.value;
         // Include products marked as "All" or matching the current market
         if (product.targetMarket === "All" || product.targetMarketAr === "الكل") {

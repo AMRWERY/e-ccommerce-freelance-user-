@@ -11,7 +11,8 @@
     "elevate_your_kitchen_essentials": "ارتقِ بأساسيات مطبخك",
     "shop_our_curated_collection_of_compact_blenders_kettles_toasters_and_more_designed_for_performance_and_style": "تسوق من مجموعتنا المنسقة من الخلاطات المدمجة، والغلايات، ومحامص الخبز والمزيد - المصممة للأداء والأناقة.",
     "shop_by_brand": "تسوق حسب العلامة التجارية",
-    "hot_deals": "عروض حصريه"
+    "hot_deals": "عروض حصريه",
+    "best_offers": "أفضل العروض"
   },
   "form": {
     "full_name": "الاسم الكامل",
@@ -72,7 +73,8 @@
     "see_more_products": "شاهد المزيد من المنتجات",
     "write_a_review": "اكتب تعليق",
     "send_review": "أرسل رأيك",
-    "sending": "جاري الإرسال"
+    "sending": "جاري الإرسال",
+    "see_more_offers": "شاهد المزيد من العروض"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",
