@@ -22,6 +22,7 @@ export const useSettingsStore = defineStore("settings", {
               logo: {},
               homeSliders: {},
             };
+        // console.log(this.settings)
       } catch (error) {
         this.error = error.message;
         throw error;

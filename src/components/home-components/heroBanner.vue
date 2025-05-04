@@ -1,45 +1,77 @@
 <template>
     <div>
-        <div class="pb-6 bg-white sm:pb-8 lg:pb-12">
-            <section
-                class="relative flex items-center justify-center flex-1 py-16 overflow-hidden bg-gray-100 shadow-lg min-h-96 shrink-0 md:py-20 xl:py-48">
-                <!-- new appliance‑related image -->
-                <img src="/hero-banner.jpg" loading="lazy" alt="modern-kitchen-appliances"
-                    class="absolute inset-0 object-cover object-center w-full h-full" />
-
-                <!-- overlay -->
-                <div class="absolute inset-0 bg-indigo-200 opacity-[0.55] mix-blend-multiply"></div>
-
-                <div class="flex flex-col w-full gap-8">
-                    <div class="px-4 mx-auto sm:max-w-4xl">
-                        <!-- Card with new heading & copy -->
-                        <div class="relative flex flex-col items-center p-8 bg-[#ffffff99] rounded-lg">
-                            <h1 class="mb-6 text-4xl font-bold text-center text-[#333333] sm:text-5xl md:text-6xl">
-                                {{ $t('home.elevate_your_kitchen_essentials') }}
-                            </h1>
-                            <p class="text-lg text-center text-[#555555] sm:text-xl">
-                                {{
-                                    $t('home.shop_our_curated_collection_of_compact_blenders_kettles_toasters_and_more_designed_for_performance_and_style')
-                                }}
-                            </p>
-                            <!-- <div class="flex flex-col w-full gap-3 sm:flex-row sm:justify-center">
-                                <router-link to=""
-                                    class="px-8 py-4 text-base font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300">
-                                    Shop Now
-                                </router-link>
-                                <router-link to=""
-                                    class="px-8 py-4 text-base font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-indigo-300">
-                                    Learn More
-                                </router-link>
-                            </div> -->
-                        </div>
+        <div class="w-full pb-6 bg-white sm:pb-8 lg:pb-12">
+            <!-- Carousel wrapper (we measure its width) -->
+            <div ref="wrapperRef" class="relative w-full overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[30rem]">
+                <!-- Slides track, absolutely positioned -->
+                <div class="absolute top-0 left-0 flex transition-transform duration-500 ease-in-out"
+                    :style="slideTrackStyle" @mouseenter="pauseSlider" @mouseleave="resumeSlider">
+                    <div v-for="(banner, idx) in orderedSlides" :key="banner.id" class="flex-shrink-0"
+                        :style="{ width: wrapperWidth + 'px' }">
+                        <img :src="banner.fileUrl" :alt="`Home slider ${idx + 1}`"
+                            class="object-cover object-center w-full h-full" loading="lazy" />
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
+const settingsStore = useSettingsStore()
 
+// Build an ordered array of slide URLs
+const orderedSlides = computed(() => {
+    const map = settingsStore.settings?.homeSliders || {}
+    return Object.entries(map)
+        .filter(([key, url]) => key.startsWith('imageUrl') && url)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([id, fileUrl]) => ({ id, fileUrl }))
+})
+
+// Reactive state
+const currentSlide = ref(0)
+const autoPlay = ref(true)
+let interval = null
+
+// Refs for measuring
+const wrapperRef = ref(null)
+const wrapperWidth = ref(0)
+
+// On mount: fetch data, measure width, start autoplay
+onMounted(async () => {
+    await settingsStore.fetchSettings()
+    await nextTick()
+    wrapperWidth.value = wrapperRef.value?.clientWidth || 0
+    startAutoPlay()
+})
+
+// Cleanup when component unmounts
+onBeforeUnmount(() => {
+    clearInterval(interval)
+})
+
+// Compute the transform style in pixels
+const slideTrackStyle = computed(() => ({
+    transform: `translateX(-${currentSlide.value * wrapperWidth.value}px)`
+}))
+
+// Autoplay controls
+function startAutoPlay() {
+    clearInterval(interval)
+    if (orderedSlides.value.length < 2) return
+    interval = setInterval(() => {
+        if (autoPlay.value) {
+            currentSlide.value = (currentSlide.value + 1) % orderedSlides.value.length
+        }
+    }, 3000)
+}
+function pauseSlider() { autoPlay.value = false }
+function resumeSlider() { autoPlay.value = true }
 </script>
+
+<style scoped>
+.transition-transform {
+    transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+</style>
