@@ -20,8 +20,8 @@
 
                     <div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
                         <div class="flex items-center shrink-0 logo-label">
-                            <router-link to="/" class="w-auto h-8 text-2xl font-semibold text-white me-3">BRAND
-                                SHOP</router-link>
+                            <router-link to="/" class="w-auto h-8 text-2xl font-semibold text-white me-3">{{
+                                settingsStore.settings?.logo?.name }}</router-link>
                         </div>
                         <div class="hidden sm:ms-6 sm:block">
                             <div class="flex items-center space-s-4">
@@ -297,5 +297,11 @@ const selected = computed({
             }, 1000);
         });
     }
+})
+
+const settingsStore = useSettingsStore()
+
+onMounted(() => {
+    settingsStore.fetchSettings()
 })
 </script>
