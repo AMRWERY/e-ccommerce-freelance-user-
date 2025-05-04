@@ -10,7 +10,7 @@
                             <span class="text-2xl font-bold text-white logo-label">{{ settingsStore.settings?.logo?.name
                             }}</span>
                         </div>
-                        <p class="text-sm">{{ $t('footer.your_trusted_partner_for_quality_services') }}</p>
+                        <!-- <p class="text-sm">{{ $t('footer.your_trusted_partner_for_quality_services') }}</p> -->
                     </div>
 
                     <!-- Contact Info -->
