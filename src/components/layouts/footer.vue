@@ -8,7 +8,7 @@
                         <div class="flex items-center">
                             <img src="/brand-logo.jpg" alt="Website-Logo" class="w-16 h-16 rounded-full me-2">
                             <span class="text-2xl font-bold text-white logo-label">{{ settingsStore.settings?.logo?.name
-                                }}</span>
+                            }}</span>
                         </div>
                         <p class="text-sm">{{ $t('footer.your_trusted_partner_for_quality_services') }}</p>
                     </div>
@@ -36,6 +36,21 @@
                             <a :href="`tel:${settingsStore.settings.contactNumbers.phone}`"
                                 class="transition-colors hover:text-white rtl:rotate-0 text-start inline-block [direction:ltr] [unicode-bidi:isolate]">
                                 {{ settingsStore.settings.contactNumbers.phone }}
+                            </a>
+                        </div>
+                        <div class="flex items-center" v-if="settingsStore.settings?.contactNumbers?.anotherPhone">
+                            <iconify-icon icon="heroicons-outline:phone" width="20" height="20"
+                                class="flex-shrink-0 me-3"></iconify-icon>
+                            <a :href="`tel:${settingsStore.settings.contactNumbers.anotherPhone}`"
+                                class="transition-colors hover:text-white rtl:rotate-0 text-start inline-block [direction:ltr] [unicode-bidi:isolate]">
+                                {{ settingsStore.settings.contactNumbers.anotherPhone }}
+                            </a>
+                        </div>
+                        <div class="flex items-center" v-if="settingsStore.settings?.contactNumbers?.anotherWhatsapp">
+                            <img src="/whatsapp.svg" alt="whatsapp-icon" class="flex-shrink-0 w-5 h-5 me-3">
+                            <a :href="`https://wa.me/${whatsappNumber}`"
+                                class="transition-colors hover:text-white rtl:rotate-0 text-start inline-block [direction:ltr] [unicode-bidi:isolate]">
+                                {{ settingsStore.settings.contactNumbers.anotherWhatsapp }}
                             </a>
                         </div>
                     </div>
@@ -143,4 +158,13 @@ const selected = computed({
         });
     }
 })
+
+const whatsappNumber = computed(() => {
+    if (!settingsStore.settings?.contactNumbers?.anotherWhatsapp) return null;
+    // Ensure number is in international format without spaces/special characters
+    return settingsStore.settings.contactNumbers.anotherWhatsapp
+        .replace(/\D/g, '') // Remove all non-digit characters
+        .replace(/^0/, '+20') // Convert Egyptian numbers to international format
+        .replace(/^/, '+'); // Add leading + if missing
+});
 </script>
