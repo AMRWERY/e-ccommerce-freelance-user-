@@ -80,6 +80,10 @@ const currentMarket = computed(() => Number(route.params.market) || 1);
 const hotDeals = computed(() => {
     const filtered = productsStore.products.filter(product => {
         if (!product.isHotDeal || product.availability === "out_of_stock") return false;
+        if (product.endDate) {
+            const endDate = product.endDate.toDate();
+            if (endDate < new Date()) return false;
+        }
         const market = currentMarket.value;
         if (product.targetMarket === "All" || product.targetMarketAr === "الكل") return true;
         if (market === 1) {
@@ -93,6 +97,7 @@ const hotDeals = computed(() => {
 
     return shuffleArray(filtered).slice(0, 5);
 });
+
 // const hotDeals = computed(() => {
 //     const hotProducts = productsStore.products.filter(product => product.isHotDeal === true &&
 //         product.targetMarket === currentMarket.value);
