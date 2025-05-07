@@ -158,9 +158,12 @@
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-normal text-gray-500">{{ $t('checkout.shipping') }}</dt>
-                                    <dd class="text-base font-medium text-gray-900">{{
-                                        formatCurrency(parseFloat(totalShippingCost) || 0,
+                                    <dd class="text-base font-medium text-gray-900" v-if="totalShippingCost">{{
+                                        formatCurrency(parseFloat(totalShippingCost),
                                             'currency', currencyLocale) }}</dd>
+                                    <dd class="text-base font-semibold text-green-500" v-else>
+                                        {{ $t('checkout.no_shipping_cost') }}
+                                    </dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4 py-3">
                                     <dt class="text-base font-bold text-gray-900">{{ $t('checkout.total') }}</dt>

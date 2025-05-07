@@ -132,7 +132,8 @@
     "total": "المجموع",
     "shipping": "شحن",
     "subtotal": "المجموع الفرعي",
-    "savings": "التوفير"
+    "savings": "التوفير",
+    "no_shipping_cost": "شحن مجاني"
   },
   "footer": {
     "your_trusted_partner_for_quality_services": "شريكك الموثوق به للخدمات عالية الجودة",
