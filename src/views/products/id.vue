@@ -81,13 +81,17 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                        }}</span>
+                            }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                        }}</span>
+                            }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
                         </span>
+                    </div>
+
+                    <div class="p-4 rounded-lg animate-fancy-bg">
+                        <p class="text-center text-gray-100">{{ product.moreDetailsOffer }}</p>
                     </div>
 
                     <div class="p-3 bg-gray-50 rounded-xl hover:bg-gray-100">
@@ -333,3 +337,35 @@ const handleRatingUpdate = async ({ newRating, productId }) => {
     }
 };
 </script>
+
+<style scoped>
+@keyframes fancyBg {
+    0% {
+        background-color: #8b5cf6;
+    }
+
+    /* violet‑500 */
+    25% {
+        background-color: #ec4899;
+    }
+
+    /* pink‑500 */
+    50% {
+        background-color: #f59e0b;
+    }
+
+    /* amber‑500 */
+    75% {
+        background-color: #10b981;
+    }
+
+    /* emerald‑500 */
+    100% {
+        background-color: #8b5cf6;
+    }
+}
+
+.animate-fancy-bg {
+    animation: fancyBg 6s ease-in-out infinite;
+}
+</style>
