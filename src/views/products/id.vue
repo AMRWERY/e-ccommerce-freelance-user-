@@ -81,16 +81,16 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                            }}</span>
+                        }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                            }}</span>
+                        }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
                         </span>
                     </div>
 
-                    <div class="p-4 rounded-lg animate-fancy-bg">
+                    <div class="p-4 rounded-lg animate-fancy-bg" v-if="product.moreDetailsOffer">
                         <p class="text-center text-gray-100">{{ product.moreDetailsOffer }}</p>
                     </div>
 
