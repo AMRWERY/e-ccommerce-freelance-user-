@@ -3,6 +3,10 @@
         <!-- HotDealsSkeleton component -->
         <HotDealsSkeleton v-if="isLoading" />
 
+        <div v-else-if="hotDeals.length === 0" class="flex items-center justify-center min-h-screen text-center">
+            <p class="text-3xl font-semibold text-gray-700">{{ $t('product.no_hot_deals') }}</p>
+        </div>
+
         <div v-else class="py-6 bg-white sm:py-8 lg:py-12">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center mb-10 md:mb-16">

@@ -120,7 +120,8 @@
     "customer_reviews": "آراء العملاء",
     "no_reviews_yet": "لا توجد آراء للعملاء حتى الآن",
     "anonymous": "مجهول",
-    "ends_in": "ينتهي في"
+    "ends_in": "ينتهي في",
+    "no_hot_deals": "لا توجد عروض ساخنة"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",

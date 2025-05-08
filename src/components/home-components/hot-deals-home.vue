@@ -11,7 +11,11 @@
                 <div class="w-1/12 h-1 border-t-2 border-gray-700"></div>
             </div>
 
-            <div class="mt-6 mb-12 space-y-5">
+            <div v-if="hotDeals.length === 0" class="flex items-center justify-center py-24 text-center">
+                <p class="text-3xl font-semibold text-gray-700">{{ $t('product.no_hot_deals') }}</p>
+            </div>
+
+            <div class="mt-6 mb-12 space-y-5" v-else>
                 <swiper v-if="hotDeals.length > 0" :slidesPerView="Math.min(4, hotDeals.length)" :spaceBetween="30"
                     :grabCursor="true" :breakpoints="{
                         '640': {
