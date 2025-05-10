@@ -121,7 +121,9 @@
     "no_reviews_yet": "لا توجد آراء للعملاء حتى الآن",
     "anonymous": "مجهول",
     "ends_in": "ينتهي في",
-    "no_hot_deals": "لا توجد عروض ساخنة"
+    "no_hot_deals": "لا توجد عروض ساخنة",
+    "video_error": "خطأ في الفيديو",
+    "video_preview": "معاينة الفيديو"
   },
   "checkout": {
     "delivery_details": "تفاصيل التسليم",

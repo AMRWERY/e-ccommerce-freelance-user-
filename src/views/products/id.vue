@@ -44,6 +44,50 @@
                             class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
                             :class="{ 'border-blue-500': selectedImage === product.imageUrl8 }"
                             @click="selectedImage = product.imageUrl8">
+                        <img v-if="product.imageUrl9" :src="product.imageUrl9" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl9 }"
+                            @click="selectedImage = product.imageUrl9">
+                        <img v-if="product.imageUrl10" :src="product.imageUrl10" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl10 }"
+                            @click="selectedImage = product.imageUrl10">
+                        <img v-if="product.imageUrl11" :src="product.imageUrl11" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl11 }"
+                            @click="selectedImage = product.imageUrl11">
+                        <img v-if="product.imageUrl12" :src="product.imageUrl12" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl12 }"
+                            @click="selectedImage = product.imageUrl12">
+                        <img v-if="product.imageUrl13" :src="product.imageUrl13" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl13 }"
+                            @click="selectedImage = product.imageUrl13">
+                        <img v-if="product.imageUrl14" :src="product.imageUrl14" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl14 }"
+                            @click="selectedImage = product.imageUrl14">
+                        <img v-if="product.imageUrl15" :src="product.imageUrl15" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl15 }"
+                            @click="selectedImage = product.imageUrl15">
+                        <img v-if="product.imageUrl17" :src="product.imageUrl17" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl17 }"
+                            @click="selectedImage = product.imageUrl17">
+                        <img v-if="product.imageUrl18" :src="product.imageUrl18" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl18 }"
+                            @click="selectedImage = product.imageUrl18">
+                        <img v-if="product.imageUrl19" :src="product.imageUrl19" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl19 }"
+                            @click="selectedImage = product.imageUrl19">
+                        <img v-if="product.imageUrl20" :src="product.imageUrl20" :alt="product.title"
+                            class="object-cover w-full h-24 border rounded-lg cursor-pointer hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === product.imageUrl20 }"
+                            @click="selectedImage = product.imageUrl20">
                     </div>
                 </div>
 
@@ -91,7 +135,7 @@
                     </div>
 
                     <div class="p-4 rounded-lg animate-fancy-bg" v-if="product.moreDetailsOffer">
-                        <p class="text-center text-gray-100">{{ product.moreDetailsOffer }}</p>
+                        <p class="text-2xl font-semibold text-center text-gray-100">{{ product.moreDetailsOffer }}</p>
                     </div>
 
                     <div class="p-3 bg-gray-50 rounded-xl hover:bg-gray-100">
@@ -117,6 +161,29 @@
                                 <iconify-icon icon="material-symbols:add" width="20" height="20"
                                     class="text-white"></iconify-icon>
                             </button>
+                        </div>
+
+                        <div class="mt-4 video-embed-container" v-if="product.videoLink">
+                            <div class="relative overflow-hidden bg-gray-100 rounded-lg aspect-video">
+                                <!-- Loading state -->
+                                <div v-if="videoLoading"
+                                    class="absolute inset-0 flex items-center justify-center bg-gray-50">
+                                    <iconify-icon icon="svg-spinners:90-ring" class="w-8 h-8 text-blue-500" />
+                                </div>
+
+                                <!-- Error state -->
+                                <div v-if="videoError"
+                                    class="absolute inset-0 flex items-center justify-center bg-red-50">
+                                    <p class="text-red-500">{{ $t('product.video_error') }}</p>
+                                </div>
+
+                                <!-- Embedded content -->
+                                <iframe v-show="!videoLoading && !videoError" :src="safeVideoUrl" class="w-full h-full"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen @load="videoLoading = false" @error="handleVideoError"
+                                    :title="$t('product.video_preview')"></iframe>
+                            </div>
                         </div>
 
                         <!-- Add to Cart Button -->
@@ -336,6 +403,57 @@ const handleRatingUpdate = async ({ newRating, productId }) => {
         });
     }
 };
+
+// Add to script setup
+const videoLoading = ref(false);
+const videoError = ref(false);
+
+const safeVideoUrl = computed(() => {
+    if (!product.value?.videoLink) return '';
+
+    try {
+        const url = new URL(product.value.videoLink);
+        const handlers = {
+            'youtube.com': (url) => {
+                const videoId = url.searchParams.get('v') || url.pathname.split('/').pop();
+                return `https://www.youtube-nocookie.com/embed/${videoId}`;
+            },
+            'vimeo.com': (url) => {
+                const videoId = url.pathname.split('/').pop();
+                return `https://player.vimeo.com/video/${videoId}`;
+            },
+            // Add more platforms as needed
+        };
+
+        for (const [domain, handler] of Object.entries(handlers)) {
+            if (url.hostname.includes(domain)) {
+                return handler(url);
+            }
+        }
+
+        // Fallback for direct video links
+        if (url.pathname.match(/\.(mp4|webm|ogg|mov)$/i)) {
+            return product.value.videoLink;
+        }
+
+        return product.value.videoLink;
+
+    } catch {
+        return product.value.videoLink;
+    }
+});
+
+const handleVideoError = () => {
+    videoLoading.value = false;
+    videoError.value = true;
+};
+
+watch(() => product.value?.videoLink, (newVal) => {
+    if (newVal) {
+        videoLoading.value = true;
+        videoError.value = false;
+    }
+});
 </script>
 
 <style scoped>
