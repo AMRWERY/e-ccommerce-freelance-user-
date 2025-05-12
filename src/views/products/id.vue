@@ -225,6 +225,9 @@
 </template>
 
 <script setup>
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -356,6 +359,21 @@ const handleCheckout = async (product) => {
             productCode: product.productCode,
             quantity: 1
         });
+        const orderData = {
+            cart: cartStore.cart.map(item => ({
+                productId: item.productId,
+                productCode: item.productCode,
+                title: item.title,
+                titleAr: item.titleAr,
+                discountedPrice: item.discountedPrice,
+                quantity: item.quantity,
+                imageUrl1: item.imageUrl1
+            })),
+            date: new Date().toISOString(),
+            market: currentMarket.value === 1 ? 'egypt' : 'ksa',
+            statusId: 'pending'
+        };
+        await addDoc(collection(db, "checkout"), orderData);
         const minDelay = 3000;
         const elapsed = Date.now() - startTime;
         const remainingDelay = Math.max(minDelay - elapsed, 0);
