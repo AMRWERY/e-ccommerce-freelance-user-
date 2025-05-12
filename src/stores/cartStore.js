@@ -43,6 +43,7 @@ export const useCartStore = defineStore("cart", {
         imageUrl1,
         discount,
         categoryId,
+        productCode,
         quantity = 1,
       } = cartItem;
       // Get category data from the categories store
@@ -66,6 +67,7 @@ export const useCartStore = defineStore("cart", {
           imageUrl1,
           discount,
           categoryId,
+          productCode,
           quantity,
           uid: this.storedUser?.uid,
         });

@@ -277,7 +277,8 @@ const handleAddToCart = async () => {
             ...product.value,
             quantity: quantity.value,
             categoryTitle: category.title,
-            categoryTitleAr: category.titleAr
+            categoryTitleAr: category.titleAr,
+            productCode: product.productCode
         });
         triggerToast({
             message: t('toast.product_added_to_cart'),

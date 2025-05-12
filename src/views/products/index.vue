@@ -210,6 +210,7 @@ const handleAddToCart = async (product) => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         await cartStore.addToCart({
             ...product,
+            productCode: product.productCode,
             quantity: 1
         });
         triggerToast({
