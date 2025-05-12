@@ -125,9 +125,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                        }}</span>
+                            }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                        }}</span>
+                            }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
@@ -353,6 +353,7 @@ const handleCheckout = async (product) => {
         cartStore.clearCart();
         await cartStore.addToCart({
             ...product,
+            productCode: product.productCode,
             quantity: 1
         });
         const minDelay = 3000;

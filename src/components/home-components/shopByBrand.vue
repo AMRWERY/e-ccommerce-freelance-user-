@@ -180,6 +180,7 @@ const handleCheckout = async (product) => {
         cartStore.clearCart();
         await cartStore.addToCart({
             ...product,
+            productCode: product.productCode,
             quantity: 1
         });
         const minDelay = 3000;
