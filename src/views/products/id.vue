@@ -125,17 +125,51 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                            }}</span>
+                        }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                            }}</span>
+                        }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
                         </span>
                     </div>
 
-                    <div class="p-4 rounded-lg animate-fancy-bg" v-if="product.moreDetailsOffer">
-                        <p class="text-2xl font-semibold text-center text-gray-100">{{ product.moreDetailsOffer }}</p>
+                    <div class="grid max-w-4xl gap-6 px-6 mx-auto lg:px-8 xl:grid-cols-2">
+                        <!-- offerOne Card -->
+                        <label class="flex-1 cursor-pointer" v-if="product.offerOne">
+                            <input type="radio" name="offer" class="hidden peer" />
+                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-blue-200"
+                                :class="['bg-gradient-to-r from-pink-300 to-pink-100', 'peer-checked:bg-pink-50']">
+                                <p class="text-xl font-bold text-gray-800">{{ product.offerOne }}</p>
+                            </div>
+                        </label>
+
+                        <!-- offerTwo Card -->
+                        <label class="flex-1 cursor-pointer" v-if="product.offerTwo">
+                            <input type="radio" name="offer" class="hidden peer" />
+                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-green-200"
+                                :class="['bg-gradient-to-r from-amber-300 to-amber-100', 'peer-checked:bg-amber-50']">
+                                <p class="text-xl font-bold text-gray-800">{{ product.offerTwo }}</p>
+                            </div>
+                        </label>
+
+                        <!-- offerThree Card -->
+                        <label class="flex-1 cursor-pointer" v-if="product.offerThree">
+                            <input type="radio" name="offer" class="hidden peer" />
+                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-indigo-200"
+                                :class="['bg-gradient-to-r from-indigo-300 to-indigo-100', 'peer-checked:bg-indigo-50']">
+                                <p class="text-xl font-bold text-gray-800">{{ product.offerThree }}</p>
+                            </div>
+                        </label>
+
+                        <!-- offerFour Card -->
+                        <label class="flex-1 cursor-pointer" v-if="product.offerFour">
+                            <input type="radio" name="offer" class="hidden peer" />
+                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-teal-200"
+                                :class="['bg-gradient-to-r from-emerald-300 to-emerald-100', 'peer-checked:bg-emerald-50']">
+                                <p class="text-xl font-bold text-gray-800">{{ product.offerFour }}</p>
+                            </div>
+                        </label>
                     </div>
 
                     <div class="p-3 bg-gray-50 rounded-xl hover:bg-gray-100">
@@ -475,35 +509,3 @@ watch(() => product.value?.videoLink, (newVal) => {
     }
 });
 </script>
-
-<style scoped>
-@keyframes fancyBg {
-    0% {
-        background-color: #8b5cf6;
-    }
-
-    /* violet‑500 */
-    25% {
-        background-color: #ec4899;
-    }
-
-    /* pink‑500 */
-    50% {
-        background-color: #f59e0b;
-    }
-
-    /* amber‑500 */
-    75% {
-        background-color: #10b981;
-    }
-
-    /* emerald‑500 */
-    100% {
-        background-color: #8b5cf6;
-    }
-}
-
-.animate-fancy-bg {
-    animation: fancyBg 6s ease-in-out infinite;
-}
-</style>
