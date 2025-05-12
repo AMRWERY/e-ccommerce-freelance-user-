@@ -44,6 +44,7 @@ export const useCartStore = defineStore("cart", {
         discount,
         categoryId,
         productCode,
+        selectedOffer,
         quantity = 1,
       } = cartItem;
       // Get category data from the categories store
@@ -56,6 +57,7 @@ export const useCartStore = defineStore("cart", {
       if (existingProductIndex !== -1) {
         // Update existing item quantity
         this.cart[existingProductIndex].quantity += quantity;
+        this.cart[existingProductIndex].selectedOffer = selectedOffer;
       } else {
         this.cart.push({
           docId: Date.now().toString(),
@@ -68,6 +70,7 @@ export const useCartStore = defineStore("cart", {
           discount,
           categoryId,
           productCode,
+          selectedOffer,
           quantity,
           uid: this.storedUser?.uid,
         });

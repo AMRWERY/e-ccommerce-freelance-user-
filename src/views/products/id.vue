@@ -125,9 +125,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                        }}</span>
+                            }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                        }}</span>
+                            }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
@@ -137,7 +137,7 @@
                     <div class="grid max-w-4xl gap-6 px-6 mx-auto lg:px-8 xl:grid-cols-2">
                         <!-- offerOne Card -->
                         <label class="flex-1 cursor-pointer" v-if="product.offerOne">
-                            <input type="radio" name="offer" class="hidden peer" />
+                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerOne" />
                             <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-blue-200"
                                 :class="['bg-gradient-to-r from-pink-300 to-pink-100', 'peer-checked:bg-pink-50']">
                                 <p class="text-xl font-bold text-gray-800">{{ product.offerOne }}</p>
@@ -146,7 +146,7 @@
 
                         <!-- offerTwo Card -->
                         <label class="flex-1 cursor-pointer" v-if="product.offerTwo">
-                            <input type="radio" name="offer" class="hidden peer" />
+                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerTwo" />
                             <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-green-200"
                                 :class="['bg-gradient-to-r from-amber-300 to-amber-100', 'peer-checked:bg-amber-50']">
                                 <p class="text-xl font-bold text-gray-800">{{ product.offerTwo }}</p>
@@ -155,7 +155,7 @@
 
                         <!-- offerThree Card -->
                         <label class="flex-1 cursor-pointer" v-if="product.offerThree">
-                            <input type="radio" name="offer" class="hidden peer" />
+                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerThree" />
                             <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-indigo-200"
                                 :class="['bg-gradient-to-r from-indigo-300 to-indigo-100', 'peer-checked:bg-indigo-50']">
                                 <p class="text-xl font-bold text-gray-800">{{ product.offerThree }}</p>
@@ -164,7 +164,7 @@
 
                         <!-- offerFour Card -->
                         <label class="flex-1 cursor-pointer" v-if="product.offerFour">
-                            <input type="radio" name="offer" class="hidden peer" />
+                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerFour" />
                             <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-teal-200"
                                 :class="['bg-gradient-to-r from-emerald-300 to-emerald-100', 'peer-checked:bg-emerald-50']">
                                 <p class="text-xl font-bold text-gray-800">{{ product.offerFour }}</p>
@@ -295,6 +295,8 @@ const decrementQuantity = () => {
     }
 };
 
+const selectedOffer = ref(null);
+
 const handleAddToCart = async () => {
     if (!product.value) return;
     const authStore = useAuthStore();
@@ -315,7 +317,8 @@ const handleAddToCart = async () => {
             quantity: quantity.value,
             categoryTitle: category.title,
             categoryTitleAr: category.titleAr,
-            productCode: product.productCode
+            productCode: product.productCode,
+            selectedOffer: selectedOffer.value
         });
         triggerToast({
             message: t('toast.product_added_to_cart'),
