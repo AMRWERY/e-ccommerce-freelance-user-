@@ -6,7 +6,7 @@
                     <!-- Logo and Website Name -->
                     <div class="space-y-4">
                         <div class="flex items-center">
-                            <img src="/brand-logo.jpg" alt="Website-Logo" class="w-16 h-16 rounded-full me-2">
+                            <img :src="settingsStore.settings?.logo?.imageUrl" alt="Website-Logo" class="w-16 h-16 rounded-full me-2">
                             <span class="text-2xl font-bold text-white logo-label">{{ settingsStore.settings?.logo?.name
                             }}</span>
                         </div>
