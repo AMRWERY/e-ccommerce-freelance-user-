@@ -12,13 +12,12 @@ export function useFormatCurrency() {
 
     return {
       locale: baseLocale,
-      currency,
-      currencyConfig: {
+      currency,      currencyConfig: {
         style: "currency",
         currency,
         currencyDisplay: "symbol",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
         numberingSystem: locale.value === 'ar' ? 'arab' : 'latn' // This ensures Arabic numerals for Arabic locale
       },
     };
