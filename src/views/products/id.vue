@@ -203,12 +203,17 @@
                                 <div v-if="videoLoading"
                                     class="absolute inset-0 flex items-center justify-center bg-gray-50">
                                     <iconify-icon icon="svg-spinners:90-ring" class="w-8 h-8 text-blue-500" />
-                                </div>
-
-                                <!-- Error state -->
+                                </div>                                <!-- Error state -->
                                 <div v-if="videoError"
-                                    class="absolute inset-0 flex items-center justify-center bg-red-50">
-                                    <p class="text-red-500">{{ $t('product.video_error') }}</p>
+                                    class="absolute inset-0 flex flex-col items-center justify-center bg-red-50">
+                                    <iconify-icon icon="material-symbols:error-outline" class="w-8 h-8 mb-2 text-red-500" />
+                                    <p class="mb-2 text-red-500">{{ $t('product.video_error') }}</p>
+                                    <button 
+                                        @click="handleRetryVideo"
+                                        class="px-4 py-2 text-sm font-medium text-white transition-colors bg-red-500 rounded-lg hover:bg-red-600"
+                                    >
+                                        {{ $t('btn.retry') }}
+                                    </button>
                                 </div>
 
                                 <!-- Embedded content -->
@@ -479,6 +484,17 @@ const safeVideoUrl = computed(() => {
                 const videoId = url.pathname.split('/').pop();
                 return `https://player.vimeo.com/video/${videoId}`;
             },
+            'facebook.com': (url) => {
+                // Handle both /videos/ and /watch/ URLs
+                const videoId = url.pathname.includes('/videos/') 
+                    ? url.pathname.split('/videos/')[1]?.split('/')[0]
+                    : url.searchParams.get('v');
+                
+                if (videoId) {
+                    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url.href)}&show_text=0&width=560&height=315`;
+                }
+                return '';
+            },
             // Add more platforms as needed
         };
 
@@ -503,6 +519,20 @@ const safeVideoUrl = computed(() => {
 const handleVideoError = () => {
     videoLoading.value = false;
     videoError.value = true;
+};
+
+const handleRetryVideo = () => {
+    if (!product.value?.videoLink) return;
+    
+    videoLoading.value = true;
+    videoError.value = false;
+    
+    // Force reload by temporarily clearing and resetting the URL
+    const currentUrl = product.value.videoLink;
+    product.value.videoLink = '';
+    nextTick(() => {
+        product.value.videoLink = currentUrl;
+    });
 };
 
 watch(() => product.value?.videoLink, (newVal) => {

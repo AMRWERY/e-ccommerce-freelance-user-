@@ -2,14 +2,14 @@
     <div>
         <div class="w-full pb-6 bg-white sm:pb-8 lg:pb-12">
             <!-- Carousel wrapper (we measure its width) -->
-            <div ref="wrapperRef" class="relative w-full overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[40rem]">
+            <div ref="wrapperRef" class="relative w-full overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[30rem]">
                 <!-- Slides track, absolutely positioned -->
                 <div class="absolute top-0 left-0 flex transition-transform duration-500 ease-in-out"
                     :style="slideTrackStyle" @mouseenter="pauseSlider" @mouseleave="resumeSlider">
                     <div v-for="(banner, idx) in orderedSlides" :key="banner.id" class="flex-shrink-0"
                         :style="{ width: wrapperWidth + 'px' }">
                         <img :src="banner.fileUrl" :alt="`Home slider ${idx + 1}`"
-                            class="object-cover object-center w-full h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[40rem]" loading="lazy" />
+                            class="object-cover object-center w-full h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[30rem]" loading="lazy" />
                     </div>
                 </div>
             </div>

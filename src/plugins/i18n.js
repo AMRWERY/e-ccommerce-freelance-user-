@@ -3,13 +3,6 @@ import en from "@/locales/en.json";
 import ar from "@/locales/ar.json";
 
 function loadLocaleMessages() {
-  // const locales = [{ en: en }, { ar: ar }];
-  // const messages = {};
-  // locales.forEach((lang) => {
-  //   const key = Object.keys(lang);
-  //   messages[key] = lang[key];
-  // });
-  // return messages;
   return { en, ar };
 }
 
