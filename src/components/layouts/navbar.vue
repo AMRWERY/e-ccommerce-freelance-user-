@@ -49,7 +49,7 @@
                                 </router-link> -->
 
                                 <!-- don't delete it -->
-                                <a href="https://e-ccommerce-freelance-admin.vercel.app/#/register-new-merchant"
+                                <a href="https://admin.marca-store.com/#/register-new-merchant"
                                     class="flex items-center px-3 py-2 text-sm font-medium text-gray-100 capitalize rounded-md hover:bg-gray-700 hover:text-white"
                                     active-class="!bg-gray-900 !text-white" target="_blank" rel="noopener noreferrer">
                                     {{ $t('layout.market_with_us') }}
