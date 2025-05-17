@@ -25,8 +25,11 @@
             <div v-if="orderItems.length > 0">
                 <div class="grid grid-cols-12 gap-6 pb-6 mb-6 border-b" v-for="item in orderItems"
                     :key="item.productId">
-                    <div class="flex col-span-9">
-                        <img :src="item.imageUrl1" crossOrigin="anonymous"
+                    <div class="flex col-span-9">                        <img 
+                            :src="item.imageUrl1" 
+                            crossOrigin="anonymous"
+                            @error="$event.target.src = '/brand-logo.jpg'"
+                            referrerpolicy="no-referrer"
                             class="object-cover w-[100px] h-20 rounded-lg shadow-md" />
                         <div class="ms-6">
                             <p
