@@ -215,7 +215,7 @@ const downloadPDF = async () => {
     pdfContent.prepend(titleElement);
     const options = {
         margin: 10,
-        filename: `order-${orderData.value.orderId || 'summary'}.pdf`,
+        filename: `marca.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 4, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
