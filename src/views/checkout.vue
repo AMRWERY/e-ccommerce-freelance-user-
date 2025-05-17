@@ -348,10 +348,9 @@ const submitCheckoutForm = () => {
 };
 
 watch(selectedCountryData, (newCountry) => {
-    checkoutStore.deliveryDetails.country = newCountry.country
-    // Set default governorate if needed
-    if (newCountry.governorates.length > 0) {
-        checkoutStore.deliveryDetails.city = newCountry.governorates[0].name
+    checkoutStore.deliveryDetails.country = newCountry.country    // Set default governorate if needed
+    if (newCountry.governorates?.length > 0) {
+        checkoutStore.deliveryDetails.city = newCountry.governorates[0].title;
     }
 }, { immediate: true })
 

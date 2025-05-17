@@ -25,11 +25,8 @@
             <div v-if="orderItems.length > 0">
                 <div class="grid grid-cols-12 gap-6 pb-6 mb-6 border-b" v-for="item in orderItems"
                     :key="item.productId">
-                    <div class="flex col-span-9">                        <img 
-                            :src="item.imageUrl1" 
-                            crossOrigin="anonymous"
-                            @error="$event.target.src = '/brand-logo.jpg'"
-                            referrerpolicy="no-referrer"
+                    <div class="flex col-span-9">
+                        <img v-if="item.imageUrl1" :src="item.imageUrl1"
                             class="object-cover w-[100px] h-20 rounded-lg shadow-md" />
                         <div class="ms-6">
                             <p
@@ -38,14 +35,14 @@
                                     item.title }}</p>
                             <div class="flex items-center space-s-2">
                                 <p class="text-2xl font-semibold text-gray-700">{{ formatCurrency(item.discountedPrice)
-                                    }}
+                                }}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-span-3 ms-auto">
                         <p class="flex items-center text-lg font-semibold text-gray-900">{{ $t('order_summary.quantity')
-                        }}
+                            }}
                             <span
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-indigo-700 rounded-md bg-indigo-50 ring-1 ring-indigo-700/10 ring-inset ms-1">
                                 {{ item.quantity }}
@@ -130,7 +127,13 @@ const savingsAmount = computed(() => {
 });
 
 const totalShippingCost = computed(() => {
-    return parseFloat(orderData.value?.order?.deliveryDetails?.shippingCost) || 0;
+    const shippingCost = orderData.value?.order?.deliveryDetails?.shippingCost;
+    // Default shipping costs based on market if not set
+    if (!shippingCost) {
+        const market = orderData.value?.order?.market;
+        return market === 'egypt' ? 50 : market === 'ksa' ? 75 : 0;
+    }
+    return parseFloat(shippingCost);
 });
 
 const totalAmount = computed(() => {
