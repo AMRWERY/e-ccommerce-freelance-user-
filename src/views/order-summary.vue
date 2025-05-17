@@ -3,7 +3,7 @@
         <!-- OrderSummarySkeleton component -->
         <OrderSummarySkeleton v-if="loading" />
 
-        <div v-else class="max-w-4xl p-6 mx-auto my-10 bg-white rounded-lg shadow-lg" id="e-ccommerce">
+        <div v-else class="max-w-4xl p-6 mx-auto my-10 bg-white rounded-lg shadow-lg" id="marca">
             <!-- Order Number -->
             <div class="flex items-center justify-between mb-12" v-if="orderItems.length > 0">
                 <div>
@@ -200,7 +200,7 @@ const replaceFirebaseUrlsWithDataUrls = async (element) => {
 // pdf file
 const downloadPDF = async () => {
     if (!html2pdf || !orderData.value) return;
-    const orderSummary = document.getElementById('e-ccommerce');
+    const orderSummary = document.getElementById('marca');
     if (!orderSummary) return;
     const pdfContent = orderSummary.cloneNode(true);
     const downloadButton = pdfContent.querySelector('button');
@@ -210,7 +210,7 @@ const downloadPDF = async () => {
     pdfContent.setAttribute('dir', localeStore.locale === 'ar' ? 'rtl' : 'ltr');
     await replaceFirebaseUrlsWithDataUrls(pdfContent);
     const titleElement = document.createElement('h1');
-    titleElement.textContent = 'e-ccommerce';
+    titleElement.textContent = 'Marca ماركه';
     titleElement.className = 'text-5xl font-bold text-blue-700 text-center mb-10';
     pdfContent.prepend(titleElement);
     const options = {
