@@ -370,7 +370,6 @@ onMounted(async () => {
             if (isValidMarket) {
                 product.value = productData;
             } else {
-                // Redirect to products page if product doesn't belong to current market
                 router.push({ name: 'products' });
             }
         }
@@ -395,11 +394,10 @@ const handleCheckout = async (product) => {
     try {
         loadingTwo.value[product.id] = true;
         const startTime = Date.now();
-        cartStore.clearCart();
-        await cartStore.addToCart({
+        cartStore.clearCart();        await cartStore.addToCart({
             ...product,
             productCode: product.productCode,
-            quantity: 1
+            quantity: quantity.value
         });
         const orderData = {
             cart: cartStore.cart.map(item => ({
@@ -497,20 +495,16 @@ const safeVideoUrl = computed(() => {
             },
             // Add more platforms as needed
         };
-
         for (const [domain, handler] of Object.entries(handlers)) {
             if (url.hostname.includes(domain)) {
                 return handler(url);
             }
         }
-
         // Fallback for direct video links
         if (url.pathname.match(/\.(mp4|webm|ogg|mov)$/i)) {
             return product.value.videoLink;
         }
-
         return product.value.videoLink;
-
     } catch {
         return product.value.videoLink;
     }
@@ -523,10 +517,8 @@ const handleVideoError = () => {
 
 const handleRetryVideo = () => {
     if (!product.value?.videoLink) return;
-    
     videoLoading.value = true;
     videoError.value = false;
-    
     // Force reload by temporarily clearing and resetting the URL
     const currentUrl = product.value.videoLink;
     product.value.videoLink = '';
