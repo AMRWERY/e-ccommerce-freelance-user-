@@ -57,8 +57,10 @@ export const useCartStore = defineStore("cart", {
       if (existingProductIndex !== -1) {
         // Update existing item quantity
         this.cart[existingProductIndex].quantity += quantity;
-        this.cart[existingProductIndex].selectedOffer = selectedOffer;
-      } else {
+        this.cart[existingProductIndex].selectedOffer = selectedOffer;      } else {
+        // Get shipping cost from category if available
+        const shippingCost = category?.shippingCost || 0;
+        
         this.cart.push({
           docId: Date.now().toString(),
           productId: id,
@@ -72,6 +74,7 @@ export const useCartStore = defineStore("cart", {
           productCode,
           selectedOffer,
           quantity,
+          shippingCost,
           uid: this.storedUser?.uid,
         });
       }
@@ -110,10 +113,14 @@ export const useCartStore = defineStore("cart", {
       }
     },
   },
-
   getters: {
     isInCart: (state) => (productId) => {
       return state.cart.some((item) => item.productId === productId);
+    },
+    totalShippingCost: (state) => {
+      return state.cart.reduce((total, item) => {
+        return total + (parseFloat(item.shippingCost || 0) * item.quantity);
+      }, 0);
     },
   },
 });

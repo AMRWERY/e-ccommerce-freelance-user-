@@ -177,8 +177,8 @@ const totalAmount = computed(() => {
     const quantity = item.quantity || 1;
     return total + (discountedPrice * quantity);
   }, 0);
-  // Add total shipping cost
-  return (itemsTotal + cartStore.totalShippingCost).toFixed(2);
+  const shippingCost = cartStore.totalShippingCost || 0;
+  return (itemsTotal + shippingCost).toFixed(2);
 });
 
 const quantity = ref(1);
