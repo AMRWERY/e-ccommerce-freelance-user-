@@ -322,7 +322,8 @@ const handleAddToCart = async () => {
             quantity: quantity.value,
             categoryTitle: category.title,
             categoryTitleAr: category.titleAr,
-            productCode: product.productCode,
+            // productCode: product.productCode,
+            productCode: product.value.productCode,
             selectedOffer: selectedOffer.value
         });
         triggerToast({
@@ -394,10 +395,12 @@ const handleCheckout = async (product) => {
     try {
         loadingTwo.value[product.id] = true;
         const startTime = Date.now();
-        cartStore.clearCart();        await cartStore.addToCart({
+        cartStore.clearCart();        
+        await cartStore.addToCart({
             ...product,
             productCode: product.productCode,
-            quantity: quantity.value
+            quantity: quantity.value,
+            selectedOffer: selectedOffer.value
         });
         const orderData = {
             cart: cartStore.cart.map(item => ({
@@ -407,7 +410,8 @@ const handleCheckout = async (product) => {
                 titleAr: item.titleAr,
                 discountedPrice: item.discountedPrice,
                 quantity: item.quantity,
-                imageUrl1: item.imageUrl1
+                imageUrl1: item.imageUrl1,
+                selectedOffer: item.selectedOffer
             })),
             date: new Date().toISOString(),
             market: currentMarket.value === 1 ? 'egypt' : 'ksa',

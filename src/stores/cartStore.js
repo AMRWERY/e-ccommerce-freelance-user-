@@ -60,7 +60,6 @@ export const useCartStore = defineStore("cart", {
         this.cart[existingProductIndex].selectedOffer = selectedOffer;      } else {
         // Get shipping cost from category if available
         const shippingCost = category?.shippingCost || 0;
-        
         this.cart.push({
           docId: Date.now().toString(),
           productId: id,
