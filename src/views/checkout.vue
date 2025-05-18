@@ -277,75 +277,174 @@ const generateGuestId = () => {
     return `guest_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 };
 
-const submitCheckoutForm = () => {
-    loading.value = true;
-    const cartData = [...cartStore.cart];
-    if (!cartData || cartData.length === 0) {
-        loading.value = false;
-        return;
-    }
-    const marketId = Number(route.params.market);
-    const isEgyptMarket = marketId === 1;
-    let uid = null;
-    new Promise(resolve => setTimeout(resolve, 3000))
-        .then(() => {
-            if (!isEgyptMarket) {
-                const user = JSON.parse(localStorage.getItem("user"));
-                if (!user?.uid) throw new Error(t('toast.auth_required'));
-                uid = user.uid;
-            } else {
-                uid = localStorage.getItem('guest_uid') || generateGuestId();
-                localStorage.setItem('guest_uid', uid);
-            }
-            return checkoutStore.saveCheckoutData(cartData, uid, marketId);
-        })
-        .then(async (orderId) => {
-            await Promise.all(
-                cartData.map(item =>
-                    productsStore.updateProductStock(item.productId, item.quantity)
-                ));
-            const currentDate = new Date().toLocaleDateString("en-CA");
-            const generateEstimatedDeliveryDate = () => {
-                const randomDays = Math.floor(Math.random() * 8) + 7;
-                const date = new Date();
-                date.setDate(date.getDate() + randomDays);
-                return date.toLocaleDateString("en-CA");
-            };
-            const order = {
-                orderId,
-                uid: uid || null,
-                market: marketId === 1 ? "egypt" : "ksa",
-                deliveryDetails: {
-                    ...checkoutStore.deliveryDetails,
-                    shippingCost: selectedShippingCost.value
-                },
-                cart: cartData,
-                date: currentDate,
-                estimatedDelivery: generateEstimatedDeliveryDate(),
-                statusId: "unltAF0unQNIQShl0FXC",
-            };
-            localStorage.setItem("order-summary", JSON.stringify({ order }));
-            cartStore.clearCart();
-            orderCompleted.value = true;
-        })
-        .then(() => {
-            triggerToast({
-                message: t('toast.payment_successful'),
-                type: 'success',
-                icon: 'mdi-check-circle',
-            });
-        })
-        .catch((error) => {
-            triggerToast({
-                message: error.message || t('toast.checkout_error'),
-                type: 'error',
-                icon: 'mdi-alert-circle'
-            });
-        })
-        .finally(() => {
-            loading.value = false;
-        });
+const generateEstimatedDeliveryDate = () => {
+  const randomDays = Math.floor(Math.random() * 8) + 7;
+  const date = new Date();
+  date.setDate(date.getDate() + randomDays);
+  return date.toLocaleDateString("en-CA");
 };
+
+const submitCheckoutForm = () => {
+  loading.value = true;
+  const cartData = [...cartStore.cart];
+  if (!cartData || cartData.length === 0) {
+    loading.value = false;
+    return;
+  }
+  const marketId = Number(route.params.market);
+  const isEgyptMarket = marketId === 1;
+  let uid = null;
+  new Promise(resolve => setTimeout(resolve, 3000))
+    .then(() => {
+      if (!isEgyptMarket) {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user?.uid) throw new Error(t('toast.auth_required'));
+        uid = user.uid;
+      } else {
+        uid = localStorage.getItem('guest_uid') || generateGuestId();
+        localStorage.setItem('guest_uid', uid);
+      }
+      return checkoutStore.saveCheckoutData(cartData, uid, marketId);
+    })
+    .then(async (orderId) => {
+      await Promise.all(
+        cartData.map(item =>
+          productsStore.updateProductStock(item.productId, item.quantity)
+        ));
+      
+      // Remove this entire block that creates and saves the order again
+      /*
+      const currentDate = new Date().toLocaleDateString("en-CA");
+      const generateEstimatedDeliveryDate = () => {
+        const randomDays = Math.floor(Math.random() * 8) + 7;
+        const date = new Date();
+        date.setDate(date.getDate() + randomDays);
+        return date.toLocaleDateString("en-CA");
+      };
+      const order = {
+        orderId,
+        uid: uid || null,
+        market: marketId === 1 ? "egypt" : "ksa",
+        deliveryDetails: {
+          ...checkoutStore.deliveryDetails,
+          shippingCost: selectedShippingCost.value
+        },
+        cart: cartData,
+        date: currentDate,
+        estimatedDelivery: generateEstimatedDeliveryDate(),
+        statusId: "unltAF0unQNIQShl0FXC",
+      };
+      localStorage.setItem("order-summary", JSON.stringify({ order }));
+      */
+      
+      // Instead, just save to local storage
+      localStorage.setItem("order-summary", JSON.stringify({ 
+        order: {
+          orderId,
+          uid: uid || null,
+          market: marketId === 1 ? "egypt" : "ksa",
+          deliveryDetails: {
+            ...checkoutStore.deliveryDetails,
+            shippingCost: selectedShippingCost.value
+          },
+          cart: cartData,
+          date: new Date().toLocaleDateString("en-CA"),
+          estimatedDelivery: generateEstimatedDeliveryDate(),
+          statusId: "unltAF0unQNIQShl0FXC",
+        }
+      }));
+
+      cartStore.clearCart();
+      orderCompleted.value = true;
+    })
+    .then(() => {
+      triggerToast({
+        message: t('toast.payment_successful'),
+        type: 'success',
+        icon: 'mdi-check-circle',
+      });
+    })
+    .catch((error) => {
+      triggerToast({
+        message: error.message || t('toast.checkout_error'),
+        type: 'error',
+        icon: 'mdi-alert-circle'
+      });
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
+// const submitCheckoutForm = () => {
+//     loading.value = true;
+//     const cartData = [...cartStore.cart];
+//     if (!cartData || cartData.length === 0) {
+//         loading.value = false;
+//         return;
+//     }
+//     const marketId = Number(route.params.market);
+//     const isEgyptMarket = marketId === 1;
+//     let uid = null;
+//     new Promise(resolve => setTimeout(resolve, 3000))
+//         .then(() => {
+//             if (!isEgyptMarket) {
+//                 const user = JSON.parse(localStorage.getItem("user"));
+//                 if (!user?.uid) throw new Error(t('toast.auth_required'));
+//                 uid = user.uid;
+//             } else {
+//                 uid = localStorage.getItem('guest_uid') || generateGuestId();
+//                 localStorage.setItem('guest_uid', uid);
+//             }
+//             return checkoutStore.saveCheckoutData(cartData, uid, marketId);
+//         })
+//         .then(async (orderId) => {
+//             await Promise.all(
+//                 cartData.map(item =>
+//                     productsStore.updateProductStock(item.productId, item.quantity)
+//                 ));
+//             const currentDate = new Date().toLocaleDateString("en-CA");
+//             const generateEstimatedDeliveryDate = () => {
+//                 const randomDays = Math.floor(Math.random() * 8) + 7;
+//                 const date = new Date();
+//                 date.setDate(date.getDate() + randomDays);
+//                 return date.toLocaleDateString("en-CA");
+//             };
+//             const order = {
+//                 orderId,
+//                 uid: uid || null,
+//                 market: marketId === 1 ? "egypt" : "ksa",
+//                 deliveryDetails: {
+//                     ...checkoutStore.deliveryDetails,
+//                     shippingCost: selectedShippingCost.value
+//                 },
+//                 cart: cartData,
+//                 date: currentDate,
+//                 estimatedDelivery: generateEstimatedDeliveryDate(),
+//                 statusId: "unltAF0unQNIQShl0FXC",
+//             };
+//             localStorage.setItem("order-summary", JSON.stringify({ order }));
+//             cartStore.clearCart();
+//             orderCompleted.value = true;
+//         })
+//         .then(() => {
+//             triggerToast({
+//                 message: t('toast.payment_successful'),
+//                 type: 'success',
+//                 icon: 'mdi-check-circle',
+//             });
+//         })
+//         .catch((error) => {
+//             triggerToast({
+//                 message: error.message || t('toast.checkout_error'),
+//                 type: 'error',
+//                 icon: 'mdi-alert-circle'
+//             });
+//         })
+//         .finally(() => {
+//             loading.value = false;
+//         });
+// };
 
 watch(selectedCountryData, (newCountry) => {
     checkoutStore.deliveryDetails.country = newCountry.country    // Set default governorate if needed

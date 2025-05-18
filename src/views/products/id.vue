@@ -417,7 +417,6 @@ const handleCheckout = async (product) => {
             market: currentMarket.value === 1 ? 'egypt' : 'ksa',
             statusId: 'pending'
         };
-        await addDoc(collection(db, "checkout"), orderData);
         const minDelay = 3000;
         const elapsed = Date.now() - startTime;
         const remainingDelay = Math.max(minDelay - elapsed, 0);

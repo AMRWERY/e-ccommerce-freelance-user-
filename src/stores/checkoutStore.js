@@ -25,7 +25,7 @@ export const useCheckoutStore = defineStore("checkouts", {
       whatsappNumber: "",
       fullAddress: "",
       paymentMethod: "cash-on-delivery",
-      shippingCost: 0
+      shippingCost: 0,
     },
     // paymentDetails: {
     //   fullNameOnCard: "",
@@ -159,13 +159,43 @@ export const useCheckoutStore = defineStore("checkouts", {
       };
       return addDoc(collection(db, "checkout"), order)
         .then((docRef) => {
-          return docRef.id;
+          return orderId;
         })
         .catch((e) => {
           console.error("Error adding document:", e);
           throw e;
         });
     },
+
+    // saveCheckoutData(cartData, uid, marketId) {
+    //   const generateEstimatedDeliveryDate = () => {
+    //     const randomDays = Math.floor(Math.random() * 8) + 7;
+    //     const estimatedDate = new Date();
+    //     estimatedDate.setDate(estimatedDate.getDate() + randomDays);
+    //     return estimatedDate.toLocaleDateString("en-CA");
+    //   };
+    //   const orderId = this.generateOrderId();
+    //   const currentDate = new Date().toLocaleDateString("en-CA");
+    //   const estimatedDelivery = generateEstimatedDeliveryDate();
+    //   const order = {
+    //     orderId,
+    //     uid: uid || null,
+    //     market: marketId === 1 ? "egypt" : "ksa",
+    //     deliveryDetails: this.deliveryDetails,
+    //     cart: cartData,
+    //     date: currentDate,
+    //     estimatedDelivery,
+    //     statusId: "unltAF0unQNIQShl0FXC",
+    //   };
+    //   return addDoc(collection(db, "checkout"), order)
+    //     .then((docRef) => {
+    //       return docRef.id;
+    //     })
+    //     .catch((e) => {
+    //       console.error("Error adding document:", e);
+    //       throw e;
+    //     });
+    // },
 
     fetchTotalCheckouts() {
       getDocs(collection(db, "checkout"))
