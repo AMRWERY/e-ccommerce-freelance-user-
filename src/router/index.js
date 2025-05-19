@@ -125,10 +125,18 @@ const router = createRouter({
 // Global afterEach hook to update document title
 router.afterEach((to) => {
   const titleKey = to.meta.title;
+  const brandName = i18n.global.locale.value === "ar" ? "ماركه" : "Marca";
   document.title = i18n.global.te(titleKey)
     ? i18n.global.t(titleKey)
-    : "BRAND SHOP";
+    : brandName;
 });
+
+// router.afterEach((to) => {
+//   const titleKey = to.meta.title;
+//   document.title = i18n.global.te(titleKey)
+//     ? i18n.global.t(titleKey)
+//     : "BRAND SHOP";
+// });
 
 // Add this before router export
 router.beforeEach(async (to, from, next) => {
