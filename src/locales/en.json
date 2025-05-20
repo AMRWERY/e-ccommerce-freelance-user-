@@ -108,6 +108,7 @@
     "review_submit_failed": "Review submit failed"
   },
   "product": {
+    "pieces": "Pieces",
     "save": "Save",
     "description": "Description",
     "quantity": "Quantity:",

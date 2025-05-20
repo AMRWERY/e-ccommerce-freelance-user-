@@ -107,6 +107,7 @@
     "review_submit_failed": "فشل إرسال التقييم"
   },
   "product": {
+    "pieces": "قطع",
     "save": "توفير",
     "description": "الوصف",
     "quantity": "كمية:",

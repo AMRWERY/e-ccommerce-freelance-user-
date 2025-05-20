@@ -111,7 +111,8 @@
                             <p class="flex items-center gap-1 p-2 text-sm text-gray-500 bg-[#f0fdf4] rounded-lg">
                                 <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
                                     class="text-green-500"></iconify-icon>
-                                {{ $t('product.available') }}
+                                {{ $t('product.available') }} <span class="text-lg font-semibold text-blue-600">{{
+                                    product.numberOfStock }}</span> {{ $t('product.pieces') }}
                             </p>
                         </div>
                     </div>
@@ -125,9 +126,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                            }}</span>
+                        }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                            }}</span>
+                        }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
