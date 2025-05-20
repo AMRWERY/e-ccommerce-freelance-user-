@@ -125,9 +125,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                        }}</span>
+                            }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                        }}</span>
+                            }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
@@ -346,18 +346,56 @@ const hasOffers = computed(() => {
 // Calculate savings based on multi-piece offers compared to buying individual pieces
 const calculateSavings = (offerText) => {
     if (!offerText || !product.value) return 0;
-    // Extract the number of pieces and price from the offer text
-    // Example: "اطلب 3 قطعة بسعر 199 جنية + شحن مجاني" (Order 3 pieces for 199 EGP + free shipping)
-    const piecesMatch = offerText.match(/(\d+)\s*(?:قطعة|قطع|pieces|piece|pcs)/i);
-    const priceMatch = offerText.match(/(\d+)\s*(?:جنية|جنيه|EGP|LE|L\.E)/i);
-    if (!piecesMatch || !priceMatch) return 0;
-    const pieces = parseInt(piecesMatch[1]);
-    const offerPrice = parseInt(priceMatch[1]);
+    // Always log the offer text to help debug
+    // console.log('Calculating savings for offer:', offerText);
+    // Extract the number of pieces from the offer text
+    // This handles both Arabic and English text formats
+    let pieces = 1;
+    const piecesRegexes = [
+        /(\d+)\s*(?:قطعة|قطع)/i,  // Arabic pieces
+        /(\d+)\s*(?:pieces?|pcs)/i,  // English pieces
+        /^(?:اطلب|أطلب|احصل|إحصل|order|get)\s+(\d+)/i  // "Order X" or "Get X" format
+    ];
+    for (const regex of piecesRegexes) {
+        const match = offerText.match(regex);
+        if (match && match[1]) {
+            pieces = parseInt(match[1]);
+            // console.log('Found pieces:', pieces);
+            break;
+        }
+    }
+    // Extract the price from the offer text
+    // Look for numbers followed by currency indicators
+    const priceRegexes = [
+        /(\d+)\s*(?:جنية|جنيه)/i,  // Arabic currency
+        /(\d+)\s*(?:EGP|LE|L\.E)/i,  // English currency abbreviations
+        /بسعر\s+(\d+)/i,  // "for price X" in Arabic
+        /price\s+(\d+)/i,  // "for price X" in English
+        // If no currency indicator, try to find the last number in the string
+        /(\d+)(?![^\d]*\d)/  // Last number in string
+    ];
+
+    let offerPrice = 0;
+    for (const regex of priceRegexes) {
+        const match = offerText.match(regex);
+        if (match && match[1]) {
+            offerPrice = parseInt(match[1]);
+            // console.log('Found price:', offerPrice);
+            break;
+        }
+    }
+    if (pieces === 0 || offerPrice === 0) {
+        // console.log('Could not extract valid pieces or price');
+        return 0;
+    }
     const singlePrice = product.value.discountedPrice;
+    // console.log('Single item price:', singlePrice);
     // Calculate what it would cost to buy these items individually
     const regularCost = singlePrice * pieces;
+    // console.log('Regular cost for', pieces, 'pieces:', regularCost);
     // The savings is the difference (only show positive savings)
     const savings = regularCost - offerPrice;
+    // console.log('Calculated savings:', savings);
     return savings > 0 ? savings : 0;
 };
 
