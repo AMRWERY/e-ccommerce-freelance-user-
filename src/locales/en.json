@@ -75,7 +75,8 @@
     "send_review": "Send your review",
     "sending": "Sending",
     "see_more_offers": "See more offers",
-    "no_shipping_cost": "Free shipping"
+    "no_shipping_cost": "Free shipping",
+    "retry": "Retry"
   },
   "order_summary": {
     "order_summary": "Order summary",

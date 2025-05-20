@@ -74,7 +74,8 @@
     "write_a_review": "اكتب تعليق",
     "send_review": "أرسل رأيك",
     "sending": "جاري الإرسال",
-    "see_more_offers": "شاهد المزيد من العروض"
+    "see_more_offers": "شاهد المزيد من العروض",
+    "retry": "إعادة المحاولة"
   },
   "order_summary": {
     "order_summary": "ملخص الطلب",

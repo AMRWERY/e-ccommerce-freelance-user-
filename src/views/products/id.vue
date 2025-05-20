@@ -125,51 +125,91 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                            }}</span>
+                        }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                            }}</span>
+                        }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
                         </span>
                     </div>
 
-                    <div class="grid max-w-4xl gap-6 px-6 mx-auto lg:px-8 xl:grid-cols-2">
+                    <div class="grid grid-cols-1 gap-4">
                         <!-- offerOne Card -->
-                        <label class="flex-1 cursor-pointer" v-if="product.offerOne">
-                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerOne" />
-                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-blue-200"
-                                :class="['bg-gradient-to-r from-pink-300 to-pink-100', 'peer-checked:bg-pink-50']">
-                                <p class="text-xl font-bold text-gray-800">{{ product.offerOne }}</p>
-                            </div>
-                        </label>
+                        <div class="relative" v-if="product.offerOne">
+                            <input class="hidden peer" id="radio_1" type="radio" name="radio" checked
+                                v-model="selectedOffer" />
+                            <span
+                                class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
+                            <span
+                                class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
+                                {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerOne) || 0) }}
+                            </span>
+                            <label
+                                class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
+                                for="radio_1">
+                                <div>
+                                    <span class="mt-2 font-semibold">{{ product.offerOne }}</span>
+                                </div>
+                            </label>
+                        </div>
 
                         <!-- offerTwo Card -->
-                        <label class="flex-1 cursor-pointer" v-if="product.offerTwo">
-                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerTwo" />
-                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-green-200"
-                                :class="['bg-gradient-to-r from-amber-300 to-amber-100', 'peer-checked:bg-amber-50']">
-                                <p class="text-xl font-bold text-gray-800">{{ product.offerTwo }}</p>
-                            </div>
-                        </label>
+                        <div class="relative" v-if="product.offerTwo">
+                            <input class="hidden peer" id="radio_2" type="radio" name="radio" checked
+                                v-model="selectedOffer" />
+                            <span
+                                class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
+                            <span
+                                class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
+                                {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerTwo) || 0) }}
+                            </span>
+                            <label
+                                class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
+                                for="radio_2">
+                                <div>
+                                    <span class="mt-2 font-semibold">{{ product.offerTwo }}</span>
+                                </div>
+                            </label>
+                        </div>
 
                         <!-- offerThree Card -->
-                        <label class="flex-1 cursor-pointer" v-if="product.offerThree">
-                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerThree" />
-                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-indigo-200"
-                                :class="['bg-gradient-to-r from-indigo-300 to-indigo-100', 'peer-checked:bg-indigo-50']">
-                                <p class="text-xl font-bold text-gray-800">{{ product.offerThree }}</p>
-                            </div>
-                        </label>
+                        <div class="relative" v-if="product.offerThree">
+                            <input class="hidden peer" id="radio_3" type="radio" name="radio" checked
+                                v-model="selectedOffer" />
+                            <span
+                                class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
+                            <span
+                                class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
+                                {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerThree) || 0) }}
+                            </span>
+                            <label
+                                class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
+                                for="radio_3">
+                                <div>
+                                    <span class="mt-2 font-semibold">{{ product.offerThree }}</span>
+                                </div>
+                            </label>
+                        </div>
 
                         <!-- offerFour Card -->
-                        <label class="flex-1 cursor-pointer" v-if="product.offerFour">
-                            <input type="radio" name="offer" class="hidden peer" v-model="selectedOffer" :value="product.offerFour" />
-                            <div class="p-4 border-2 border-gray-200 rounded-xl peer-checked:ring-2 peer-checked:ring-teal-200"
-                                :class="['bg-gradient-to-r from-emerald-300 to-emerald-100', 'peer-checked:bg-emerald-50']">
-                                <p class="text-xl font-bold text-gray-800">{{ product.offerFour }}</p>
-                            </div>
-                        </label>
+                        <div class="relative" v-if="product.offerFour">
+                            <input class="hidden peer" id="radio_4" type="radio" name="radio" checked
+                                v-model="selectedOffer" />
+                            <span
+                                class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
+                            <span
+                                class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
+                                {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerFour) || 0) }}
+                            </span>
+                            <label
+                                class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
+                                for="radio_4">
+                                <div>
+                                    <span class="mt-2 font-semibold">{{ product.offerFour }}</span>
+                                </div>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="p-3 bg-gray-50 rounded-xl hover:bg-gray-100">
@@ -182,7 +222,7 @@
                     </div>
 
                     <div class="space-y-4">
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-3" v-if="!hasOffers">
                             <p class="text-gray-600">{{ $t('product.quantity') }}:</p>
                             <button type="button" @click="decrementQuantity"
                                 class="flex items-center justify-center w-5 h-5 bg-blue-600 rounded-full outline-none">
@@ -203,15 +243,14 @@
                                 <div v-if="videoLoading"
                                     class="absolute inset-0 flex items-center justify-center bg-gray-50">
                                     <iconify-icon icon="svg-spinners:90-ring" class="w-8 h-8 text-blue-500" />
-                                </div>                                <!-- Error state -->
+                                </div> <!-- Error state -->
                                 <div v-if="videoError"
                                     class="absolute inset-0 flex flex-col items-center justify-center bg-red-50">
-                                    <iconify-icon icon="material-symbols:error-outline" class="w-8 h-8 mb-2 text-red-500" />
+                                    <iconify-icon icon="material-symbols:error-outline"
+                                        class="w-8 h-8 mb-2 text-red-500" />
                                     <p class="mb-2 text-red-500">{{ $t('product.video_error') }}</p>
-                                    <button 
-                                        @click="handleRetryVideo"
-                                        class="px-4 py-2 text-sm font-medium text-white transition-colors bg-red-500 rounded-lg hover:bg-red-600"
-                                    >
+                                    <button @click="handleRetryVideo"
+                                        class="px-4 py-2 text-sm font-medium text-white transition-colors bg-red-500 rounded-lg hover:bg-red-600">
                                         {{ $t('btn.retry') }}
                                     </button>
                                 </div>
@@ -264,9 +303,6 @@
 </template>
 
 <script setup>
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/firebase";
-
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -301,6 +337,29 @@ const decrementQuantity = () => {
 };
 
 const selectedOffer = ref(null);
+
+// Check if product has any offers
+const hasOffers = computed(() => {
+    return !!product.value && (product.value.offerOne || product.value.offerTwo || product.value.offerThree || product.value.offerFour);
+});
+
+// Calculate savings based on multi-piece offers compared to buying individual pieces
+const calculateSavings = (offerText) => {
+    if (!offerText || !product.value) return 0;
+    // Extract the number of pieces and price from the offer text
+    // Example: "اطلب 3 قطعة بسعر 199 جنية + شحن مجاني" (Order 3 pieces for 199 EGP + free shipping)
+    const piecesMatch = offerText.match(/(\d+)\s*(?:قطعة|قطع|pieces|piece|pcs)/i);
+    const priceMatch = offerText.match(/(\d+)\s*(?:جنية|جنيه|EGP|LE|L\.E)/i);
+    if (!piecesMatch || !priceMatch) return 0;
+    const pieces = parseInt(piecesMatch[1]);
+    const offerPrice = parseInt(priceMatch[1]);
+    const singlePrice = product.value.discountedPrice;
+    // Calculate what it would cost to buy these items individually
+    const regularCost = singlePrice * pieces;
+    // The savings is the difference (only show positive savings)
+    const savings = regularCost - offerPrice;
+    return savings > 0 ? savings : 0;
+};
 
 const handleAddToCart = async () => {
     if (!product.value) return;
@@ -395,7 +454,7 @@ const handleCheckout = async (product) => {
     try {
         loadingTwo.value[product.id] = true;
         const startTime = Date.now();
-        cartStore.clearCart();        
+        cartStore.clearCart();
         await cartStore.addToCart({
             ...product,
             productCode: product.productCode,
@@ -487,10 +546,10 @@ const safeVideoUrl = computed(() => {
             },
             'facebook.com': (url) => {
                 // Handle both /videos/ and /watch/ URLs
-                const videoId = url.pathname.includes('/videos/') 
+                const videoId = url.pathname.includes('/videos/')
                     ? url.pathname.split('/videos/')[1]?.split('/')[0]
                     : url.searchParams.get('v');
-                
+
                 if (videoId) {
                     return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url.href)}&show_text=0&width=560&height=315`;
                 }
