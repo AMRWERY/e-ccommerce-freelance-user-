@@ -75,7 +75,6 @@
     "send_review": "Send your review",
     "sending": "Sending",
     "see_more_offers": "See more offers",
-    "no_shipping_cost": "Free shipping",
     "retry": "Retry"
   },
   "order_summary": {
@@ -138,6 +137,7 @@
     "total": "total",
     "shipping": "Shipping",
     "subtotal": "Subtotal",
+    "no_shipping_cost": "Free shipping",
     "savings": "Savings"
   },
   "footer": {

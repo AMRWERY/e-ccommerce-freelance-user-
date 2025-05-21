@@ -34,9 +34,12 @@
                                 {{ $i18n.locale === 'ar' ? item.titleAr :
                                     item.title }}</p>
                             <div class="flex items-center space-s-2">
-                                <p class="text-2xl font-semibold text-gray-700">{{ formatCurrency(item.discountedPrice)
-                                }}
+                                <p class="text-2xl font-semibold text-gray-700">
+                                    {{ formatCurrency(item.offerPrice || item.discountedPrice) }}
                                 </p>
+                                <span v-if="item.offerText" class="text-xs text-green-600 ms-2">
+                                    ({{ item.offerText }})
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -118,12 +121,18 @@ const originalSubTotal = computed(() => {
 });
 
 const discountedSubTotal = computed(() => {
-    return orderItems.value.reduce((total, item) =>
-        total + (parseFloat(item.discountedPrice) * item.quantity), 0);
+    return orderItems.value.reduce((total, item) => {
+        // Use offerPrice if available, otherwise use discountedPrice
+        const price = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice);
+        return total + (price * item.quantity);
+    }, 0);
 });
 
 const savingsAmount = computed(() => {
-    return originalSubTotal.value - discountedSubTotal.value;
+    return orderItems.value.reduce((total, item) => {
+        const effectivePrice = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice);
+        return total + ((parseFloat(item.originalPrice) - effectivePrice) * item.quantity);
+    }, 0);
 });
 
 const totalShippingCost = computed(() => {
@@ -147,7 +156,9 @@ const averageDiscount = computed(() => {
 
 const subTotalAmount = computed(() => {
     return orderItems.value.reduce((total, item) => {
-        return total + (parseFloat(item.discountedPrice) * item.quantity);
+        // Use offerPrice if available, otherwise use discountedPrice
+        const price = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice);
+        return total + (price * item.quantity);
     }, 0).toFixed(2);
 });
 

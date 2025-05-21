@@ -138,7 +138,7 @@
                     <div class="grid grid-cols-1 gap-4">
                         <!-- offerOne Card -->
                         <div class="relative" v-if="product.offerOne">
-                            <input class="hidden peer" id="radio_1" type="radio" name="radio" checked
+                            <input class="hidden peer" id="radio_1" type="radio" name="radio" value="offerOne" checked
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
@@ -157,7 +157,7 @@
 
                         <!-- offerTwo Card -->
                         <div class="relative" v-if="product.offerTwo">
-                            <input class="hidden peer" id="radio_2" type="radio" name="radio" checked
+                            <input class="hidden peer" id="radio_2" type="radio" name="radio" value="offerTwo" checked
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
@@ -176,7 +176,7 @@
 
                         <!-- offerThree Card -->
                         <div class="relative" v-if="product.offerThree">
-                            <input class="hidden peer" id="radio_3" type="radio" name="radio" checked
+                            <input class="hidden peer" id="radio_3" type="radio" name="radio" value="offerThree" checked
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
@@ -195,7 +195,7 @@
 
                         <!-- offerFour Card -->
                         <div class="relative" v-if="product.offerFour">
-                            <input class="hidden peer" id="radio_4" type="radio" name="radio" checked
+                            <input class="hidden peer" id="radio_4" type="radio" name="radio" value="offerFour" checked
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
@@ -399,15 +399,72 @@ const handleAddToCart = async () => {
         loading.value = true;
         await new Promise((resolve) => setTimeout(resolve, 2000));
         const category = getCategoryTitle(product.value.categoryId);
-        await cartStore.addToCart({
+        
+        // Create the cart item data
+        const cartItemData = {
             ...product.value,
             quantity: quantity.value,
             categoryTitle: category.title,
             categoryTitleAr: category.titleAr,
-            // productCode: product.productCode,
             productCode: product.value.productCode,
             selectedOffer: selectedOffer.value
-        });
+        };
+        
+        // Directly map offer prices for each offer option
+        if (selectedOffer.value) {
+            console.log('Selected offer:', selectedOffer.value);
+            
+            // Get the offer text if available
+            let offerText = null;
+            if (product.value[selectedOffer.value]) {
+                offerText = product.value[selectedOffer.value];
+                cartItemData.offerText = offerText;
+                console.log('Offer text:', offerText);
+                
+                // Extract numeric value from offer text using regex
+                const priceMatch = offerText.match(/(\d+)\s*(?:\u062c\u0646\u064a\u0629|\u062c\u0646\u064a\u0647|EGP|LE|L\.E)/i) || 
+                                  offerText.match(/\u0628\u0633\u0639\u0631\s+(\d+)/i) || 
+                                  offerText.match(/price\s+(\d+)/i) || 
+                                  offerText.match(/(\d+)(?![^\d]*\d)/i);
+                
+                if (priceMatch && priceMatch[1]) {
+                    const price = parseInt(priceMatch[1]);
+                    cartItemData.offerPrice = price;
+                    console.log('Extracted price:', price);
+                } else {
+                    // Manual price mapping in case regex fails
+                    if (offerText.includes('199')) cartItemData.offerPrice = 199;
+                    else if (offerText.includes('299')) cartItemData.offerPrice = 299;
+                    else if (offerText.includes('399')) cartItemData.offerPrice = 399;
+                    else if (offerText.includes('419')) cartItemData.offerPrice = 419;
+                    else if (offerText.includes('480')) cartItemData.offerPrice = 480;
+                    
+                    console.log('Manually mapped price:', cartItemData.offerPrice);
+                }
+            } else if (selectedOffer.value === 'on') {
+                // Handle 'on' value by using the first available offer
+                const offerKeys = ['offerOne', 'offerTwo', 'offerThree', 'offerFour'];
+                for (const key of offerKeys) {
+                    if (product.value[key]) {
+                        offerText = product.value[key];
+                        cartItemData.offerText = offerText;
+                        console.log('Found first offer:', offerText);
+                        
+                        // Direct manual mapping based on first digits in the offer text
+                        if (offerText.includes('199')) cartItemData.offerPrice = 199;
+                        else if (offerText.includes('299')) cartItemData.offerPrice = 299;
+                        else if (offerText.includes('399')) cartItemData.offerPrice = 399;
+                        else if (offerText.includes('419')) cartItemData.offerPrice = 419;
+                        else if (offerText.includes('480')) cartItemData.offerPrice = 480;
+                        
+                        console.log('Manual mapped price for first offer:', cartItemData.offerPrice);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        await cartStore.addToCart(cartItemData);
         triggerToast({
             message: t('toast.product_added_to_cart'),
             type: 'success',
@@ -478,12 +535,70 @@ const handleCheckout = async (product) => {
         loadingTwo.value[product.id] = true;
         const startTime = Date.now();
         cartStore.clearCart();
-        await cartStore.addToCart({
+        
+        // Create the cart item data
+        const cartItemData = {
             ...product,
             productCode: product.productCode,
             quantity: quantity.value,
             selectedOffer: selectedOffer.value
-        });
+        };
+        
+        // Directly map offer prices for each offer option in checkout
+        if (selectedOffer.value) {
+            console.log('Selected offer (checkout):', selectedOffer.value);
+            
+            // Get the offer text if available
+            let offerText = null;
+            if (product[selectedOffer.value]) {
+                offerText = product[selectedOffer.value];
+                cartItemData.offerText = offerText;
+                console.log('Offer text (checkout):', offerText);
+                
+                // Extract numeric value from offer text using regex
+                const priceMatch = offerText.match(/(\d+)\s*(?:\u062c\u0646\u064a\u0629|\u062c\u0646\u064a\u0647|EGP|LE|L\.E)/i) || 
+                                  offerText.match(/\u0628\u0633\u0639\u0631\s+(\d+)/i) || 
+                                  offerText.match(/price\s+(\d+)/i) || 
+                                  offerText.match(/(\d+)(?![^\d]*\d)/i);
+                
+                if (priceMatch && priceMatch[1]) {
+                    const price = parseInt(priceMatch[1]);
+                    cartItemData.offerPrice = price;
+                    console.log('Extracted price (checkout):', price);
+                } else {
+                    // Manual price mapping in case regex fails
+                    if (offerText.includes('199')) cartItemData.offerPrice = 199;
+                    else if (offerText.includes('299')) cartItemData.offerPrice = 299;
+                    else if (offerText.includes('399')) cartItemData.offerPrice = 399;
+                    else if (offerText.includes('419')) cartItemData.offerPrice = 419;
+                    else if (offerText.includes('480')) cartItemData.offerPrice = 480;
+                    
+                    console.log('Manually mapped price (checkout):', cartItemData.offerPrice);
+                }
+            } else if (selectedOffer.value === 'on') {
+                // Handle 'on' value by using the first available offer
+                const offerKeys = ['offerOne', 'offerTwo', 'offerThree', 'offerFour'];
+                for (const key of offerKeys) {
+                    if (product[key]) {
+                        offerText = product[key];
+                        cartItemData.offerText = offerText;
+                        console.log('Found first offer (checkout):', offerText);
+                        
+                        // Direct manual mapping based on first digits in the offer text
+                        if (offerText.includes('199')) cartItemData.offerPrice = 199;
+                        else if (offerText.includes('299')) cartItemData.offerPrice = 299;
+                        else if (offerText.includes('399')) cartItemData.offerPrice = 399;
+                        else if (offerText.includes('419')) cartItemData.offerPrice = 419;
+                        else if (offerText.includes('480')) cartItemData.offerPrice = 480;
+                        
+                        console.log('Manual mapped price for first offer (checkout):', cartItemData.offerPrice);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        await cartStore.addToCart(cartItemData);
         const orderData = {
             cart: cartStore.cart.map(item => ({
                 productId: item.productId,

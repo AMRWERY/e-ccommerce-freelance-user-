@@ -76,8 +76,12 @@
                   </div>
 
                   <div class="flex items-center">
-                    <h4 class="text-lg font-bold text-gray-800">{{
-                      formatCurrency(parseFloat(item.discountedPrice), currencyLocale) }}</h4>
+                    <h4 class="text-lg font-bold text-gray-800">
+                      {{ formatCurrency(item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice), currencyLocale) }}</h4>
+                    <!-- Show offer text if there's a selected offer -->
+                    <span v-if="item.offerText" class="ml-2 text-xs text-blue-600 font-semibold">
+                      ({{ item.offerText }})
+                    </span>
                     <button @click.stop="removeItem(item.docId)"
                       class="text-gray-500 transition duration-100 select-none hover:text-gray-600 active:text-gray-700">
                       <iconify-icon icon="svg-spinners:90-ring" width="24" height="24"
@@ -173,9 +177,10 @@ onMounted(() => {
 
 const totalAmount = computed(() => {
   const itemsTotal = cartStore.cart.reduce((total, item) => {
-    const discountedPrice = parseFloat(item.discountedPrice) || 0;
+    // Use offerPrice if available, otherwise use discountedPrice
+    const price = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice) || 0;
     const quantity = item.quantity || 1;
-    return total + (discountedPrice * quantity);
+    return total + (price * quantity);
   }, 0);
   const shippingCost = cartStore.totalShippingCost || 0;
   return (itemsTotal + shippingCost).toFixed(2);
@@ -205,7 +210,9 @@ const updateQuantityInStore = (productId, newQuantity) => {
 
 const totalDsicoutedPrice = computed(() => {
   return cartStore.cart.reduce((total, item) => {
-    return total + (parseFloat(item.discountedPrice) || 0) * item.quantity;
+    // Use offerPrice if available, otherwise use discountedPrice
+    const price = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice) || 0;
+    return total + price * item.quantity;
   }, 0).toFixed(2);
 });
 

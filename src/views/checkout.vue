@@ -235,7 +235,8 @@ const getFlagUrl = (flagPath) => {
 
 const subTotalAmount = computed(() => {
     return cartStore.cart.reduce((total, item) => {
-        return total + (parseFloat(item.discountedPrice) * item.quantity);
+        const price = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice);
+        return total + (price * item.quantity);
     }, 0).toFixed(2);
 });
 
@@ -255,10 +256,15 @@ const totalShippingCost = computed(() => {
 });
 
 const totalAmount = computed(() => {
-    const subtotal = cartStore.cart.reduce((total, item) =>
-        total + (parseFloat(item.originalPrice) * item.quantity), 0);
-    const savingsAmount = cartStore.cart.reduce((total, item) =>
-        total + ((parseFloat(item.originalPrice) - parseFloat(item.discountedPrice)) * item.quantity), 0);
+    const subtotal = cartStore.cart.reduce((total, item) => {
+        return total + (parseFloat(item.originalPrice) * item.quantity);
+    }, 0);
+    
+    const savingsAmount = cartStore.cart.reduce((total, item) => {
+        const effectivePrice = item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice);
+        return total + ((parseFloat(item.originalPrice) - effectivePrice) * item.quantity);
+    }, 0);
+    
     const shipping = parseFloat(totalShippingCost.value) || 0;
     return (subtotal - savingsAmount + shipping).toFixed(2);
 });

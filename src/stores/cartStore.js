@@ -45,6 +45,8 @@ export const useCartStore = defineStore("cart", {
         categoryId,
         productCode,
         selectedOffer,
+        offerPrice,
+        offerText,
         quantity = 1,
       } = cartItem;
       // Get category data from the categories store
@@ -57,7 +59,8 @@ export const useCartStore = defineStore("cart", {
       if (existingProductIndex !== -1) {
         // Update existing item quantity
         this.cart[existingProductIndex].quantity += quantity;
-        this.cart[existingProductIndex].selectedOffer = selectedOffer;      } else {
+        this.cart[existingProductIndex].selectedOffer = selectedOffer;     
+       } else {
         // Get shipping cost from category if available
         const shippingCost = category?.shippingCost || 0;
         this.cart.push({
@@ -72,6 +75,8 @@ export const useCartStore = defineStore("cart", {
           categoryId,
           productCode,
           selectedOffer,
+          offerPrice,
+          offerText,
           quantity,
           shippingCost,
           uid: this.storedUser?.uid,
