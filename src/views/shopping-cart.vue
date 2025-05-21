@@ -60,7 +60,7 @@
                 <hr class="my-6 border-gray-300" />
 
                 <div class="flex flex-wrap items-center justify-between gap-4">
-                  <div class="flex items-center gap-3">
+                  <div class="flex items-center gap-3" v-if="!item.offerPrice">
                     <button type="button" @click="decrementQuantity(item)"
                       class="flex items-center justify-center w-5 h-5 bg-blue-600 rounded-full outline-none">
                       <iconify-icon icon="material-symbols:remove" width="20" height="20"
@@ -79,7 +79,7 @@
                     <h4 class="text-lg font-bold text-gray-800">
                       {{ formatCurrency(item.offerPrice ? parseFloat(item.offerPrice) : parseFloat(item.discountedPrice), currencyLocale) }}</h4>
                     <!-- Show offer text if there's a selected offer -->
-                    <span v-if="item.offerText" class="ml-2 text-xs text-blue-600 font-semibold">
+                    <span v-if="item.offerText" class="ml-2 text-xs font-semibold text-blue-600">
                       ({{ item.offerText }})
                     </span>
                     <button @click.stop="removeItem(item.docId)"
