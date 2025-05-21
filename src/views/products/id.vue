@@ -126,9 +126,9 @@
 
                     <div class="flex items-center space-s-4">
                         <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(product.discountedPrice)
-                        }}</span>
+                            }}</span>
                         <span class="text-lg text-gray-400 line-through">{{ formatCurrency(product.originalPrice)
-                        }}</span>
+                            }}</span>
                         <span v-if="product.discount"
                             class="px-2 py-1 text-sm font-medium text-green-600 bg-green-100 rounded-full">
                             {{ $t('product.save') }} {{ product.discount }}%
@@ -399,7 +399,6 @@ const handleAddToCart = async () => {
         loading.value = true;
         await new Promise((resolve) => setTimeout(resolve, 2000));
         const category = getCategoryTitle(product.value.categoryId);
-        
         // Create the cart item data
         const cartItemData = {
             ...product.value,
@@ -409,28 +408,24 @@ const handleAddToCart = async () => {
             productCode: product.value.productCode,
             selectedOffer: selectedOffer.value
         };
-        
         // Directly map offer prices for each offer option
         if (selectedOffer.value) {
-            console.log('Selected offer:', selectedOffer.value);
-            
+            // console.log('Selected offer:', selectedOffer.value);
             // Get the offer text if available
             let offerText = null;
             if (product.value[selectedOffer.value]) {
                 offerText = product.value[selectedOffer.value];
                 cartItemData.offerText = offerText;
-                console.log('Offer text:', offerText);
-                
+                // console.log('Offer text:', offerText);
                 // Extract numeric value from offer text using regex
-                const priceMatch = offerText.match(/(\d+)\s*(?:\u062c\u0646\u064a\u0629|\u062c\u0646\u064a\u0647|EGP|LE|L\.E)/i) || 
-                                  offerText.match(/\u0628\u0633\u0639\u0631\s+(\d+)/i) || 
-                                  offerText.match(/price\s+(\d+)/i) || 
-                                  offerText.match(/(\d+)(?![^\d]*\d)/i);
-                
+                const priceMatch = offerText.match(/(\d+)\s*(?:\u062c\u0646\u064a\u0629|\u062c\u0646\u064a\u0647|EGP|LE|L\.E)/i) ||
+                    offerText.match(/\u0628\u0633\u0639\u0631\s+(\d+)/i) ||
+                    offerText.match(/price\s+(\d+)/i) ||
+                    offerText.match(/(\d+)(?![^\d]*\d)/i);
                 if (priceMatch && priceMatch[1]) {
                     const price = parseInt(priceMatch[1]);
                     cartItemData.offerPrice = price;
-                    console.log('Extracted price:', price);
+                    // console.log('Extracted price:', price);
                 } else {
                     // Manual price mapping in case regex fails
                     if (offerText.includes('199')) cartItemData.offerPrice = 199;
@@ -438,8 +433,7 @@ const handleAddToCart = async () => {
                     else if (offerText.includes('399')) cartItemData.offerPrice = 399;
                     else if (offerText.includes('419')) cartItemData.offerPrice = 419;
                     else if (offerText.includes('480')) cartItemData.offerPrice = 480;
-                    
-                    console.log('Manually mapped price:', cartItemData.offerPrice);
+                    // console.log('Manually mapped price:', cartItemData.offerPrice);
                 }
             } else if (selectedOffer.value === 'on') {
                 // Handle 'on' value by using the first available offer
@@ -448,22 +442,19 @@ const handleAddToCart = async () => {
                     if (product.value[key]) {
                         offerText = product.value[key];
                         cartItemData.offerText = offerText;
-                        console.log('Found first offer:', offerText);
-                        
+                        // console.log('Found first offer:', offerText);
                         // Direct manual mapping based on first digits in the offer text
                         if (offerText.includes('199')) cartItemData.offerPrice = 199;
                         else if (offerText.includes('299')) cartItemData.offerPrice = 299;
                         else if (offerText.includes('399')) cartItemData.offerPrice = 399;
                         else if (offerText.includes('419')) cartItemData.offerPrice = 419;
                         else if (offerText.includes('480')) cartItemData.offerPrice = 480;
-                        
-                        console.log('Manual mapped price for first offer:', cartItemData.offerPrice);
+                        // console.log('Manual mapped price for first offer:', cartItemData.offerPrice);
                         break;
                     }
                 }
             }
         }
-        
         await cartStore.addToCart(cartItemData);
         triggerToast({
             message: t('toast.product_added_to_cart'),
@@ -535,7 +526,6 @@ const handleCheckout = async (product) => {
         loadingTwo.value[product.id] = true;
         const startTime = Date.now();
         cartStore.clearCart();
-        
         // Create the cart item data
         const cartItemData = {
             ...product,
@@ -543,28 +533,24 @@ const handleCheckout = async (product) => {
             quantity: quantity.value,
             selectedOffer: selectedOffer.value
         };
-        
         // Directly map offer prices for each offer option in checkout
         if (selectedOffer.value) {
-            console.log('Selected offer (checkout):', selectedOffer.value);
-            
+            // console.log('Selected offer (checkout):', selectedOffer.value);
             // Get the offer text if available
             let offerText = null;
             if (product[selectedOffer.value]) {
                 offerText = product[selectedOffer.value];
                 cartItemData.offerText = offerText;
-                console.log('Offer text (checkout):', offerText);
-                
+                // console.log('Offer text (checkout):', offerText);
                 // Extract numeric value from offer text using regex
-                const priceMatch = offerText.match(/(\d+)\s*(?:\u062c\u0646\u064a\u0629|\u062c\u0646\u064a\u0647|EGP|LE|L\.E)/i) || 
-                                  offerText.match(/\u0628\u0633\u0639\u0631\s+(\d+)/i) || 
-                                  offerText.match(/price\s+(\d+)/i) || 
-                                  offerText.match(/(\d+)(?![^\d]*\d)/i);
-                
+                const priceMatch = offerText.match(/(\d+)\s*(?:\u062c\u0646\u064a\u0629|\u062c\u0646\u064a\u0647|EGP|LE|L\.E)/i) ||
+                    offerText.match(/\u0628\u0633\u0639\u0631\s+(\d+)/i) ||
+                    offerText.match(/price\s+(\d+)/i) ||
+                    offerText.match(/(\d+)(?![^\d]*\d)/i);
                 if (priceMatch && priceMatch[1]) {
                     const price = parseInt(priceMatch[1]);
                     cartItemData.offerPrice = price;
-                    console.log('Extracted price (checkout):', price);
+                    // console.log('Extracted price (checkout):', price);
                 } else {
                     // Manual price mapping in case regex fails
                     if (offerText.includes('199')) cartItemData.offerPrice = 199;
@@ -572,8 +558,8 @@ const handleCheckout = async (product) => {
                     else if (offerText.includes('399')) cartItemData.offerPrice = 399;
                     else if (offerText.includes('419')) cartItemData.offerPrice = 419;
                     else if (offerText.includes('480')) cartItemData.offerPrice = 480;
-                    
-                    console.log('Manually mapped price (checkout):', cartItemData.offerPrice);
+
+                    // console.log('Manually mapped price (checkout):', cartItemData.offerPrice);
                 }
             } else if (selectedOffer.value === 'on') {
                 // Handle 'on' value by using the first available offer
@@ -582,22 +568,20 @@ const handleCheckout = async (product) => {
                     if (product[key]) {
                         offerText = product[key];
                         cartItemData.offerText = offerText;
-                        console.log('Found first offer (checkout):', offerText);
-                        
+                        // console.log('Found first offer (checkout):', offerText);
                         // Direct manual mapping based on first digits in the offer text
                         if (offerText.includes('199')) cartItemData.offerPrice = 199;
                         else if (offerText.includes('299')) cartItemData.offerPrice = 299;
                         else if (offerText.includes('399')) cartItemData.offerPrice = 399;
                         else if (offerText.includes('419')) cartItemData.offerPrice = 419;
                         else if (offerText.includes('480')) cartItemData.offerPrice = 480;
-                        
-                        console.log('Manual mapped price for first offer (checkout):', cartItemData.offerPrice);
+                        // console.log('Manual mapped price for first offer (checkout):', cartItemData.offerPrice);
                         break;
                     }
                 }
             }
         }
-        
+
         await cartStore.addToCart(cartItemData);
         const orderData = {
             cart: cartStore.cart.map(item => ({
