@@ -111,8 +111,9 @@
                             <p class="flex items-center gap-1 p-2 text-sm text-gray-500 bg-[#f0fdf4] rounded-lg">
                                 <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
                                     class="text-green-500"></iconify-icon>
-                                {{ $t('product.available') }} <span class="text-lg font-semibold text-blue-600">{{
-                                    product.numberOfStock }}</span> {{ $t('product.pieces') }}
+                                <!-- {{ $t('product.available') }} <span class="text-lg font-semibold text-blue-600">{{
+                                    product.numberOfStock }}</span> {{ $t('product.pieces') }} -->
+                                {{ $t('product.available') }}
                             </p>
                         </div>
                     </div>
@@ -142,10 +143,10 @@
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
-                            <span
+                            <!-- <span
                                 class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
                                 {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerOne) || 0) }}
-                            </span>
+                            </span> -->
                             <label
                                 class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
                                 for="radio_1">
@@ -161,10 +162,10 @@
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
-                            <span
+                            <!-- <span
                                 class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
                                 {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerTwo) || 0) }}
-                            </span>
+                            </span> -->
                             <label
                                 class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
                                 for="radio_2">
@@ -180,10 +181,10 @@
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
-                            <span
+                            <!-- <span
                                 class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
                                 {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerThree) || 0) }}
-                            </span>
+                            </span> -->
                             <label
                                 class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
                                 for="radio_3">
@@ -199,10 +200,10 @@
                                 v-model="selectedOffer" />
                             <span
                                 class="box-content absolute block w-3 h-3 -translate-y-1/2 bg-white border-8 border-gray-300 rounded-full peer-checked:border-gray-700 end-4 top-1/2"></span>
-                            <span
+                            <!-- <span
                                 class="absolute top-0 z-10 hidden px-2 py-1 text-xs font-bold text-white transform translate-x-3 -translate-y-2 bg-red-600 rounded-md start-0 peer-checked:block">
                                 {{ $t('product.save') }} {{ formatCurrency(calculateSavings(product.offerFour) || 0) }}
-                            </span>
+                            </span> -->
                             <label
                                 class="flex p-4 border border-gray-300 rounded-lg cursor-pointer select-none peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50"
                                 for="radio_4">
@@ -344,45 +345,45 @@ const hasOffers = computed(() => {
     return !!product.value && (product.value.offerOne || product.value.offerTwo || product.value.offerThree || product.value.offerFour);
 });
 
-const calculateSavings = (offerText) => {
-    if (!offerText || !product.value) return 0;
-    let pieces = 1;
-    const piecesRegexes = [
-        /(\d+)\s*(?:قطعة|قطع)/i,
-        /(\d+)\s*(?:pieces?|pcs)/i,
-        /^(?:اطلب|أطلب|احصل|إحصل|order|get)\s+(\d+)/i
-    ];
-    for (const regex of piecesRegexes) {
-        const match = offerText.match(regex);
-        if (match && match[1]) {
-            pieces = parseInt(match[1]);
-            break;
-        }
-    }
-    const priceRegexes = [
-        /(\d+)\s*(?:جنية|جنيه)/i,
-        /(\d+)\s*(?:EGP|LE|L\.E)/i,
-        /بسعر\s+(\d+)/i,
-        /price\s+(\d+)/i,
-        /(\d+)(?![^\d]*\d)/
-    ];
+// const calculateSavings = (offerText) => {
+//     if (!offerText || !product.value) return 0;
+//     let pieces = 1;
+//     const piecesRegexes = [
+//         /(\d+)\s*(?:قطعة|قطع)/i,
+//         /(\d+)\s*(?:pieces?|pcs)/i,
+//         /^(?:اطلب|أطلب|احصل|إحصل|order|get)\s+(\d+)/i
+//     ];
+//     for (const regex of piecesRegexes) {
+//         const match = offerText.match(regex);
+//         if (match && match[1]) {
+//             pieces = parseInt(match[1]);
+//             break;
+//         }
+//     }
+//     const priceRegexes = [
+//         /(\d+)\s*(?:جنية|جنيه)/i,
+//         /(\d+)\s*(?:EGP|LE|L\.E)/i,
+//         /بسعر\s+(\d+)/i,
+//         /price\s+(\d+)/i,
+//         /(\d+)(?![^\d]*\d)/
+//     ];
 
-    let offerPrice = 0;
-    for (const regex of priceRegexes) {
-        const match = offerText.match(regex);
-        if (match && match[1]) {
-            offerPrice = parseInt(match[1]);
-            break;
-        }
-    }
-    if (pieces === 0 || offerPrice === 0) {
-        return 0;
-    }
-    const singlePrice = product.value.discountedPrice;
-    const regularCost = singlePrice * pieces;
-    const savings = regularCost - offerPrice;
-    return savings > 0 ? savings : 0;
-};
+//     let offerPrice = 0;
+//     for (const regex of priceRegexes) {
+//         const match = offerText.match(regex);
+//         if (match && match[1]) {
+//             offerPrice = parseInt(match[1]);
+//             break;
+//         }
+//     }
+//     if (pieces === 0 || offerPrice === 0) {
+//         return 0;
+//     }
+//     const singlePrice = product.value.discountedPrice;
+//     const regularCost = singlePrice * pieces;
+//     const savings = regularCost - offerPrice;
+//     return savings > 0 ? savings : 0;
+// };
 
 const handleAddToCart = async () => {
     if (!product.value) return;
