@@ -344,36 +344,27 @@ const hasOffers = computed(() => {
     return !!product.value && (product.value.offerOne || product.value.offerTwo || product.value.offerThree || product.value.offerFour);
 });
 
-// Calculate savings based on multi-piece offers compared to buying individual pieces
 const calculateSavings = (offerText) => {
     if (!offerText || !product.value) return 0;
-    // Always log the offer text to help debug
-    // console.log('Calculating savings for offer:', offerText);
-    // Extract the number of pieces from the offer text
-    // This handles both Arabic and English text formats
     let pieces = 1;
     const piecesRegexes = [
-        /(\d+)\s*(?:قطعة|قطع)/i,  // Arabic pieces
-        /(\d+)\s*(?:pieces?|pcs)/i,  // English pieces
-        /^(?:اطلب|أطلب|احصل|إحصل|order|get)\s+(\d+)/i  // "Order X" or "Get X" format
+        /(\d+)\s*(?:قطعة|قطع)/i,
+        /(\d+)\s*(?:pieces?|pcs)/i,
+        /^(?:اطلب|أطلب|احصل|إحصل|order|get)\s+(\d+)/i
     ];
     for (const regex of piecesRegexes) {
         const match = offerText.match(regex);
         if (match && match[1]) {
             pieces = parseInt(match[1]);
-            // console.log('Found pieces:', pieces);
             break;
         }
     }
-    // Extract the price from the offer text
-    // Look for numbers followed by currency indicators
     const priceRegexes = [
-        /(\d+)\s*(?:جنية|جنيه)/i,  // Arabic currency
-        /(\d+)\s*(?:EGP|LE|L\.E)/i,  // English currency abbreviations
-        /بسعر\s+(\d+)/i,  // "for price X" in Arabic
-        /price\s+(\d+)/i,  // "for price X" in English
-        // If no currency indicator, try to find the last number in the string
-        /(\d+)(?![^\d]*\d)/  // Last number in string
+        /(\d+)\s*(?:جنية|جنيه)/i,
+        /(\d+)\s*(?:EGP|LE|L\.E)/i,
+        /بسعر\s+(\d+)/i,
+        /price\s+(\d+)/i,
+        /(\d+)(?![^\d]*\d)/
     ];
 
     let offerPrice = 0;
@@ -381,22 +372,15 @@ const calculateSavings = (offerText) => {
         const match = offerText.match(regex);
         if (match && match[1]) {
             offerPrice = parseInt(match[1]);
-            // console.log('Found price:', offerPrice);
             break;
         }
     }
     if (pieces === 0 || offerPrice === 0) {
-        // console.log('Could not extract valid pieces or price');
         return 0;
     }
     const singlePrice = product.value.discountedPrice;
-    // console.log('Single item price:', singlePrice);
-    // Calculate what it would cost to buy these items individually
     const regularCost = singlePrice * pieces;
-    // console.log('Regular cost for', pieces, 'pieces:', regularCost);
-    // The savings is the difference (only show positive savings)
     const savings = regularCost - offerPrice;
-    // console.log('Calculated savings:', savings);
     return savings > 0 ? savings : 0;
 };
 
